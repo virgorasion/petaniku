@@ -1,0 +1,25 @@
+{
+  "name": "chatapp",
+  "version": "0.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "emoji-exists": "^1.0.1",
+    "escape-html": "^1.0.3",
+    "express": "^4.17.1",
+    "get-urls": "^7.2.0",
+    "is-empty": "^1.2.0",
+    "jwt-decode": "^2.1.0",
+    "jwt-simple": "^0.5.6",
+    "lodash": "^4.17.15",
+    "meta-extractor": "^1.4.0",
+    "moment": "^2.24.0",
+    "mysql2": "^1.6.5",
+    "node-cron": "^1.2.1",
+    "probe-image-size": "^4.0.0",
+    "socket.io": "^2.2.0"
+  }
+}

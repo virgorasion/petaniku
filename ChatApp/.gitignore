@@ -1,0 +1,9 @@
+.DS_Store
+
+/node_modules
+/.idea
+/.vscode
+/.vagrant
+npm-debug.log
+yarn-error.log
+package-lock.json

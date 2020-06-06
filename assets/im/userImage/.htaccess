@@ -1,0 +1,5 @@
+Order Allow,Deny
+Deny from all
+<FilesMatch "^[^.]+.(?:[Jj][Pp][Ee]?[Gg]|[Pp][Nn][Gg])$">
+Allow from all
+</FilesMatch>

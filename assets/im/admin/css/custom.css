@@ -1,0 +1,15 @@
+.badge {
+    padding: 0.35em 0.5em;
+     border-radius: unset;
+}
+.table-bordered thead th, .table-bordered thead td{
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+.table th, .table td {
+    padding: 0.5rem;
+    vertical-align: middle;
+}
+.hidden{
+    display: none;
+}
