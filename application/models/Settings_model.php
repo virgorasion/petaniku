@@ -110,14 +110,26 @@ class Settings_model extends CI_Model
 	//update email options
 	public function update_email_options()
 	{
+		// Default Code
+		// $data = array(
+		// 	'send_email_new_product' => $this->input->post('send_email_new_product', true),
+		// 	'send_email_buyer_purchase' => $this->input->post('send_email_buyer_purchase', true),
+		// 	'send_email_order_shipped' => $this->input->post('send_email_order_shipped', true),
+		// 	'send_email_contact_messages' => $this->input->post('send_email_contact_messages', true),
+		// 	'send_email_shop_opening_request' => $this->input->post('send_email_shop_opening_request', true),
+		// 	'send_email_bidding_system' => $this->input->post('send_email_bidding_system', true),
+		// 	'mail_options_account' => $this->input->post('mail_options_account', true)
+		// );
+
+		// Custom Code
 		$data = array(
-			'send_email_new_product' => $this->input->post('send_email_new_product', true),
-			'send_email_buyer_purchase' => $this->input->post('send_email_buyer_purchase', true),
-			'send_email_order_shipped' => $this->input->post('send_email_order_shipped', true),
-			'send_email_contact_messages' => $this->input->post('send_email_contact_messages', true),
-			'send_email_shop_opening_request' => $this->input->post('send_email_shop_opening_request', true),
-			'send_email_bidding_system' => $this->input->post('send_email_bidding_system', true),
-			'mail_options_account' => $this->input->post('mail_options_account', true)
+			'send_email_new_product' => 1,
+			'send_email_buyer_purchase' => 0,
+			'send_email_order_shipped' => 0,
+			'send_email_contact_messages' => 0,
+			'send_email_shop_opening_request' => 0,
+			'send_email_bidding_system' => 0,
+			'mail_options_account' => 0
 		);
 
 		$this->db->where('id', 1);
