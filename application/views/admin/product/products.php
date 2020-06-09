@@ -22,7 +22,7 @@
 							<th width="20"><input type="checkbox" class="checkbox-table" id="checkAll"></th>
 							<th width="20"><?php echo trans('id'); ?></th>
 							<th><?php echo trans('product'); ?></th>
-							<th><?php echo trans('product_type'); ?></th>
+							<!-- <th><?php //echo trans('product_type'); ?></th> -->
 							<th><?php echo trans('category'); ?></th>
 							<th><?php echo trans('user'); ?></th>
 							<th><?php echo trans('date'); ?></th>
@@ -95,9 +95,9 @@
 											<li>
 												<a href="<?php echo base_url(); ?>sell-now/edit-product/<?php echo html_escape($item->id); ?>" target="_blank"><i class="fa fa-edit option-icon"></i><?php echo trans('edit'); ?></a>
 											</li>
-											<li>
+											<!-- <li>
 												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/delete_product','<?php echo $item->id; ?>','<?php echo trans("confirm_product"); ?>');"><i class="fa fa-times option-icon"></i><?php echo trans('delete'); ?></a>
-											</li>
+											</li> -->
 											<li>
 												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/delete_product_permanently','<?php echo $item->id; ?>','<?php echo trans("confirm_product_permanent"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete_permanently'); ?></a>
 											</li>
