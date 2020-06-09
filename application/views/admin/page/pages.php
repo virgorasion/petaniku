@@ -25,10 +25,10 @@
 						   aria-describedby="example1_info">
 						<thead>
 						<tr role="row">
-							<th width="20"><?php echo trans('id'); ?></th>
+							<!-- <th width="20"><?php //echo trans('id'); ?></th> -->
 							<th><?php echo trans('title'); ?></th>
-							<th><?php echo trans('language'); ?></th>
-							<th><?php echo trans('location'); ?></th>
+							<!-- <th><?php //echo trans('language'); ?></th> -->
+							<!-- <th><?php //echo trans('location'); ?></th> -->
 							<th><?php echo trans('visibility'); ?></th>
 							<th><?php echo trans('date'); ?></th>
 							<th class="th-options"><?php echo trans('options'); ?></th>
@@ -38,18 +38,18 @@
 
 						<?php foreach ($pages as $item): ?>
 							<tr>
-								<td><?php echo html_escape($item->id); ?></td>
+								<!-- <td><?php //echo html_escape($item->id); ?></td> -->
 								<td><?php echo html_escape($item->title); ?></td>
-								<td>
+								<!-- <td>
 									<?php
-									$language = get_language($item->lang_id);
-									if (!empty($language)) {
-										echo $language->name;
-									} ?>
-								</td>
-								<td>
-									<?php echo trans("footer_" . $item->location); ?>
-								</td>
+									//$language = get_language($item->lang_id);
+									//if (!empty($language)) {
+									//	echo $language->name;
+									//} ?>
+								</td> -->
+								<!-- <td>
+									<?php //echo trans("footer_" . $item->location); ?>
+								</td> -->
 								<td>
 									<?php if ($item->visibility == 1): ?>
 										<label class="label label-success"><i class="fa fa-eye"></i></label>
