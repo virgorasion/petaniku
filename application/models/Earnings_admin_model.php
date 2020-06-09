@@ -188,7 +188,7 @@ class Earnings_admin_model extends CI_Model
     public function get_paginated_deposit_requests($per_page, $offset)
     {
         $this->filter_deposit();
-        $this->db->where('deposit.status', 0);
+        // $this->db->where('deposit.status', 0);
         $this->db->order_by('deposit.created_at', 'DESC');
         $this->db->limit($per_page, $offset);
         $query = $this->db->get('deposit');

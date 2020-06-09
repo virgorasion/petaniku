@@ -21,13 +21,13 @@
                         <?php $this->load->view('admin/earnings/_filter_payouts'); ?>
                         <thead>
                         <tr role="row">
-                            <th><?php echo trans('id'); ?></th>
-                            <th><?php echo trans('user_id'); ?></th>
+                            <!-- <th><?php echo trans('id'); ?></th> -->
+                            <th><?php echo trans('date'); ?></th>
+                            <!-- <th><?php echo trans('user_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
                             <th>Detail Bank</th>
                             <th>Jumlah Deposit</th>
                             <th><?php echo trans('status'); ?></th>
-                            <th><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -35,8 +35,9 @@
 
                         <?php foreach ($payout_requests as $item): ?>
                             <tr>
-                                <td><?php echo $item->id; ?></td>
-                                <td><?php echo $item->user_id; ?></td>
+                                <td><?php echo $item->created_at; ?></td>
+                                <!-- <td><?php echo $item->id; ?></td> -->
+                                <!-- <td><?php echo $item->user_id; ?></td> -->
                                 <td>
                                     <?php $user = get_user($item->user_id);
                                     if (!empty($user)):?>
@@ -60,13 +61,12 @@
                                 </td>
                                 <td><?php echo print_price($item->amount, $item->currency); ?></td>
                                 <td>
-                                    <?php if ($item->status == 1) {
-                                        echo trans("completed");
-                                    } else {
-                                        echo trans("pending");
-                                    } ?>
+                                    <?php if ($item->status == 1) { ?>
+                                        <label class="label label-success"><?php echo trans("completed"); ?></label>
+                                    <?php } else { ?>
+                                        <label class="label label-warning"><?php echo trans("pending"); ?></label>
+                                    <?php } ?>
                                 </td>
-                                <td><?php echo $item->created_at; ?></td>
                                 <td>
                                     <?php echo form_open_multipart('balance_admin_controller/complete_deposit_request_post'); ?>
                                     <input type="hidden" name="payout_id" value="<?php echo $item->id; ?>">
