@@ -26,18 +26,18 @@
                                    aria-describedby="example1_info">
                                 <thead>
                                 <tr role="row">
-                                    <th width="20"><?php echo trans('id'); ?></th>
+                                    <!-- <th width="20"><?php //echo trans('id'); ?></th> -->
                                     <th><?php echo trans('image'); ?></th>
                                     <th><?php echo trans('link'); ?></th>
-                                    <th><?php echo trans('language'); ?></th>
-                                    <th><?php echo trans('order'); ?></th>
+                                    <!-- <th><?php //echo trans('language'); ?></th> -->
+                                    <!-- <th><?php //echo trans('order'); ?></th> -->
                                     <th class="th-options"><?php echo trans('options'); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($slider_items as $item): ?>
                                     <tr>
-                                        <td><?php echo html_escape($item->id); ?></td>
+                                        <!-- <td><?php //echo html_escape($item->id); ?></td> -->
                                         <td>
                                             <img src="<?php echo base_url() . $item->image; ?>" alt="" style="width: 200px;"/>
                                         </td>
@@ -46,14 +46,14 @@
                                                 <?php echo $item->link; ?>
                                             </a>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <?php
-                                            $language = get_language($item->lang_id);
-                                            if (!empty($language)) {
-                                                echo $language->name;
-                                            } ?>
-                                        </td>
-                                        <td><?php echo $item->item_order; ?></td>
+                                            //$language = get_language($item->lang_id);
+                                            //if (!empty($language)) {
+                                            //    echo $language->name;
+                                            //} ?>
+                                        </td> -->
+                                        <!-- <td><?php //echo $item->item_order; ?></td> -->
 
                                         <td>
                                             <div class="dropdown">
