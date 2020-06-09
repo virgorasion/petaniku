@@ -22,7 +22,7 @@
                                 <th><?php echo trans('order'); ?></th>
                                 <th><?php echo trans('buyer'); ?></th>
                                 <th><?php echo trans('total'); ?></th>
-                                <th><?php echo trans('currency'); ?></th>
+                                <!-- <th><?php //echo trans('currency'); ?></th> -->
                                 <th><?php echo trans('status'); ?></th>
                                 <th><?php echo trans('payment_status'); ?></th>
                                 <th><?php echo trans('updated'); ?></th>
@@ -69,7 +69,7 @@
                                 </td>
                                 <td><strong><?php echo print_price($item->price_total, $item->price_currency); ?></strong>
                                 </td>
-                                <td><?php echo $item->price_currency; ?></td>
+                                <!-- <td><?php //echo $item->price_currency; ?></td> -->
                                 <td>
                                     <?php if ($item->status == 1): ?>
                                     <label class="label label-success"><?php echo trans("completed"); ?></label>
@@ -92,9 +92,7 @@
                                         </button>
                                         <ul class="dropdown-menu options-dropdown" style="min-width: 190px;">
                                             <li>
-                                                <a
-                                                    href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->id); ?>"><i
-                                                        class="fa fa-info option-icon"></i><?php echo trans('view_details'); ?></a>
+                                                <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->id); ?>"><i class="fa fa-info option-icon"></i><?php echo trans('view_details'); ?></a>
                                             </li>
                                             <li>
                                                 <?php if ($item->payment_status != 'payment_received'): ?>
@@ -105,11 +103,11 @@
                                                 </button>
                                                 <?php endif; ?>
                                             </li>
-                                            <li>
+                                            <!-- <li>
                                                 <a href="javascript:void(0)"
                                                     onclick="delete_item('order_admin_controller/delete_order_post','<?php echo $item->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i
                                                         class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
-                                            </li>
+                                            </li> -->
                                         </ul>
                                     </div>
                                     <?php echo form_close(); ?>
