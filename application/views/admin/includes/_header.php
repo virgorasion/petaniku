@@ -381,12 +381,15 @@
 						<i class="fa fa-check-square-o"></i>
 						<span><?php echo trans("preferences"); ?></span>
 					</a>
-				</li>
+                </li>
+                <?php /*
 				<li>
 					<a href="<?php echo admin_url(); ?>social-login">
 						<i class="fa fa-share-alt"></i> <span><?php echo trans("social_login"); ?></span>
 					</a>
-				</li>
+                </li>
+                */?>
+                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-cogs"></i>
@@ -395,9 +398,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <!-- Pengaturan Formulir -->
-                        <?php /*
                         <li><a href="<?php echo admin_url(); ?>form-settings"> <?php echo trans("form_settings"); ?></a></li>
-                        */ ?>
                         <li><a href="<?php echo admin_url(); ?>form-settings/shipping-options"> <?php echo trans("shipping_options"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>form-settings/product-conditions"> <?php echo trans("product_conditions"); ?></a></li>
                     </ul>
@@ -428,6 +429,7 @@
                         <i class="fa fa-paint-brush"></i> <span><?php echo trans("visual_settings"); ?></span>
                     </a>
                 </li>
+                */ ?>
                 <!-- Pengaturan Sistem -->
                 <?php /*
                 <li>
