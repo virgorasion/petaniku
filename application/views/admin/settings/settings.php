@@ -23,7 +23,7 @@
                 <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false"><?php echo trans('facebook_comments'); ?></a></li>
                 <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false"><?php echo trans('head_code'); ?></a></li>
                 <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false"><?php echo trans('cookies_warning'); ?></a></li>
-                <li class="pull-right"
+                <li class="pull-right">
                 <a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
             </ul>
             <div class="tab-content settings-tab-content">
