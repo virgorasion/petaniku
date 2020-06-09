@@ -188,7 +188,7 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>add-category"> <?php echo trans("add_category"); ?></a></li>
+                        <!-- <li><a href="<?php echo admin_url(); ?>add-category"> <?php echo trans("add_category"); ?></a></li> -->
                         <li><a href="<?php echo admin_url(); ?>categories"> <?php echo trans("categories"); ?></a></li>
                     </ul>
                 </li>
@@ -223,7 +223,7 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>add-payout"> <?php echo trans("add_payout"); ?></a></li>
+                        <!-- <li><a href="<?php echo admin_url(); ?>add-payout"> <?php echo trans("add_payout"); ?></a></li> -->
                         <li><a href="<?php echo admin_url(); ?>payout-requests"> <?php echo trans("payout_requests"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>completed-payouts"> <?php echo trans("completed_payouts"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>payout-settings"> <?php echo trans("payout_settings"); ?></a></li>
@@ -237,7 +237,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="<?php echo admin_url(); ?>deposit-requests"> Request Deposit</a></li>
-                        <li><a href="<?php echo admin_url(); ?>completed-deposit"> Deposit yang selesai</a></li>
+                        <!-- <li><a href="<?php echo admin_url(); ?>completed-deposit"> Deposit yang selesai</a></li> -->
                     </ul>
                 </li>
                 <li class="header text-uppercase">Modul Website</li>                                
