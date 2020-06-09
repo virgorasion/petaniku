@@ -26,13 +26,13 @@
                         <?php $this->load->view('admin/earnings/_filter_payouts'); ?>
                         <thead>
                         <tr role="row">
-                            <th><?php echo trans('id'); ?></th>
-                            <th><?php echo trans('user_id'); ?></th>
+                            <th><?php echo trans('date'); ?></th>
+                            <!-- <th><?php echo trans('id'); ?></th> -->
+                            <!-- <th><?php echo trans('user_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
                             <th><?php echo trans('withdraw_method'); ?></th>
-                            <th><?php echo trans('withdraw_amount'); ?></th>
+                            <!-- <th><?php echo trans('withdraw_amount'); ?></th> -->
                             <th><?php echo trans('status'); ?></th>
-                            <th><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -40,8 +40,9 @@
 
                         <?php foreach ($payout_requests as $item): ?>
                             <tr>
-                                <td><?php echo $item->id; ?></td>
-                                <td><?php echo $item->user_id; ?></td>
+                                <td><?php echo $item->created_at; ?></td>
+                                <!-- <td><?php echo $item->id; ?></td> -->
+                                <!-- <td><?php echo $item->user_id; ?></td> -->
                                 <td>
                                     <?php $user = get_user($item->user_id);
                                     if (!empty($user)):?>
@@ -59,7 +60,7 @@
                                         <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#accountDetailsModel_<?php echo $item->id; ?>"><?php echo trans("see_details"); ?></button>
                                     </p>
                                 </td>
-                                <td><?php echo print_price($item->amount, $item->currency); ?></td>
+                                <!-- <td><?php echo print_price($item->amount, $item->currency); ?></td> -->
                                 <td>
                                     <?php if ($item->status == 1) {
                                         echo trans("completed");
@@ -67,7 +68,6 @@
                                         echo trans("pending");
                                     } ?>
                                 </td>
-                                <td><?php echo $item->created_at; ?></td>
                                 <td>
                                     <?php echo form_open_multipart('earnings_admin_controller/complete_payout_request_post'); ?>
                                     <input type="hidden" name="payout_id" value="<?php echo $item->id; ?>">
