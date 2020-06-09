@@ -300,7 +300,6 @@
                     </ul>
                 </li>
                 */ ?>
-                <?php /*
                 <li class="header text-uppercase">Modul User</li>                                                
                 <li class="treeview">
                     <a href="#">
@@ -338,15 +337,14 @@
                         <li><a href="<?php echo admin_url(); ?>blog-comments"> <?php echo trans("blog_comments"); ?></a></li>
                     </ul>
                 </li>
-                <li class="header text-uppercase">Modul Lainnya</li>
                 <?php /*
+                <li class="header text-uppercase">Modul Lainnya</li>
                 <li>
                     <a href="<?php echo admin_url(); ?>storage">
                         <i class="fa fa-cloud-upload"></i>
                         <span><?php echo trans("storage"); ?></span>
                     </a>
                 </li>
-                
                 <li>
                     <a href="<?php echo admin_url(); ?>cache-system">
                         <i class="fa fa-database"></i>
@@ -376,7 +374,7 @@
                         <li><a href="<?php echo admin_url(); ?>location-settings"> <?php echo trans("location_settings"); ?></a></li>
                     </ul>
                 </li>
-                */?>
+                */ ?>
                 <li class="header text-uppercase"><?php echo trans("settings"); ?></li>
 				<li>
 					<a href="<?php echo admin_url(); ?>preferences">
