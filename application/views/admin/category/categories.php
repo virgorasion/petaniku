@@ -27,22 +27,22 @@
 								   aria-describedby="example1_info">
 								<thead>
 								<tr role="row">
-									<th width="20"><?php echo trans('id'); ?></th>
+									<th width="20">No</th>
 									<th><?php echo trans('category_name'); ?></th>
 									<th><?php echo trans('parent_category'); ?></th>
-									<th><?php echo trans('order'); ?></th>
-									<th><?php echo trans('visibility'); ?></th>
-									<th><?php echo trans('show_on_homepage'); ?></th>
+									<!-- <th><?php //echo trans('order'); ?></th> -->
+									<!-- <th><?php //echo trans('visibility'); ?></th> -->
+									<!-- <th><?php //echo trans('show_on_homepage'); ?></th> -->
 									<th class="th-options"><?php echo trans('options'); ?></th>
 								</tr>
 								</thead>
 								<tbody>
 
-								<?php foreach ($categories as $item):
+								<?php $no=1; foreach ($categories as $item):
 									$category = get_category_joined($item->id);
 									if (!empty($category)):?>
 										<tr>
-											<td><?php echo html_escape($category->id); ?></td>
+											<td><?php echo $no ?></td>
 											<td><?php echo html_escape($category->name); ?></td>
 											<td>
 												<?php
@@ -53,21 +53,21 @@
 													echo "-";
 												} ?>
 											</td>
-											<td><?php echo html_escape($category->category_order); ?></td>
-											<td>
+											<!-- <td><?php //echo html_escape($category->category_order); ?></td> -->
+											<!-- <td>
 												<?php if ($category->visibility == 1): ?>
 													<label class="label label-success label-table"><i class="fa fa-eye"></i></label>
 												<?php else: ?>
 													<label class="label label-danger label-table"><i class="fa fa-eye"></i></label>
 												<?php endif; ?>
-											</td>
-											<td>
+											</td> -->
+											<!-- <td>
 												<?php if ($category->show_on_homepage == 1): ?>
 													<label class="label label-success label-table"><?php echo trans('yes'); ?></label>
 												<?php else: ?>
 													<label class="label label-danger label-table"><?php echo trans('no'); ?></label>
 												<?php endif; ?>
-											</td>
+											</td> -->
 											<td>
 												<div class="dropdown">
 													<button class="btn bg-purple dropdown-toggle btn-select-option"
@@ -87,7 +87,7 @@
 											</td>
 										</tr>
 
-									<?php endif;
+									<?php endif; $no++;
 								endforeach; ?>
 
 								</tbody>
