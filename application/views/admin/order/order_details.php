@@ -9,6 +9,96 @@
 
             <div class="box-body">
                 <div class="row" style="margin-bottom: 30px;">
+                    <?php $shipping = get_order_shipping($order->id);
+                    if (!empty($shipping)):?>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <h4 class="sec-title"><?php echo trans("shipping_address"); ?></h4>
+
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("first_name"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_first_name; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("last_name"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_last_name; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("email"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_email; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("phone_number"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_phone_number; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("address"); ?> 1</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_address_1; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("address"); ?> 2</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_address_2; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("country"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_country; ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("state"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong
+                                    class="font-right"><?php echo get_provinsi_id($shipping->shipping_state); ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("city"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo get_kota_id($shipping->shipping_city); ?></strong>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("zip_code"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->shipping_zip_code; ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php /*
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <h4 class="sec-title"><?php echo trans("order"); ?>#<?php echo $order->order_number; ?></h4>
                         <div class="row row-details">
@@ -40,7 +130,6 @@
                                 <strong class="font-right"><?php echo $order->order_number; ?></strong>
                             </div>
                         </div>
-
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("payment_method"); ?></strong>
@@ -92,6 +181,7 @@
                             </div>
                         </div>
                     </div>
+                    */ ?>
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <h4 class="sec-title"><?php echo trans("buyer"); ?></h4>
                         <?php if ($order->buyer_id == 0): ?>
@@ -184,12 +274,12 @@
                     </div>
                 </div>
 
+                <?php /*
                 <?php $shipping = get_order_shipping($order->id);
                 if (!empty($shipping)):?>
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <h4 class="sec-title"><?php echo trans("billing_address"); ?></h4>
-
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("first_name"); ?></strong>
@@ -359,7 +449,7 @@
                     </div>
                 </div>
                 <?php endif; ?>
-
+                */?>
 
             </div><!-- /.box-body -->
         </div>
