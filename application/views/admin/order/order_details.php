@@ -56,14 +56,6 @@
                         </div>
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
-                                <strong> <?php echo trans("address"); ?> 2</strong>
-                            </div>
-                            <div class="col-sm-8">
-                                <strong class="font-right"><?php echo $shipping->shipping_address_2; ?></strong>
-                            </div>
-                        </div>
-                        <div class="row row-details">
-                            <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("country"); ?></strong>
                             </div>
                             <div class="col-sm-8">
