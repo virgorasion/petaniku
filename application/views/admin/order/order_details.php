@@ -316,6 +316,7 @@
                                 <strong class="font-right"><?php echo $shipping->shipping_address_1; ?></strong>
                             </div>
                         </div>
+                        <?php /*
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("address"); ?> 2</strong>
@@ -324,6 +325,7 @@
                                 <strong class="font-right"><?php echo $shipping->shipping_address_2; ?></strong>
                             </div>
                         </div>
+                        */?>
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("country"); ?></strong>
