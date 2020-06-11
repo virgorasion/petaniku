@@ -308,8 +308,10 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
+                        <?php /*
                         <li><a href="<?php echo admin_url(); ?>add-administrator"> <?php echo trans("add_administrator"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>administrators"> <?php echo trans("administrators"); ?></a></li>
+                        */?>
                         <li><a href="<?php echo admin_url(); ?>vendors"> <?php echo trans("vendors"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>members"> <?php echo trans("members"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>shop-opening-requests"> <?php echo trans("shop_opening_requests"); ?></a></li>
@@ -376,9 +378,12 @@
                 </li>
                 */ ?>
                 <li class="header text-uppercase"><?php echo trans("settings"); ?></li>
+                <li>
+                    <a href="<?php echo admin_url(); ?>send-newsletter"><i class="fa fa-envelope"></i><?php echo trans("send_email_subscribers"); ?></a>
+                </li>
 				<li>
 					<a href="<?php echo admin_url(); ?>preferences">
-						<i class="fa fa-check-square-o"></i>
+						<i class="fa fa-check-square-o"></i>    
 						<span><?php echo trans("preferences"); ?></span>
 					</a>
                 </li>
