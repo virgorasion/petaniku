@@ -168,6 +168,8 @@ $route['category/(:any)/(:any)/(:any)'] = 'home_controller/subcategory/$2/$3';
  * ADMIN ROUTES
  *
  */
+//Config Routes
+$route[$r_admin . '/config/(:any)'] = 'config_setting/$1';
 //login
 $route[$r_admin . '/login'] = 'common_controller/admin_login';
 /*navigation routes*/
@@ -181,7 +183,6 @@ $route[$r_admin] = 'admin_controller/index';
 $route[$r_admin . '/settings'] = 'admin_controller/settings';
 $route[$r_admin . '/email-settings'] = 'admin_controller/email_settings';
 $route[$r_admin . '/social-login'] = 'admin_controller/social_login_settings';
-
 $route[$r_admin . '/add-page'] = 'page_controller/add_page';
 $route[$r_admin . '/update-page'] = 'page_controller/update_page';
 $route[$r_admin . '/pages'] = 'page_controller/pages';
@@ -283,13 +284,14 @@ $route[$r_admin . '/currency-settings'] = 'admin_controller/currency_settings';
 $route[$r_admin . '/update-currency/(:num)'] = 'admin_controller/update_currency/$1';
 //newsletter
 // $route[$r_admin . '/send-email-subscribers'] = 'admin_controller/send_email_subscribers';
-// $route[$r_admin . '/subscribers'] = 'admin_controller/subscribers';
+$route[$r_admin . '/subscribers'] = 'admin_controller/subscribers';
 
 $route[$r_admin . '/contact-messages'] = 'admin_controller/contact_messages';
 $route[$r_admin . '/preferences'] = 'admin_controller/preferences';
 
 //form settings
 // $route[$r_admin . '/form-settings'] = 'settings_controller/form_settings';
+$route[$r_admin . '/send-newsletter'] = 'admin_controller/send_email_subscribers';
 $route[$r_admin . '/form-settings/shipping-options'] = 'settings_controller/shipping_options';
 $route[$r_admin . '/form-settings/edit-shipping-option/(:num)'] = 'settings_controller/edit_shipping_option/$1';
 $route[$r_admin . '/form-settings/product-conditions'] = 'settings_controller/product_conditions';
