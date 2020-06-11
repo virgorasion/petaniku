@@ -5,6 +5,7 @@
         <!-- form start -->
         <?php echo form_open('admin_controller/settings_post'); ?>
 
+        
         <div class="form-group">
             <label><?php echo trans("settings_language"); ?></label>
             <select name="lang_id" class="form-control" onchange="window.location.href = '<?php echo admin_url(); ?>settings?lang='+this.value;" style="max-width: 600px;">
@@ -13,6 +14,7 @@
                 <?php endforeach; ?>
             </select>
         </div>
+        
 
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
@@ -20,7 +22,7 @@
                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><?php echo trans('general_settings'); ?></a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false"><?php echo trans('contact_settings'); ?></a></li>
                 <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false"><?php echo trans('social_media_settings'); ?></a></li>
-                <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false"><?php echo trans('facebook_comments'); ?></a></li>
+                <!-- <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false"><?php //echo trans('facebook_comments'); ?></a></li> -->
                 <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false"><?php echo trans('head_code'); ?></a></li>
                 <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false"><?php echo trans('cookies_warning'); ?></a></li>
                 <li class="pull-right">
@@ -152,6 +154,7 @@
                     </div>
                 </div>
 
+                <?php /*
                 <div class="tab-pane" id="tab_4">
                     <div class="form-group">
                         <div class="row">
@@ -176,6 +179,7 @@
                                   style="min-height: 140px;" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>><?php echo $general_settings->facebook_comment; ?></textarea>
                     </div>
                 </div>
+                */ ?>
 
                 <div class="tab-pane" id="tab_5">
 
