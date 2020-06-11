@@ -26,7 +26,6 @@ class Settings_controller extends Admin_Core_Controller
 	{
 		$data['title'] = trans("payment_settings");
 		$data['general_settings'] = $this->settings_model->get_general_settings();
-		
 
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('admin/settings/payment_settings', $data);

@@ -547,9 +547,7 @@ class Admin_controller extends Admin_Core_Controller
 	public function email_settings()
 	{
 		$data['title'] = trans("email_settings");
-
 		$data['general_settings'] = $this->settings_model->get_general_settings();
-		
 		$data["library"] = $this->input->get('library');
 		if (empty($data["library"])) {
 			$data["library"] = "swift";
@@ -558,7 +556,6 @@ class Admin_controller extends Admin_Core_Controller
 			}
 			redirect(admin_url() . "email-settings?library=" . $data["library"]);
 		}
-
 
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('admin/settings/email_settings', $data);
@@ -603,7 +600,7 @@ class Admin_controller extends Admin_Core_Controller
 	 */
 	public function email_options_post()
 	{
-		if ($this->settings_model->update_email_options()) {
+		if ($this->settings_model->update_email_options($config)) {
 			$this->session->set_flashdata('success', trans("msg_updated"));
 			$this->session->set_flashdata('submit', "options");
 			redirect($this->agent->referrer());

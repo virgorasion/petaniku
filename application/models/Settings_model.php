@@ -6,11 +6,13 @@ class Settings_model extends CI_Model
 	//update settings
 	public function update_settings()
 	{
+
 		$data = array(
 			'site_title' => $this->input->post('site_title', true),
 			'homepage_title' => $this->input->post('homepage_title', true),
 			'site_description' => $this->input->post('site_description', true),
 			'keywords' => $this->input->post('keywords', true),
+			// Sosmed Setting
 			'facebook_url' => $this->input->post('facebook_url', true),
 			'twitter_url' => $this->input->post('twitter_url', true),
 			'instagram_url' => $this->input->post('instagram_url', true),
@@ -18,12 +20,14 @@ class Settings_model extends CI_Model
 			'linkedin_url' => $this->input->post('linkedin_url', true),
 			'vk_url' => $this->input->post('vk_url', true),
 			'youtube_url' => $this->input->post('youtube_url', true),
+			
 			'about_footer' => $this->input->post('about_footer', true),
 			'contact_text' => $this->input->post('contact_text', false),
 			'contact_address' => $this->input->post('contact_address', true),
 			'contact_email' => $this->input->post('contact_email', true),
 			'contact_phone' => $this->input->post('contact_phone', true),
 			'copyright' => $this->input->post('copyright', true),
+			// alert coockie
 			'cookies_warning' => $this->input->post('cookies_warning', false),
 			'cookies_warning_text' => $this->input->post('cookies_warning_text', false)
 		);
@@ -80,16 +84,16 @@ class Settings_model extends CI_Model
 	}
 
 	//update email settings
-	public function update_email_settings()
+	public function update_email_settings($config)
 	{
 		$data = array(
-			'mail_library' => $this->input->post('mail_library', true),
-			'mail_protocol' => $this->input->post('mail_protocol', true),
-			'mail_title' => $this->input->post('mail_title', true),
-			'mail_host' => $this->input->post('mail_host', true),
-			'mail_port' => $this->input->post('mail_port', true),
-			'mail_username' => $this->input->post('mail_username', true),
-			'mail_password' => $this->input->post('mail_password', true),
+			'mail_library' => $config['mail_library'],
+			'mail_protocol' => $config['mail_protocol'],
+			'mail_title' => $config['mail_title'],
+			'mail_host' => $config['mail_host'],
+			'mail_port' => $config['mail_port'],
+			'mail_username' => $config['mail_username'],
+			'mail_password' => $config['mail_password']
 		);
 
 		$this->db->where('id', 1);
@@ -108,28 +112,16 @@ class Settings_model extends CI_Model
 	}
 
 	//update email options
-	public function update_email_options()
+	public function update_email_options($config)
 	{
-		// Default Code
-		// $data = array(
-		// 	'send_email_new_product' => $this->input->post('send_email_new_product', true),
-		// 	'send_email_buyer_purchase' => $this->input->post('send_email_buyer_purchase', true),
-		// 	'send_email_order_shipped' => $this->input->post('send_email_order_shipped', true),
-		// 	'send_email_contact_messages' => $this->input->post('send_email_contact_messages', true),
-		// 	'send_email_shop_opening_request' => $this->input->post('send_email_shop_opening_request', true),
-		// 	'send_email_bidding_system' => $this->input->post('send_email_bidding_system', true),
-		// 	'mail_options_account' => $this->input->post('mail_options_account', true)
-		// );
-
-		// Custom Code
 		$data = array(
-			'send_email_new_product' => 1,
-			'send_email_buyer_purchase' => 0,
-			'send_email_order_shipped' => 0,
-			'send_email_contact_messages' => 0,
-			'send_email_shop_opening_request' => 0,
-			'send_email_bidding_system' => 0,
-			'mail_options_account' => 0
+			'send_email_new_product' => $config['send_email_new_product'],
+			'send_email_buyer_purchase' => $config['send_email_buyer_purchase'],
+			'send_email_order_shipped' => $config['send_email_order_shipped'],
+			'send_email_contact_messages' => $config['send_email_contact_messages'],
+			'send_email_shop_opening_request' => $config['send_email_shop_opening_request'],
+			'send_email_bidding_system' => $config['send_email_bidding_system'],
+			'mail_options_account' => $config['mail_options_account']
 		);
 
 		$this->db->where('id', 1);
@@ -161,10 +153,10 @@ class Settings_model extends CI_Model
 	}
 
 	//update seo tools
-	public function update_seo_tools()
+	public function update_seo_tools($config)
 	{
 		$data_general = array(
-			'google_analytics' => $this->input->post('google_analytics', false)
+			'google_analytics' => $config['google_analytics']
 		);
 		$this->db->where('id', 1);
 		return $this->db->update('general_settings', $data_general);
@@ -290,39 +282,46 @@ class Settings_model extends CI_Model
 	}
 
 	//update preferences
-	public function update_preferences($form)
+	public function update_preferences($config, $form="")
 	{
-		if ($form == 'homepage') {
-			$data = array(
-				'index_slider' => $this->input->post('index_slider', true),
-				'index_categories' => $this->input->post('index_categories', true),
-				'index_promoted_products' => $this->input->post('index_promoted_products', true),
-				'index_latest_products' => $this->input->post('index_latest_products', true),
-				'index_blog_slider' => $this->input->post('index_blog_slider', true),
-				'index_promoted_products_count' => $this->input->post('index_promoted_products_count', true),
-				'index_latest_products_count' => $this->input->post('index_latest_products_count', true)
-			);
-		} elseif ($form == 'general') {
-			$data = array(
-				'multilingual_system' => $this->input->post('multilingual_system', true),
-				'rss_system' => $this->input->post('rss_system', true),
-				'vendor_verification_system' => $this->input->post('vendor_verification_system', true),
-				'guest_checkout' => $this->input->post('guest_checkout', true)
-			);
-		} elseif ($form == 'reviews_comments') {
-			$data = array(
-				'product_reviews' => $this->input->post('product_reviews', true),
-				'user_reviews' => $this->input->post('user_reviews', true),
-				'product_comments' => $this->input->post('product_comments', true),
-				'blog_comments' => $this->input->post('blog_comments', true)
-			);
-		} elseif ($form == 'products') {
-			$data = array(
-				'approve_before_publishing' => $this->input->post('approve_before_publishing', true),
-				'promoted_products' => $this->input->post('promoted_products', true),
-				'product_link_structure' => $this->input->post('product_link_structure', true)
-			);
-		}
+		// if ($form == 'homepage') {
+		// 	$data = array(
+		// 		'index_slider' => $this->input->post('index_slider', true),
+		// 		'index_categories' => $this->input->post('index_categories', true),
+		// 		'index_promoted_products' => $this->input->post('index_promoted_products', true),
+		// 		'index_latest_products' => $this->input->post('index_latest_products', true),
+		// 		'index_blog_slider' => $this->input->post('index_blog_slider', true),
+		// 		'index_promoted_products_count' => $this->input->post('index_promoted_products_count', true),
+		// 		'index_latest_products_count' => $this->input->post('index_latest_products_count', true)
+		// 	);
+		// } elseif ($form == 'general') {
+		// 	$data = array(
+		// 		'multilingual_system' => $this->input->post('multilingual_system', true),
+		// 		'rss_system' => $this->input->post('rss_system', true),
+		// 		'vendor_verification_system' => $this->input->post('vendor_verification_system', true),
+		// 		'guest_checkout' => $this->input->post('guest_checkout', true)
+		// 	);
+		// } elseif ($form == 'reviews_comments') {
+		// 	$data = array(
+		// 		'product_reviews' => $this->input->post('product_reviews', true),
+		// 		'user_reviews' => $this->input->post('user_reviews', true),
+		// 		'product_comments' => $this->input->post('product_comments', true),
+		// 		'blog_comments' => $this->input->post('blog_comments', true)
+		// 	);
+		// } elseif ($form == 'products') {
+		// 	$data = array(
+		// 		'approve_before_publishing' => $this->input->post('approve_before_publishing', true),
+		// 		'promoted_products' => $this->input->post('promoted_products', true),
+		// 		'product_link_structure' => $this->input->post('product_link_structure', true)
+		// 	);
+		// }
+
+		//custom
+		$data = array(
+			'approve_before_publishing' => $config['approve_before_publishing'],
+			'promoted_products' => $config['promoted_products'],
+			'product_link_structure' => $config['product_link_structure']
+		);
 
 		$this->db->where('id', 1);
 		return $this->db->update('general_settings', $data);
@@ -400,12 +399,12 @@ class Settings_model extends CI_Model
 	}
 
 	//update cache system
-	public function update_cache_system()
+	public function update_cache_system($config)
 	{
 		$data = array(
-			'cache_system' => $this->input->post('cache_system', true),
-			'refresh_cache_database_changes' => $this->input->post('refresh_cache_database_changes', true),
-			'cache_refresh_time' => $this->input->post('cache_refresh_time', true) * 60
+			'cache_system' => $config['cache_system'],
+			'refresh_cache_database_changes' => $config['refresh_cache_database_changes'],
+			'cache_refresh_time' => $config['cache_refresh_time'] * 60
 		);
 
 		$this->db->where('id', 1);

@@ -413,13 +413,13 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label"><?php echo trans('bank_accounts'); ?></label>
-					<textarea id="ckEditorBankAccounts" class="form-control" name="bank_transfer_accounts"><?php echo $payment_settings->bank_transfer_accounts; ?></textarea>
+					<textarea id="ckEditorBankAccounts" class="form-control" name="bank_transfer_accounts" disabled><?php echo $payment_settings->bank_transfer_accounts; ?></textarea>
 				</div>
 			</div>
 			<!-- /.box-body -->
-			<div class="box-footer">
-				<button type="submit" class="btn btn-primary pull-right"><?php echo trans('save_changes'); ?></button>
-			</div>
+			<!-- <div class="box-footer">
+				<button type="submit" class="btn btn-primary pull-right"><?php //echo trans('save_changes'); ?></button>
+			</div> -->
 			<!-- /.box-footer -->
 			<!-- /.box -->
 			<?php echo form_close(); ?><!-- form end -->

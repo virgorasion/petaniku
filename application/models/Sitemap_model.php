@@ -22,16 +22,16 @@ class Sitemap_model extends CI_Model
 	}
 
 	//update sitemap settings
-	public function update_sitemap_settings()
+	public function update_sitemap_settings($config)
 	{
 		$db_data = array(
-			'sitemap_frequency' => $this->input->post('frequency', true),
-			'sitemap_last_modification' => $this->input->post('last_modification', true),
-			'sitemap_priority' => $this->input->post('priority', true)
+			'sitemap_frequency' => $config['frequency'],
+			'sitemap_last_modification' => $config['last_modification'],
+			'sitemap_priority' => $config['priority']
 		);
 
 		$this->db->where('id', 1);
-		$this->db->update('form_settings', $db_data);
+		return $this->db->update('form_settings', $db_data);
 	}
 
 	public function add($loc, $changefreq = NULL, $lastmod = NULL, $priority = NULL, $priority_value = NULL, $lastmod_time = NULL)
