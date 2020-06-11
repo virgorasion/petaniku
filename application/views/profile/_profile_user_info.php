@@ -3,7 +3,6 @@
 
 <!-- include message block -->
 <?php $this->load->view('partials/_messages'); ?>
-
 <div class="row-custom">
     <div class="profile-details">
         <div class="left">
@@ -143,6 +142,9 @@
                                     <input type="file" name="file" size="40" accept=".png, .jpg, .jpeg, .gif" onchange="$('#upload-file-info').html($(this).val().replace(/.*[\/\\]/, ''));">
                                 </a>
                                 <span class='badge badge-info' id="upload-file-info"></span>
+                                <br>
+                                <br>
+                                <input type="checkbox" name="newsletter" id="newsletter" value="1" <?=($user->getNewsletter == "1")? "checked": "";?>> <?php echo trans('newsletter'); ?>
                             </p>
                         </div>
                     </div>

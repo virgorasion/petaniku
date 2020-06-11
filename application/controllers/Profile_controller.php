@@ -366,6 +366,7 @@ class Profile_controller extends Home_Core_Controller
 			$data = array(
 				'username' => $this->input->post('username', true),
 				// 'slug' => str_slug($this->input->post('slug', true)),
+				'getNewsletter' => ($this->input->post("newsletter",true) == 1)? "1" : "0",
 				'email' => $this->input->post('email', true),
 				'shop_name' => $this->input->post('name', true),
 				'about_me' => $this->input->post('about_me', true),
