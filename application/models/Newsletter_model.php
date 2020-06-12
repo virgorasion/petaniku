@@ -77,4 +77,11 @@ class Newsletter_model extends CI_Model
         $this->db->delete('subscribers');
     }
 
+    //get email member
+    public function get_email_members()
+    {
+        $query = $this->db->select("email")->from("users")->where("role","vendor")->where("getNewsletter","1")->get();
+        return $query;
+    }
+
 }

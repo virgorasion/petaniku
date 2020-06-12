@@ -291,7 +291,7 @@ $route[$r_admin . '/preferences'] = 'admin_controller/preferences';
 
 //form settings
 // $route[$r_admin . '/form-settings'] = 'settings_controller/form_settings';
-$route[$r_admin . '/send-newsletter'] = 'admin_controller/send_email_subscribers';
+$route[$r_admin . '/send-newsletter'] = 'admin_controller/send_newsletter';
 $route[$r_admin . '/form-settings/shipping-options'] = 'settings_controller/shipping_options';
 $route[$r_admin . '/form-settings/edit-shipping-option/(:num)'] = 'settings_controller/edit_shipping_option/$1';
 $route[$r_admin . '/form-settings/product-conditions'] = 'settings_controller/product_conditions';

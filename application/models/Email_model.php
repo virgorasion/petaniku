@@ -66,23 +66,42 @@ class Email_model extends CI_Model
     }
 
     //send email newsletter
-    public function send_email_newsletter($subscriber, $subject, $message)
-    {
-        if (!empty($subscriber)) {
-            if (empty($subscriber->token)) {
-                $this->newsletter_model->update_subscriber_token($subscriber->email);
-                $subscriber = $this->newsletter_model->get_subscriber($subscriber->email);
-            }
+    // public function send_email_newsletter($subscriber, $subject, $message)
+    // {
+    //     if (!empty($subscriber)) {
+    //         if (empty($subscriber->token)) {
+    //             $this->newsletter_model->update_subscriber_token($subscriber->email);
+    //             $subscriber = $this->newsletter_model->get_subscriber($subscriber->email);
+    //         }
 
-            $data = array(
-                'subject' => $subject,
-                'message' => $message,
-                'to' => $subscriber->email,
-                'template_path' => "email/email_newsletter",
-                'subscriber' => $subscriber,
-            );
-            return $this->send_email($data);
-        }
+    //         $data = array(
+    //             'subject' => $subject,
+    //             'message' => $message,
+    //             'to' => $subscriber->email,
+    //             'template_path' => "email/email_newsletter",
+    //             'subscriber' => $subscriber,
+    //         );
+    //         var_dump($data);
+    //         die();
+    //         $data = $this->send_email($data);
+    //         return $data;
+    //     }
+    // }
+
+    //send email newsletter (custom)
+    public function send_email_newsletter($email, $subject, $message)
+    {
+        var_dump($email, $subject,$message);
+        $data = array(
+            'subject' => $subject,
+            'message' => $message,
+            'to' => $email,
+            'template_path' => "email/email_newsletter"
+            // 'subscriber' => $subscriber,
+        );
+        $data = $this->send_email($data);
+        return $data;
+        
     }
 
     //send email

@@ -211,7 +211,19 @@ class Admin_controller extends Admin_Core_Controller
 		$data['title'] = trans("send_email_subscribers");
 
 		$this->load->view('admin/includes/_header', $data);
-		$this->load->view('admin/newsletter/send_email', $data);
+		$this->load->view('admin/newsletter/send_email_subscribers', $data);
+		$this->load->view('admin/includes/_footer');
+	}
+
+	/**
+	 * Send Newsletter to Member
+	 */
+	public function send_newsletter()
+	{
+		$data['title'] = trans("send_email_subscribers");
+
+		$this->load->view('admin/includes/_header', $data);
+		$this->load->view('admin/newsletter/send_newsletter', $data);
 		$this->load->view('admin/includes/_footer');
 	}
 
@@ -232,6 +244,38 @@ class Admin_controller extends Admin_Core_Controller
 			foreach ($data['subscribers'] as $item) {
 				//send email
 				if (!$this->email_model->send_email_newsletter($item, $subject, $message)) {
+					$result = false;
+				}
+			}
+		}
+
+		if ($result == true) {
+			$this->session->set_flashdata('success', trans("msg_email_sent"));
+		} else {
+			$this->session->set_flashdata('error', trans("msg_error"));
+		}
+		redirect($this->agent->referrer());
+	}
+
+	/**
+	 * Newsletter Send Email Post (Custom)
+	 */
+	public function send_email_newsletter()
+	{
+		$this->load->model("email_model");
+
+		$subject = $this->input->post('subject', true);
+		$message = $this->input->post('message', false);
+
+		$vendors = $this->newsletter_model->get_email_members()->result();
+		$result = false;
+		if (!empty($vendors)) {
+			$result = true;
+			foreach ($vendors['email'] as $vendor) {
+				var_dump($vendor);
+				die();
+				//send email
+				if (!$this->email_model->send_email_newsletter($vendor, $subject, $message)) {
 					$result = false;
 				}
 			}

@@ -73,11 +73,13 @@
 				<?php echo html_escape($settings->copyright); ?>
 			</td>
 		</tr>
+		<?php /*
 		<tr>
 			<td class="content-block">
 				<?php echo trans("dont_want_receive_emails"); ?> <a href="<?php echo base_url(); ?>unsubscribe?token=<?php echo !empty($subscriber->token) ? $subscriber->token : ''; ?>"><?php echo trans("unsubscribe"); ?></a>.
 			</td>
 		</tr>
+		<?php */ ?>
 	</table>
 </div>
 <!-- END FOOTER -->
