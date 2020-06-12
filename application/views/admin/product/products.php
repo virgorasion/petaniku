@@ -48,7 +48,7 @@
 										<?php echo html_escape($item->title); ?>
 									</a>
 								</td>
-								<td><?php echo trans($item->product_type); ?></td>
+								<td class="hidden"><?php echo trans($item->product_type); ?></td>
 								<td>
 									<?php $categories_array = get_parent_categories_array($item->category_id);
 									if (!empty($categories_array)) {
