@@ -95,6 +95,9 @@ class Product_model extends Core_Model
 			'estimasi_panen' => $this->input->post('estimasi_panen', true),
 			'per_slot' => $this->input->post('per_slot', true),
 			'show_maps' => $this->input->post('show_maps', true),
+			'pengiriman' => $this->input->post('pengiriman', true),
+			'km_max' => $this->input->post('km_max', true),
+			'km_price' => price_database_format($this->input->post('km_price', true)),
 			'is_draft' => 0
 		);
 

@@ -380,10 +380,11 @@ if ($product->is_draft == 1) {
 											<div class="form-box-body">
 												<div class="form-group">
 													<div class="row">
-														<div id="response_product_ongkir" class="col-12 m-b-30">
-															<?php $this->load->view("product/ongkir/_list_ongkir", ["ongkirs" => $product_ongkirs]); ?>
+														<div id="response_product_ongkir" class="col-12">
+															<?php //$this->load->view("product/ongkir/_list_ongkir", ["ongkirs" => $product_ongkirs]); ?>
+															<?php $this->load->view("product/ongkir/_map_init_ongkir"); ?>
 														</div>
-														<div class="col-12">
+														<div class="col-12 hidden">
 															<button type="button" class="btn btn-sm btn-secondary btn-variation" data-toggle="modal" data-target="#addPengirimanModal">
 																Tambah Pengiriman
 															</button>

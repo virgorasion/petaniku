@@ -1,0 +1,7 @@
+================================
+Update 13 Juni 2020
+================================
+- table 'products':
+    - pengiriman (TEXT)
+    - km_max (INT)
+    - km_price (INT)
