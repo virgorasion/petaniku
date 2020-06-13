@@ -153,6 +153,7 @@ class Cart_controller extends Home_Core_Controller
 
 		//update 1 checkout, 1 barang
 		$produk = $this->product_model->get_product_by_id($data['cart_items'][0]->product_id);
+		$data['product'] = $produk;
 		$data["states"] = $this->locationid_model->get_states_by_country($produk->country_id);
 		$listongkir = $this->product_model->get_product_ongkirs($produk->id);
 		$provinsi_pengiriman = [];
@@ -224,7 +225,8 @@ class Cart_controller extends Home_Core_Controller
 			$product_id = $cart->product_id;
 			$product = $this->product_model->get_product_by_id($product_id);
 			
-			$ongkir = $this->product_model->get_list_ongkir_by_user($product_id, $user);
+			// $ongkir = $this->product_model->get_list_ongkir_by_user($product_id, $user);
+			$ongkir = $_POST['ongkir'];
 			if (empty($ongkir)) {
 				$sc_msg .= "Produk <b>".$product->title."</b> tidak tersedia di wilayah Anda untuk area pengiriman penjual. Silahkan hubungi penjual atau hapus produk dari keranjang.<br>";
 			} else {
@@ -233,7 +235,7 @@ class Cart_controller extends Home_Core_Controller
 						$this->session->set_flashdata('product_details_error', trans("msg_error_cart_unapproved_products"));
 					} else {
 						$this->cart_model->remove_from_cart($cart->cart_item_id);
-						$this->cart_model->add_to_cart($product, $ongkir->ongkir, $cart->quantity);
+						$this->cart_model->add_to_cart($product, $ongkir, $cart->quantity);
 					}
 				}
 			}
