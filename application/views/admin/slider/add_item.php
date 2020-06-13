@@ -20,6 +20,7 @@
 				<!-- include message block -->
 				<?php $this->load->view('admin/includes/_messages'); ?>
 
+				<?php /*
 				<div class="form-group">
 					<label><?php echo trans("language"); ?></label>
 					<select name="lang_id" class="form-control">
@@ -28,16 +29,21 @@
 						<?php endforeach; ?>
 					</select>
 				</div>
+				*/ ?>
+
 				<div class="form-group">
 					<label class="control-label"><?php echo trans('link'); ?></label>
 					<input type="text" class="form-control" name="link" placeholder="<?php echo trans('link'); ?>"
 						   value="<?php echo old('link'); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
 				</div>
+
+				<?php /*
 				<div class="form-group">
 					<label class="control-label"><?php echo trans('order'); ?></label>
 					<input type="number" class="form-control" name="item_order" placeholder="<?php echo trans('order'); ?>"
 						   value="<?php echo old('item_order'); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
 				</div>
+				*/ ?>
 
 				<div class="form-group">
 					<label class="control-label"><?php echo trans('image'); ?> (1170x356px)</label>
