@@ -45,7 +45,7 @@
                 </div>
 
                 <!-- <div class="form-group">
-                    <label><?php echo trans("language"); ?></label>
+                    <label><?php //echo trans("language"); ?></label>
                     <select name="lang_id" class="form-control" style="max-width: 600px;">
                         <?php //foreach ($languages as $language): ?>
                             <option value="<?php //echo $language->id; ?>" <?php //echo ($page->lang_id == $language->id) ? 'selected' : ''; ?>><?php //echo $language->name; ?></option>
