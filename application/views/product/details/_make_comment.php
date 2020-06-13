@@ -11,6 +11,7 @@
                 <div class="form-group">
                     <textarea name="comment" id="comment_text" class="form-control form-input form-textarea" placeholder="<?php echo trans("comment"); ?>"></textarea>
                 </div>
+                <?php generate_recaptcha(); ?>
                 <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
             </form>
         </div>
@@ -18,7 +19,8 @@
 <?php else: ?>
     <div class="row">
         <div class="col-12">
-            <!-- <form id="make_comment">
+            <?php /*
+            <form id="make_comment">
                 <input type="hidden" name="parent_id" value="0">
                 <input type="hidden" name="user_id" value="0">
                 <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
@@ -38,8 +40,9 @@
                 </div>
                 <?php generate_recaptcha(); ?>
                 <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
-            </!--> 
-            <div class="card card-1" style="width:90%;border-radius:0">
+                */ ?>
+
+                <div class="card card-1" style="width:90%;border-radius:0">
                 <div class="card-body">
                     <p>Silahkan login / daftar terlebih dahulu</p>
                 </div>
