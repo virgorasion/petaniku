@@ -153,7 +153,7 @@ class Earnings_admin_model extends CI_Model
     {
         $this->filter_payouts();
         $this->db->where('payouts.status', 0);
-        $this->db->order_by('payouts.created_at', 'DESC');
+        $this->db->order_by('payouts.created_at', 'ASC');
         $this->db->limit($per_page, $offset);
         $query = $this->db->get('payouts');
         return $query->result();

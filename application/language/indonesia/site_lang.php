@@ -671,6 +671,7 @@ $lang["paypal_email_address"] = "PayPal Email Address";
 $lang["use_default_payment_account"] = "Gunakan sebagai akun pembayaran default";
 $lang["full_name"] = "Nama Lengkap";
 $lang["bank_name"] = "Nama Bank";
+$lang["bank_number"] = "Nomor Bank";
 $lang["iban"] = "IBAN";
 $lang["iban_long"] = "International Bank Account Number";
 $lang["swift"] = "SWIFT";

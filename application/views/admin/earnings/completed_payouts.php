@@ -29,7 +29,7 @@
 							<th><?php echo trans('id'); ?></th>
 							<th><?php echo trans('user_id'); ?></th>
 							<th><?php echo trans('user'); ?></th>
-							<th><?php echo trans('withdraw_method'); ?></th>
+							<!-- <th><?php echo trans('withdraw_method'); ?></th> -->
 							<th><?php echo trans('withdraw_amount'); ?></th>
 							<th><?php echo trans('status'); ?></th>
 							<th><?php echo trans('date'); ?></th>
@@ -53,7 +53,7 @@
 										</div>
 									<?php endif; ?>
 								</td>
-								<td><?php echo trans($item->payout_method); ?></td>
+								<!-- <td><?php echo trans($item->payout_method); ?></td> -->
 								<td><?php echo print_price($item->amount, $item->currency); ?></td>
 								<td>
 									<?php if ($item->status == 1) {

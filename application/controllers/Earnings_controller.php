@@ -139,6 +139,7 @@ class Earnings_controller extends Home_Core_Controller
             'user_id' => $this->user_id,
             'amount' => $this->input->post('amount', true),
             'currency' => $this->input->post('currency', true),
+            'payout_method' => $this->input->post('payout_method', true),
             'status' => 0,
             'created_at' => date('Y-m-d H:i:s')
         );
@@ -165,10 +166,10 @@ class Earnings_controller extends Home_Core_Controller
             $this->session->set_flashdata('error', trans("msg_error"));
             redirect($this->agent->referrer());
         }
-        if ($data["amount"] < $min) {
-            $this->session->set_flashdata('error', trans("msg_error"));
-            redirect($this->agent->referrer());
-        }
+        // if ($data["amount"] < $min) {
+        //     $this->session->set_flashdata('error', trans("msg_error"));
+        //     redirect($this->agent->referrer());
+        // }
         if ($data["amount"] > user()->balance) {
             $this->session->set_flashdata('error', trans("msg_error"));
             redirect($this->agent->referrer());

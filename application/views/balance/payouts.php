@@ -101,16 +101,14 @@
                                         <span class="input-group-text input-group-text-currency" id="basic-addon2"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
                                         <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
                                     </div>
-                                    <input type="text" name="amount" id="product_price_input" aria-describedby="basic-addon2" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
+                                    <input type="text" name="amount" value="<?= price_format_input($this->auth_user->balance) ?>" id="product_price_input" aria-describedby="basic-addon2" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" value="" required readonly>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label><?php echo trans("withdraw_method"); ?></label>
                                 <div class="selectdiv">
                                     <select name="payout_method" class="form-control" onchange="update_payout_input(this.value);" required>
-                                        <?php if ($payment_settings->bank_transfer_enabled): ?>
-                                            <option value="paypal"><?php echo trans("bank_transfer"); ?></option>
-                                        <?php endif; ?>
+                                        <option value="iban" selected><?php echo trans("bank_transfer"); ?></option>
                                         <?php if ($payment_settings->payout_paypal_enabled): ?>
                                             <option value="paypal"><?php echo trans("paypal"); ?></option>
                                         <?php endif; ?>
@@ -130,7 +128,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-5">
-                        <div class="minimum-payout-container">
+                        <div class="minimum-payout-container hidden">
                             <h2 class="title"><?php echo trans("min_poyout_amounts"); ?></h2>
                             <?php if ($payment_settings->bank_transfer_enabled): ?>
                                 <p><span><?php echo trans("bank_transfer"); ?></span>:<strong><?php echo print_price(0, $payment_settings->default_product_currency) ?></strong></p>
@@ -166,7 +164,7 @@
                             <tbody>
                             <?php foreach ($payouts as $payout): ?>
                                 <tr>
-                                    <td><?php echo trans($payout->payout_method); ?></td>
+                                    <td>Bank Transfer</td>
                                     <td><?php echo print_price($payout->amount, $payout->currency); ?></td>
                                     <td>
                                         <?php if ($payout->status == 1) {

@@ -75,19 +75,19 @@
                 <?php
                 $active_tab = $this->session->flashdata('msg_payout');
                 if (empty($active_tab)) {
-                    $active_tab = "paypal";
+                    $active_tab = "iban";
                 }
                 $show_all_tabs = false;
                 ?>
                 <!-- Nav pills -->
                 <ul class="nav nav-pills nav-payout-accounts justify-content-center">
                     <?php if ($payment_settings->payout_paypal_enabled): $show_all_tabs = true; ?>
-                        <li class="nav-item">
+                        <li class="nav-item hidden">
                             <a class="nav-link nav-link-paypal <?php echo ($active_tab == 'paypal') ? 'active' : ''; ?>" data-toggle="pill" href="#tab_paypal"><?php echo trans("paypal"); ?></a>
                         </li>
                     <?php endif; ?>
                     <?php if ($payment_settings->payout_iban_enabled): $show_all_tabs = true; ?>
-                        <li class="nav-item">
+                        <li class="nav-item hidden">
                             <a class="nav-link nav-link-bank <?php echo ($active_tab == 'iban') ? 'active' : ''; ?>" data-toggle="pill" href="#tab_iban"><?php echo trans("iban"); ?></a>
                         </li>
                     <?php endif; ?>
@@ -97,11 +97,11 @@
                         </li>
                     <?php endif; ?>
                 </ul>
-                <?php $active_tab_content = 'paypal'; ?>
+                <?php $active_tab_content = 'iban'; ?>
                 <!-- Tab panes -->
                 <?php if ($show_all_tabs): ?>
                     <div class="tab-content">
-                        <div class="tab-pane container <?php echo ($active_tab == 'paypal') ? 'active' : 'fade'; ?>" id="tab_paypal">
+                        <div class="tab-pane container hidden <?php echo ($active_tab == 'paypal') ? 'active' : 'fade'; ?>" id="tab_paypal">
 
                             <?php if ($active_tab == "paypal"):
                                 $this->load->view('partials/_messages');
@@ -117,7 +117,7 @@
                             </div>
                             <?php echo form_close(); ?>
                         </div>
-                        <div class="tab-pane container <?php echo ($active_tab == 'iban') ? 'active' : 'fade'; ?>" id="tab_iban">
+                        <div class="tab-pane container active" id="tab_iban">
 
                             <?php if ($active_tab == "iban"):
                                 $this->load->view('partials/_messages');
@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><?php echo trans("iban_long"); ?>(<?php echo trans("iban"); ?>)*</label>
+                                <label><?php echo trans("bank_number"); ?>*</label>
                                 <input type="text" name="iban_number" class="form-control form-input" value="<?php echo html_escape($user_payout->iban_number); ?>" required>
                             </div>
                             <div class="form-group">

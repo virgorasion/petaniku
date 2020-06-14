@@ -31,7 +31,7 @@
                             <!-- <th><?php echo trans('user_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
                             <th><?php echo trans('withdraw_method'); ?></th>
-                            <!-- <th><?php echo trans('withdraw_amount'); ?></th> -->
+                            <th><?php echo trans('withdraw_amount'); ?></th>
                             <th><?php echo trans('status'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
@@ -55,12 +55,12 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php echo trans($item->payout_method); ?>
+                                    <?php //echo trans($item->payout_method); ?>
                                     <p class="m-0">
                                         <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#accountDetailsModel_<?php echo $item->id; ?>"><?php echo trans("see_details"); ?></button>
                                     </p>
                                 </td>
-                                <!-- <td><?php echo print_price($item->amount, $item->currency); ?></td> -->
+                                <td><?php echo print_price($item->amount, $item->currency); ?></td>
                                 <td>
                                     <?php if ($item->status == 1) {
                                         echo trans("completed");
