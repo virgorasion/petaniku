@@ -91,6 +91,8 @@
                                     $min_value = $payment_settings->min_payout_paypal;
                                 } elseif ($payment_settings->payout_iban_enabled) {
                                     $min_value = $payment_settings->min_payout_iban;
+                                } elseif ($payment_settings->bank_transfer_enabled) {
+                                    $min_value = 0;
                                 } elseif ($payment_settings->payout_swift_enabled) {
                                     $min_value = $payment_settings->min_payout_swift;
                                 } ?>
@@ -106,6 +108,9 @@
                                 <label><?php echo trans("withdraw_method"); ?></label>
                                 <div class="selectdiv">
                                     <select name="payout_method" class="form-control" onchange="update_payout_input(this.value);" required>
+                                        <?php if ($payment_settings->bank_transfer_enabled): ?>
+                                            <option value="paypal"><?php echo trans("bank_transfer"); ?></option>
+                                        <?php endif; ?>
                                         <?php if ($payment_settings->payout_paypal_enabled): ?>
                                             <option value="paypal"><?php echo trans("paypal"); ?></option>
                                         <?php endif; ?>
@@ -127,6 +132,9 @@
                     <div class="col-12 col-md-5">
                         <div class="minimum-payout-container">
                             <h2 class="title"><?php echo trans("min_poyout_amounts"); ?></h2>
+                            <?php if ($payment_settings->bank_transfer_enabled): ?>
+                                <p><span><?php echo trans("bank_transfer"); ?></span>:<strong><?php echo print_price(0, $payment_settings->default_product_currency) ?></strong></p>
+                            <?php endif; ?>
                             <?php if ($payment_settings->payout_paypal_enabled): ?>
                                 <p><span><?php echo trans("paypal"); ?></span>:<strong><?php echo print_price($payment_settings->min_payout_paypal, $payment_settings->default_product_currency) ?></strong></p>
                             <?php endif; ?>

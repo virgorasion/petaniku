@@ -5,7 +5,7 @@
         <!-- form start -->
         <?php echo form_open('admin_controller/settings_post'); ?>
 
-        
+        <?php /*
         <div class="form-group">
             <label><?php echo trans("settings_language"); ?></label>
             <select name="lang_id" class="form-control" onchange="window.location.href = '<?php echo admin_url(); ?>settings?lang='+this.value;" style="max-width: 600px;">
@@ -14,6 +14,7 @@
                 <?php endforeach; ?>
             </select>
         </div>
+        */ ?>
         
 
         <!-- Custom Tabs -->

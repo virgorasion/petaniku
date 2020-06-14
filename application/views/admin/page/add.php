@@ -46,6 +46,7 @@
                            placeholder="<?php echo trans('keywords'); ?> (<?php echo trans('meta_tag'); ?>)" value="<?php echo old('keywords'); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
                 </div>
 
+                <?php /*
                 <div class="form-group">
                     <label><?php echo trans("language"); ?></label>
                     <select name="lang_id" class="form-control" style="max-width: 600px;">
@@ -75,6 +76,7 @@
                         </div>
                     </div>
                 </div>
+                */?>
 
                 <div class="form-group">
                     <div class="row">
@@ -94,6 +96,7 @@
                     </div>
                 </div>
 
+                <?php /*
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-3 col-xs-12">
@@ -111,6 +114,7 @@
                         </div>
                     </div>
                 </div>
+                */ ?>
 
                 <div class="form-group" style="margin-top: 30px;">
                     <label><?php echo trans('content'); ?></label>

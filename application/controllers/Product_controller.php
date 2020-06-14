@@ -776,7 +776,9 @@ class Product_controller extends Home_Core_Controller
 		$product_id = $this->input->post('product_id', true);
 
 		if (auth_check()) {
-			$this->comment_model->add_comment();
+			if ($this->recaptcha_verify_request()) {
+				$this->comment_model->add_comment();
+			}
 		} else {
 			if ($this->recaptcha_verify_request()) {
 				$this->comment_model->add_comment();

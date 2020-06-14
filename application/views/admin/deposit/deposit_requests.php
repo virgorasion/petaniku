@@ -80,11 +80,13 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu options-dropdown">
+                                            <?php if ($item->status == 0): ?>
                                             <li>
                                                 <button type="submit" name="option" value="completed" class="btn-list-button">
                                                     <i class="fa fa-check option-icon"></i><?php echo trans('completed'); ?>
                                                 </button>
                                             </li>
+                                            <?php endif; ?>
                                             <li>
                                                 <a href="javascript:void(0)" onclick="delete_item('balance_admin_controller/delete_deposit_post','<?php echo $item->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
                                             </li>
