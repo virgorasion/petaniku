@@ -77,6 +77,8 @@ class Home_controller extends Home_Core_Controller
 		//--count lang,lot
 		// https://stackoverflow.com/questions/43167417/calculate-distance-between-two-points-in-leaflet
 
+
+		// https://www.endpoint.com/blog/2019/03/23/switching-google-maps-leaflet
 		$data['title'] = $this->settings->homepage_title;
 		$data['description'] = $this->settings->site_description;
 		$data['keywords'] = $this->settings->keywords;
