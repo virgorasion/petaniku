@@ -81,17 +81,17 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-3 col-xs-12">
-                            <label><?php echo trans('visibility'); ?></label>
+                            <label><?php echo trans('status'); ?></label>
                         </div>
                         <div class="col-md-2 col-sm-4 col-xs-12 col-option">
                             <input type="radio" name="visibility" value="1" id="page_enabled"
                                    class="square-purple" <?php echo (old("visibility") == 1 || old("visibility") == "") ? 'checked' : ''; ?>>
-                            <label for="page_enabled" class="option-label"><?php echo trans('show'); ?></label>
+                            <label for="page_enabled" class="option-label"><?php echo trans('published'); ?></label>
                         </div>
                         <div class="col-md-2 col-sm-4 col-xs-12 col-option">
                             <input type="radio" name="visibility" value="0" id="page_disabled"
                                    class="square-purple" <?php echo (old("visibility") == 0 && old("visibility") != "") ? 'checked' : ''; ?>>
-                            <label for="page_disabled" class="option-label"><?php echo trans('hide'); ?></label>
+                            <label for="page_disabled" class="option-label"><?php echo trans('draft'); ?></label>
                         </div>
                     </div>
                 </div>

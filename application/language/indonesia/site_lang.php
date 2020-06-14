@@ -823,6 +823,7 @@ $lang["files_included_ext"] = "Masukkan ekstensi file yang akan Anda jual (mis. 
 $lang["no_shipping"] = "Tidak ada pengiriman";
 $lang["drafts"] = "List Draft";
 $lang["draft"] = "Draft";
+$lang["published"] = "Publish";
 $lang["save_as_draft"] = "Simpan sebagai draft";
 $lang["msg_digital_product_register_error"] = "Anda harus membuat akun untuk membeli produk digital.";
 $lang["menu_limit"] = "Batas Menu";
