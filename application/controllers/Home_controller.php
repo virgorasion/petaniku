@@ -56,6 +56,36 @@ class Home_controller extends Home_Core_Controller
 		$this->load->view('partials/_footer');
 	}
 
+	public function mapinit() {
+		// https://stackoverflow.com/questions/50812795/get-address-details-after-i-select-address-in-search-box-in-leaflet-js
+		// (cocok) http://esri.github.io/esri-leaflet/examples/geocoding-control.html
+		// https://gis.stackexchange.com/questions/290799/address-searching-geocoding-using-leaflet
+		//--count lang,lot
+		// https://stackoverflow.com/questions/43167417/calculate-distance-between-two-points-in-leaflet
+
+		$data['title'] = $this->settings->homepage_title;
+		$data['description'] = $this->settings->site_description;
+		$data['keywords'] = $this->settings->keywords;
+
+		$this->load->view('mapinit', $data);
+	}
+
+	public function mapongkir() {
+		// https://stackoverflow.com/questions/50812795/get-address-details-after-i-select-address-in-search-box-in-leaflet-js
+		// (cocok) http://esri.github.io/esri-leaflet/examples/geocoding-control.html
+		// https://gis.stackexchange.com/questions/290799/address-searching-geocoding-using-leaflet
+		//--count lang,lot
+		// https://stackoverflow.com/questions/43167417/calculate-distance-between-two-points-in-leaflet
+
+
+		// https://www.endpoint.com/blog/2019/03/23/switching-google-maps-leaflet
+		$data['title'] = $this->settings->homepage_title;
+		$data['description'] = $this->settings->site_description;
+		$data['keywords'] = $this->settings->keywords;
+
+		$this->load->view('mapongkir', $data);
+	}
+
 	/**
 	 * Contact
 	 */

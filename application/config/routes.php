@@ -163,6 +163,10 @@ $route['category/(:any)'] = 'home_controller/any/$1';
 $route['category/(:any)/(:any)'] = 'home_controller/subcategory/$1/$2';
 $route['category/(:any)/(:any)/(:any)'] = 'home_controller/subcategory/$2/$3';
 
+/** maps */
+$route['maps_init'] = 'home_controller/mapinit';
+$route['maps_ongkir'] = 'home_controller/mapongkir';
+
 /*
  *
  * ADMIN ROUTES

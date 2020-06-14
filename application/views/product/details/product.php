@@ -141,7 +141,8 @@
 
 							<div class="row">
 								<div class="col-12">
-									<?php $this->load->view("product/details/_detail_ongkir"); ?>
+									<?php //$this->load->view("product/details/_detail_ongkir"); ?>
+									<?php $this->load->view("product/details/_detail_ongkir_maps"); ?>
 								</div>
 							</div>
 
