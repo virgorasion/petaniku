@@ -83,7 +83,7 @@
 						<?php echo $product->slug; ?>
 					</div>
 				</div>
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('product_type'); ?></label>
 					</div>
@@ -91,7 +91,7 @@
 						<?php echo trans($product->product_type); ?>
 					</div>
 				</div>
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('listing_type'); ?></label>
 					</div>
@@ -131,7 +131,7 @@
 					</div>
 				</div>
 
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('condition'); ?></label>
 					</div>
@@ -145,12 +145,41 @@
 
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
-						<label class="control-label"><?php echo trans('quantity'); ?></label>
+						<label class="control-label"><?php echo trans('quantity'); ?> (Total slot)</label>
 					</div>
 					<div class="col-md-9 col-sm-12 right">
 						<?php echo $product->quantity; ?>
 					</div>
 				</div>
+
+				<div class="row row-product-details">
+					<div class="col-md-3 col-sm-12">
+						<label class="control-label">Kepemilikan Bisnis</label>
+					</div>
+					<div class="col-md-9 col-sm-12 right">
+						<?php echo $product->luas_lahan ?>
+					</div>
+				</div>
+
+				<div class="row row-product-details">
+					<div class="col-md-3 col-sm-12">
+						<label class="control-label">Estimasi Panen</label>
+					</div>
+					<div class="col-md-9 col-sm-12 right">
+						<?php echo \Carbon\Carbon::parse($product->estimasi_panen)->format('yy-m-d') ?>
+					</div>
+				</div>
+
+				<div class="row row-product-details">
+					<div class="col-md-3 col-sm-12">
+						<label class="control-label">Keterangan per slot</label>
+					</div>
+					<div class="col-md-9 col-sm-12 right">
+						<?php echo ($product->per_slot) ? html_escape($product->per_slot) : ''; ?>
+					</div>
+				</div>
+
+				
 
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
@@ -177,7 +206,7 @@
 					</div>
 				</div>
 
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('promoted'); ?></label>
 					</div>
@@ -215,7 +244,7 @@
 					</div>
 				</div>
 
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('page_views'); ?></label>
 					</div>
@@ -223,7 +252,7 @@
 						<?php echo $product->hit; ?>
 					</div>
 				</div>
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('demo_url'); ?></label>
 					</div>
@@ -233,7 +262,7 @@
 						<?php endif; ?>
 					</div>
 				</div>
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('external_link'); ?></label>
 					</div>
@@ -243,7 +272,7 @@
 						<?php endif; ?>
 					</div>
 				</div>
-				<div class="row row-product-details">
+				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('files_included'); ?></label>
 					</div>
@@ -288,42 +317,6 @@
 								</video>
 							</div>
 						<?php endif; ?>
-					</div>
-				</div>
-				<div class="row row-product-details">
-					<div class="col-md-3 col-sm-12">
-						<label class="control-label"><?php echo trans('audio_preview'); ?></label>
-					</div>
-					<div class="col-md-9 col-sm-12 right">
-						<?php $audio = $this->file_model->get_product_audio($product->id);
-						if (!empty($audio)):?>
-							<div style="width: 500px; max-width: 100%;">
-								<audio controls style="width: 100%;">
-									<source src="<?php echo get_product_audio_url($audio); ?>" type="audio/mp3"/>
-								</audio>
-							</div>
-						<?php endif; ?>
-					</div>
-				</div>
-				<div class="row row-product-details">
-					<div class="col-md-3 col-sm-12">
-						<label class="control-label"><?php echo trans('digital_files'); ?></label>
-					</div>
-					<div class="col-md-9 col-sm-12 right">
-						<?php $digital_file = $this->file_model->get_product_digital_file($product->id);
-						if (!empty($digital_file)): ?>
-							<?php echo form_open('file_controller/download_digital_file', ['id' => 'form_download_digital_file']); ?>
-							<input type="hidden" name="file_id" value="<?php echo $digital_file->id; ?>">
-							<div class="dm-uploaded-digital-file">
-								<a href="javascript:void(0)" class="float-left button-link-style" onclick="$('#form_download_digital_file').submit();">
-									<i class="icon-file-archive file-icon"></i>&nbsp;&nbsp;<strong><?php echo $digital_file->file_name; ?></strong>
-								</a>
-								<button type="submit" class="btn btn-sm btn-info color-white float-right m-r-5">
-									<i class="icon-cloud-download"></i><?php echo trans("download"); ?>
-								</button>
-							</div>
-							<?php echo form_close();
-						endif; ?>
 					</div>
 				</div>
 				<div class="row row-product-details">
