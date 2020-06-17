@@ -180,7 +180,9 @@ class Order_model extends CI_Model
 				'billing_country' => $shipping_address->billing_country_id,
 				'billing_state' => $shipping_address->billing_state,
 				'billing_city' => $shipping_address->billing_city,
-				'billing_zip_code' => $shipping_address->billing_zip_code
+				'billing_zip_code' => $shipping_address->billing_zip_code,
+				'total_km' => $shipping_address->total_km,
+				'harga_per_km' => $shipping_address->harga_per_km,
 			);
 
 			$country = get_country($shipping_address->shipping_country_id);

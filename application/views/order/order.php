@@ -161,7 +161,7 @@
 											<?php echo $shipping->shipping_address_2; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("country"); ?>
 										</div>
@@ -169,7 +169,7 @@
 											<?php echo $shipping->shipping_country; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("state"); ?>
 										</div>
@@ -177,7 +177,7 @@
 											<?php echo get_provinsi_id($shipping->shipping_state); ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("city"); ?>
 										</div>
@@ -185,7 +185,7 @@
 											<?php echo get_kota_id($shipping->shipping_city); ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("zip_code"); ?>
 										</div>
@@ -399,6 +399,24 @@
 										</div>
 										<div class="col-6 col-right">
 											<strong class="font-600"><?php echo print_price($order->price_subtotal, $order->price_currency); ?></strong>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6 col-left">
+											<span> Harga per km</span>
+										</div>
+										<div class="col-6 col-right">
+											<strong
+												class="font-600"><?= (isset($order_shipping->harga_per_km)) ? print_price($order_shipping->harga_per_km, $order->price_currency) : 'Tidak ada data' ?></strong>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6 col-left">
+											<span> Total km</span>
+										</div>
+										<div class="col-6 col-right">
+											<strong
+												class="font-600"><?= (isset($order_shipping->total_km)) ? $order_shipping->total_km . ' km' : 'Tidak ada data' ?></strong>
 										</div>
 									</div>
 									<?php if ($is_order_has_physical_product): ?>
