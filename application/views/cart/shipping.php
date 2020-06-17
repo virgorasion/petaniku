@@ -51,7 +51,7 @@
 
                                             <div class="form-group">
                                             <?php if($product->pengiriman){ ?>
-                                                <?php $this->load->view('mapongkir', ['start' => $product->pengiriman]); ?>
+                                                <?php $this->load->view('mapongkir-google', ['start' => $product->pengiriman]); ?>
                                                 <div class="card">
                                                     <div class="card-body" style="background:#939494;color:#FFF">
                                                         Pilih tujuan pengiriman dari maps. Untuk mencari lokasi dengan pencarian, Anda dapat mengklik zoom out / simbol minus terlebih dahulu.

@@ -1,6 +1,6 @@
 <?php
 
-$this->load->view('mapinit', ['start' => $product->pengiriman]);
+$this->load->view('mapinit-google', ['start' => $product->pengiriman]);
 
 ?>
 
@@ -18,7 +18,7 @@ $this->load->view('mapinit', ['start' => $product->pengiriman]);
                 <input id="input_pengiriman" placeholder="Latitude Longitude" class="form-control" type="text" name="pengiriman" value="<?= $product->pengiriman ?>" required>
             </div>
             <div class="col-md-4">
-                <label>Jarak Maksimal Pengiriman</label>
+                <label>Jarak Maksimal Pengiriman (km)</label>
                 <input placeholder="Jarak Maksimal (km)" class="form-control" type="number" min="1" name="km_max" value="<?= $product->km_max ?>" required>    
             </div>
             <div class="col-md-4">
