@@ -24,7 +24,7 @@
                                 <th><?php echo trans('total'); ?></th>
                                 <!-- <th><?php //echo trans('currency'); ?></th> -->
                                 <th><?php echo trans('status'); ?></th>
-                                <th><?php echo trans('payment_status'); ?></th>
+                                <th class="hidden"><?php echo trans('payment_status'); ?></th>
                                 <th><?php echo trans('updated'); ?></th>
                                 <th><?php echo trans('date'); ?></th>
                                 <th class="max-width-120"><?php echo trans('options'); ?></th>
@@ -77,7 +77,7 @@
                                     <label class="label label-default"><?php echo trans("order_processing"); ?></label>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td class="hidden">
                                     <?php echo trans($item->payment_status); ?>
                                 </td>
                                 <td><?php echo time_ago($item->updated_at); ?></td>
