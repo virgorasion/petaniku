@@ -52,12 +52,12 @@ class Settings_model extends CI_Model
 	}
 
 	//update recaptcha settings
-	public function update_recaptcha_settings()
+	public function update_recaptcha_settings($config)
 	{
 		$data = array(
-			'recaptcha_site_key' => $this->input->post('recaptcha_site_key', true),
-			'recaptcha_secret_key' => $this->input->post('recaptcha_secret_key', true),
-			'recaptcha_lang' => $this->input->post('recaptcha_lang', true),
+			'recaptcha_site_key' => $config['recaptcha_site_key'],
+			'recaptcha_secret_key' => $config['recaptcha_secret_key'],
+			'recaptcha_lang' => $config['recaptcha_lang'],
 		);
 
 		$this->db->where('id', 1);
@@ -66,12 +66,12 @@ class Settings_model extends CI_Model
 	}
 
 	//update maintenance mode settings
-	public function update_maintenance_mode_settings()
+	public function update_maintenance_mode_settings($config)
 	{
 		$data = array(
-			'maintenance_mode_title' => $this->input->post('maintenance_mode_title', true),
-			'maintenance_mode_description' => $this->input->post('maintenance_mode_description', true),
-			'maintenance_mode_status' => $this->input->post('maintenance_mode_status', true),
+			'maintenance_mode_title' => $config['maintenance_mode_title'],
+			'maintenance_mode_description' => $config['maintenance_mode_description'],
+			'maintenance_mode_status' => $config['maintenance_mode_status']
 		);
 
 		if (empty($data["maintenance_mode_status"])) {
@@ -286,43 +286,61 @@ class Settings_model extends CI_Model
 	{
 		// if ($form == 'homepage') {
 		// 	$data = array(
-		// 		'index_slider' => $this->input->post('index_slider', true),
-		// 		'index_categories' => $this->input->post('index_categories', true),
-		// 		'index_promoted_products' => $this->input->post('index_promoted_products', true),
-		// 		'index_latest_products' => $this->input->post('index_latest_products', true),
-		// 		'index_blog_slider' => $this->input->post('index_blog_slider', true),
-		// 		'index_promoted_products_count' => $this->input->post('index_promoted_products_count', true),
-		// 		'index_latest_products_count' => $this->input->post('index_latest_products_count', true)
+		// 		'index_slider' => $config['index_slider'],
+		// 		'index_categories' => $config['index_categories'],
+		// 		'index_promoted_products' => $config['index_promoted_products'],
+		// 		'index_latest_products' => $config['index_latest_products'],
+		// 		'index_blog_slider' => $config['index_blog_slider'],
+		// 		'index_promoted_products_count' => $config['index_promoted_products_count'],
+		// 		'index_latest_products_count' => $config['index_latest_products_count']
 		// 	);
 		// } elseif ($form == 'general') {
 		// 	$data = array(
-		// 		'multilingual_system' => $this->input->post('multilingual_system', true),
-		// 		'rss_system' => $this->input->post('rss_system', true),
-		// 		'vendor_verification_system' => $this->input->post('vendor_verification_system', true),
-		// 		'guest_checkout' => $this->input->post('guest_checkout', true)
+		// 		'multilingual_system' => $config['multilingual_system'],
+		// 		'rss_system' => $config['rss_system'],
+		// 		'vendor_verification_system' => $config['vendor_verification_system'],
+		// 		'guest_checkout' => $config['guest_checkout']
 		// 	);
 		// } elseif ($form == 'reviews_comments') {
 		// 	$data = array(
-		// 		'product_reviews' => $this->input->post('product_reviews', true),
-		// 		'user_reviews' => $this->input->post('user_reviews', true),
-		// 		'product_comments' => $this->input->post('product_comments', true),
-		// 		'blog_comments' => $this->input->post('blog_comments', true)
+		// 		'product_reviews' => $config['product_reviews'],
+		// 		'user_reviews' => $config['user_reviews'],
+		// 		'product_comments' => $config['product_comments'],
+		// 		'blog_comments' => $config['blog_comments']
 		// 	);
 		// } elseif ($form == 'products') {
 		// 	$data = array(
-		// 		'approve_before_publishing' => $this->input->post('approve_before_publishing', true),
-		// 		'promoted_products' => $this->input->post('promoted_products', true),
-		// 		'product_link_structure' => $this->input->post('product_link_structure', true)
+		// 		'approve_before_publishing' => $config['approve_before_publishing'],
+		// 		'promoted_products' => $config['promoted_products'],
+		// 		'product_link_structure' => $config['product_link_structure']
 		// 	);
 		// }
 
-		//custom
+		// Custom
 		$data = array(
+			// Homepage
+			'index_slider' => $config['index_slider'],
+			'index_categories' => $config['index_categories'],
+			'index_promoted_products' => $config['index_promoted_products'],
+			'index_latest_products' => $config['index_latest_products'],
+			'index_blog_slider' => $config['index_blog_slider'],
+			'index_promoted_products_count' => $config['index_promoted_products_count'],
+			'index_latest_products_count' => $config['index_latest_products_count'],
+			// general
+			'multilingual_system' => $config['multilingual_system'],
+			'rss_system' => $config['rss_system'],
+			'vendor_verification_system' => $config['vendor_verification_system'],
+			'guest_checkout' => $config['guest_checkout'],
+			// review comments
+			'product_reviews' => $config['product_reviews'],
+			'user_reviews' => $config['user_reviews'],
+			'product_comments' => $config['product_comments'],
+			'blog_comments' => $config['blog_comments'],
+			// products
 			'approve_before_publishing' => $config['approve_before_publishing'],
 			'promoted_products' => $config['promoted_products'],
 			'product_link_structure' => $config['product_link_structure']
 		);
-
 		$this->db->where('id', 1);
 		return $this->db->update('general_settings', $data);
 	}

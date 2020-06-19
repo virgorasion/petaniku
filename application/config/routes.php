@@ -184,7 +184,7 @@ $route[$r_admin . '/slider-items'] = 'admin_controller/slider_items';
 $route[$r_admin . '/update-slider-item/(:num)'] = 'admin_controller/update_slider_item/$1';
 /*page routes*/
 $route[$r_admin] = 'admin_controller/index';
-$route[$r_admin . '/settings'] = 'admin_controller/settings';
+// $route[$r_admin . '/settings'] = 'admin_controller/settings';
 $route[$r_admin . '/email-settings'] = 'admin_controller/email_settings';
 $route[$r_admin . '/social-login'] = 'admin_controller/social_login_settings';
 $route[$r_admin . '/add-page'] = 'page_controller/add_page';

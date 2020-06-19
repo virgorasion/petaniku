@@ -10,6 +10,30 @@ class Config_setting extends CI_Controller
 		}
     }
 
+    public function payout_settings()
+    {
+        $this->load->model("earnings_admin_model");
+        $data = array(
+            // paypal
+            'payout_paypal_enabled' => 1,
+            'min_payout_paypal' => price_database_format(300000),
+            // iban
+            'payout_iban_enabled' => 0,
+            'min_payout_iban' => price_database_format(50000),
+            // Swift
+            'payout_swift_enabled' => 0,
+            'min_payout_swift' => price_database_format(100000)
+        );
+        $this->db->where('id', 1);
+        if ($this->db->update('payment_settings', $data)) {
+            $this->session->set_flashdata('success', "Pengaturan Pencairan Berhasil Diubah");
+            echo "<script>alert('Pengaturan Pencairan Berhasil Diubah')</script>";
+        }else {
+            $this->session->set_flashdata('success', "Pengaturan Pencairan Gagal Diubah");
+            echo "<script>alert('Pengaturan Pencairan Gagal Diubah')</script>";
+        }
+    }
+
     public function email_option()
     {
         // Mail Options
@@ -82,9 +106,28 @@ class Config_setting extends CI_Controller
 
     public function preferences()
     {
+        // Homepage Preferences
+        $config['index_slider'] = 1; //1 = lihat slider, 0 = sembunyikan slider
+        $config['index_categories'] = 0; // 1=lihat,2=sembunyikan
+        $config['index_promoted_products'] = 0;
+        $config['index_latest_products'] = 1;
+        $config['index_blog_slider'] = 1;
+        $config['index_promoted_products_count'] = 8;
+        $config['index_latest_products_count'] = 10;
+        // General Preferences
+        $config['multilingual_system'] = 0;
+        $config['rss_system'] = 0;
+        $config['vendor_verification_system'] = 1;
+        $config['guest_checkout'] = 0;
+        // Products Preferences
         $config['approve_before_publishing'] = 1;
         $config['promoted_products'] = 0;
         $config['product_link_structure'] = "slug-id"; //slug-id, id-slug
+        // Review Comments Preferences
+        $config['product_reviews'] = 1;
+        $config['user_reviews'] = 1;
+        $config['product_comments'] = 1;
+        $config['blog_comments'] = 1;
         if ($this->settings_model->update_preferences($config)) {
             $this->session->set_flashdata('success', "Pengaturan Preferences Berhasil Diubah");
             echo "<script>alert('Pengaturan Preferences Berhasil Diubah')</script>";
@@ -116,15 +159,31 @@ class Config_setting extends CI_Controller
 			'contact_address' => "",
 			'contact_email' => "",
 			'contact_phone' => "",
-			// alert coockie
+			// alert cookie
 			'cookies_warning' => 1,
 			'cookies_warning_text' => "This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies."
 		);
-		$lang_id = 2;
+		$lang_id = 2; //2 = Indonesia, 1 = inggris
 
 		$this->db->where('lang_id', $lang_id);
-        $query = $this->db->update('settings', $data);
-        if ($this->settings_model->update_preferences($config)) {
+        if ($this->db->update('settings', $data)) {
+            $this->session->set_flashdata('success', "Pengaturan Berhasil Diubah");
+            echo "<script>alert('Pengaturan Berhasil Diubah')</script>";
+        }else {
+            $this->session->set_flashdata('success', "Pengaturan Gagal Diubah");
+            echo "<script>alert('Pengaturan Gagal Diubah')</script>";
+        }
+    }
+
+    public function general_settings()
+    {
+        $data = array(
+			'application_name' => "Modesy",
+			'head_code' => ""
+		);
+
+		$this->db->where('id', 1);
+        if ($this->db->update('general_settings', $data)) {
             $this->session->set_flashdata('success', "Pengaturan Umum Berhasil Diubah");
             echo "<script>alert('Pengaturan Umum Berhasil Diubah')</script>";
         }else {
@@ -162,5 +221,35 @@ class Config_setting extends CI_Controller
 
 		$this->db->where('id', 1);
 		return $this->db->update('payment_settings', $data);
+    }
+
+    public function setting_recaptcha()
+    {
+        $config['recaptcha_site_key'] = "6LelRaQZAAAAAK9tAF_6q4JWIJNoaYogWXhShwM3";
+        $config['recaptcha_secret_key'] = "6LelRaQZAAAAAOEFu96cN1Ie3iVm0zIy7LAbFXBr";
+        $config['recaptcha_lang'] = "en";
+
+        if ($this->settings_model->update_recaptcha_settings($config)) {
+			$this->session->set_flashdata('success', "Pengaturan Recaptcha Berhasil Diubah");
+            echo "<script>alert('Pengaturan Recaptcha Berhasil Diubah')</script>";
+        }else {
+            $this->session->set_flashdata('success', "Pengaturan Recaptcha Gagal Diubah");
+            echo "<script>alert('Pengaturan Recaptcha Gagal Diubah')</script>";
+        }
+    }
+
+    public function maintenance_mode()
+    {
+        $config['maintenance_mode_title'] = "Coming Soon";
+        $config['maintenance_mode_description'] = "Our website is under construction. We'll be here soon with our new awesome site.";
+        $config['maintenance_mode_status'] = 0; // 0 = Nonaktif, 1 = Aktif
+
+        if ($this->settings_model->update_maintenance_mode_settings($config)) {
+			$this->session->set_flashdata('success', "Maintenance Mode Berhasil Diubah");
+            echo "<script>alert('Maintenance Mode Berhasil Diubah')</script>";
+        }else {
+            $this->session->set_flashdata('success', "Maintenance Mode Gagal Diubah");
+            echo "<script>alert('Maintenance Mode Gagal Diubah')</script>";
+        }
     }
 }
