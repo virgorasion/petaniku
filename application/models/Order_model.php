@@ -6,6 +6,23 @@ class Order_model extends CI_Model
 	//add order
 	public function add_order($data_transaction)
 	{
+		$order_status = "awaiting_payment";
+		$payment_status = "awaiting_payment";
+
+		if(isset($data_transaction['payment_method'])) {
+			$payment_method = $data_transaction['payment_method'];
+			if ($payment_method == 'Cash On Delivery') {
+				$order_status = "order_processing";
+			}
+			if ($payment_method == 'Saldo') {
+				$payment_status = "payment_received";			
+				$order_status = "payment_received";
+			}
+		} else {
+			$payment_status = "payment_received";
+			$order_status = "payment_received";
+		}
+
 		$cart_total = $this->cart_model->get_sess_cart_total();
 		if (!empty($cart_total)) {
 			$data = array(
@@ -18,7 +35,7 @@ class Order_model extends CI_Model
 				'price_currency' => $cart_total->currency,
 				'status' => 0,
 				'payment_method' => $data_transaction["payment_method"],
-				'payment_status' => "payment_received",
+				'payment_status' => $payment_status,
 				'updated_at' => date('Y-m-d H:i:s'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
@@ -42,7 +59,7 @@ class Order_model extends CI_Model
 				$this->add_order_shipping($order_id);
 
 				//add order products
-				$this->add_order_products($order_id, 'payment_received');
+				$this->add_order_products($order_id, $order_status);
 
 				//add digital sales
 				$this->add_digital_sales($order_id);

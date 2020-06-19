@@ -152,7 +152,7 @@
                                 <strong> <?php echo trans("name"); ?></strong>
                             </div>
                             <div class="col-sm-8">
-                                <strong class="font-right"><?php echo $buyer->shipping_first_name; ?> <?php echo $buyer->shipping_last_name; ?></strong>
+                                <strong class="font-right"><?php echo $buyer->shipping_first_name; ?></strong>
                             </div>
                         </div>
                         <div class="row row-details">
@@ -289,7 +289,7 @@
                                 <strong> <?php echo trans("name"); ?></strong>
                             </div>
                             <div class="col-sm-8">
-                                <strong class="font-right"><?php echo $shipping->shipping_first_name; ?> <?php echo $shipping->shipping_last_name; ?></strong>
+                                <strong class="font-right"><?php echo $shipping->shipping_first_name; ?></strong>
                             </div>
                         </div>
                         <div class="row row-details hidden">

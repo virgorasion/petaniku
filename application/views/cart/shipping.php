@@ -96,9 +96,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label><?php echo trans("address"); ?> *</label>
-                                                <input id="inp_ongkir" type="text" name="ongkir" value="">
-                                                <input id="inp_total_km" type="text" name="total_km" value="0">
-                                                <input id="inp_harga_km" type="text" name="harga_per_km" value="0">
+                                                <input id="inp_ongkir" type="hidden" name="ongkir" value="">
+                                                <input id="inp_total_km" type="hidden" name="total_km" value="0">
+                                                <input id="inp_harga_km" type="hidden" name="harga_per_km" value="0">
                                                 <textarea name="shipping_address_1" class="form-control form-input" placeholder="<?php echo trans("address"); ?>" required><?php echo $shipping_address->shipping_address_1; ?></textarea>                                                
                                                 <!-- <input type="text" name="shipping_address_1" class="form-control form-input" value="<?php echo $shipping_address->shipping_address_1; ?>" required> -->
                                             </div>

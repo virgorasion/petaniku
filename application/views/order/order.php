@@ -115,13 +115,13 @@
 									<h3 class="block-title"><?php echo trans("shipping_address"); ?></h3>
 									<div class="row shipping-row-item">
 										<div class="col-5">
-											<?php echo trans("first_name"); ?>
+											<?php echo trans("name"); ?>
 										</div>
 										<div class="col-7">
 											<?php echo $shipping->shipping_first_name; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("last_name"); ?>
 										</div>
