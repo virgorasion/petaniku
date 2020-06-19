@@ -154,7 +154,7 @@
                     <ul class="treeview-menu">
                         <li><a href="<?php echo admin_url(); ?>products"> <?php echo trans("products"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>pending-products"> <?php echo trans("pending_products"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>hidden-products"> <?php echo trans("hidden_products"); ?></a></li>
+                        <!-- <li><a href="<?php //echo admin_url(); ?>hidden-products"> <?php //echo trans("hidden_products"); ?></a></li> -->
                         <?php /*
                         <li><a href="<?php echo admin_url(); ?>sold-products"> <?php echo trans("sold_products"); ?></a></li>
                         */ ?>
@@ -230,7 +230,7 @@
                         <!-- <li><a href="<?php //echo admin_url(); ?>add-payout"> <?php //echo trans("add_payout"); ?></a></li> -->
                         <li><a href="<?php echo admin_url(); ?>payout-requests"> <?php echo trans("payout_requests"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>completed-payouts"> <?php echo trans("completed_payouts"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>payout-settings"> <?php echo trans("payout_settings"); ?></a></li>
+                        <!-- <li><a href="<?php //echo admin_url(); ?>payout-settings"> <?php //echo trans("payout_settings"); ?></a></li> -->
                     </ul>
                 </li>
                 <li class="treeview">
@@ -381,20 +381,18 @@
                 <li>
                     <a href="<?php echo admin_url(); ?>send-newsletter"><i class="fa fa-envelope"></i><?php echo trans("send_email_subscribers"); ?></a>
                 </li>
+                <?php /*
 				<li>
 					<a href="<?php echo admin_url(); ?>preferences">
 						<i class="fa fa-check-square-o"></i>    
 						<span><?php echo trans("preferences"); ?></span>
 					</a>
                 </li>
-                <?php /*
 				<li>
 					<a href="<?php echo admin_url(); ?>social-login">
 						<i class="fa fa-share-alt"></i> <span><?php echo trans("social_login"); ?></span>
 					</a>
                 </li>
-                */?>
-                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-cogs"></i>
@@ -434,19 +432,19 @@
                         <i class="fa fa-paint-brush"></i> <span><?php echo trans("visual_settings"); ?></span>
                     </a>
                 </li>
-                */ ?>
                 <!-- Pengaturan Sistem -->
-                <?php /*
                 <li>
                     <a href="<?php echo admin_url(); ?>system-settings">
                         <i class="fa fa-cogs"></i> <span><?php echo trans("system_settings"); ?></span>
                     </a>
-                </li> */ ?>
+                </li>
                 <li>
                     <a href="<?php echo admin_url(); ?>settings">
                         <i class="fa fa-cogs"></i> <span><?php echo trans("general_settings"); ?></span>
                     </a>
                 </li>
+                */ ?>
+
             </ul>
         </section>
         <!-- /.sidebar -->

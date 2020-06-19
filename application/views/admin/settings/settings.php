@@ -273,6 +273,7 @@
             <?php echo form_close(); ?><!-- form end -->
         </div>
     </div>
+
     <div class="col-lg-6 col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
@@ -319,7 +320,6 @@
                     <label><?php echo trans('image'); ?></label>: assets/img/maintenance_bg.jpg
                 </div>
             </div>
-
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right"><?php echo trans('save_changes'); ?></button>
@@ -329,4 +329,5 @@
             <?php echo form_close(); ?><!-- form end -->
         </div>
     </div>
+
 </div>
