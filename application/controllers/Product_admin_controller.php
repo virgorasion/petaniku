@@ -21,8 +21,8 @@ class Product_admin_controller extends Admin_Core_Controller
         $data['form_action'] = admin_url() . "products";
         $data['list_type'] = "products";
         //get paginated products
-        $pagination = $this->paginate(admin_url() . 'products', $this->product_admin_model->get_paginated_products_count('products'));
-        $data['products'] = $this->product_admin_model->get_paginated_products($pagination['per_page'], $pagination['offset'], 'products');
+        $pagination = $this->paginate(admin_url() . 'products', $this->product_admin_model->get_paginated_products_count('all'));
+        $data['products'] = $this->product_admin_model->get_paginated_products($pagination['per_page'], $pagination['offset'], 'all');
         
 
         $this->load->view('admin/includes/_header', $data);

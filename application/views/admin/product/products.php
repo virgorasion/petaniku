@@ -23,6 +23,7 @@
 							<th width="20"><?php echo trans('id'); ?></th>
 							<th><?php echo trans('product'); ?></th>
 							<!-- <th><?php //echo trans('product_type'); ?></th> -->
+							<th><?php echo trans('status'); ?></th>
 							<th><?php echo trans('category'); ?></th>
 							<th><?php echo trans('user'); ?></th>
 							<th><?php echo trans('date'); ?></th>
@@ -47,6 +48,15 @@
 									<a href="<?php echo generate_product_url($item); ?>" target="_blank" class="table-product-title">
 										<?php echo html_escape($item->title); ?>
 									</a>
+								</td>
+								<td>
+									<?php if ($item->visibility == 1): ?>
+                                    <label class="label label-success"><?php echo trans("published"); ?></label>
+                                    <?php elseif($item->is_draft == 1): ?>
+                                    <label class="label label-warning"><?php echo trans("draft"); ?></label>
+                                    <?php elseif($item->is_draft == 0 && $item->visibility == 0): ?>
+									<label class="label label-danger"><?php echo trans("hidden"); ?></label>
+									<?php endif; ?>
 								</td>
 								<td class="hidden"><?php echo trans($item->product_type); ?></td>
 								<td>

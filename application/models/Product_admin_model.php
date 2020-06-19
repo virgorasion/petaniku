@@ -7,8 +7,6 @@ class Product_admin_model extends CI_Model
 	public function get_products()
 	{
 		$this->db->where('status', 1);
-		$this->db->where('products.is_draft', 0);
-		$this->db->where('products.is_deleted', 0);
 		$this->db->order_by('products.created_at', 'DESC');
 		$query = $this->db->get('products');
 		return $query->result();
@@ -142,6 +140,9 @@ class Product_admin_model extends CI_Model
 			}
 			if ($list == "deleted_products") {
 				$this->db->where('products.is_deleted', 1);
+				$this->db->order_by('products.created_at', 'DESC');
+			}
+			if ($list == "all") {
 				$this->db->order_by('products.created_at', 'DESC');
 			}
 		}
