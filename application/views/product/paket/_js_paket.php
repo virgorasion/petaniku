@@ -2,6 +2,23 @@
 <script>
     var selected_lang_id = '<?php echo $selected_lang->id;?>';
 
+    function checkLimited(that) {
+        if($(that).is(':checked')){
+            $('#total_paket_inp_edit').removeClass('hidden');
+        } else {
+            $('#total_paket_inp_edit').addClass('hidden');
+            $('#total_paket_inp_edit').val("");
+        }
+    }
+    $('#total_paket_checkbox').click(function(){
+        if($(this).is(':checked')){
+            $('#total_paket_inp').removeClass('hidden');
+        } else {
+            $('#total_paket_inp').addClass('hidden');
+            $('#total_paket_inp').val("");
+        }
+    })
+
     //add product variation post
     $("#form_add_product_variation").submit(function (event) {
         event.preventDefault();

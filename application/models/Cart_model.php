@@ -161,7 +161,8 @@ class Cart_model extends CI_Model
 	public function update_cart_product_quantity($product_id, $cart_item_id, $quantity)
 	{
 		$user = get_logged_user();
-		$ongkir = $this->product_model->get_list_ongkir_by_user($product_id, $user);		
+		// $ongkir = $this->product_model->get_list_ongkir_by_user($product_id, $user);
+		$ongkir = 0;				
 		$product = $this->product_model->get_product_by_id($product_id);
 		if (!empty($product)) {
 			$cart = $this->get_sess_cart_items();
@@ -200,7 +201,8 @@ class Cart_model extends CI_Model
 
 				// if(!$ongkir) {
 					$user = get_logged_user();
-					$ongkir = $this->product_model->get_list_ongkir_by_user($item->product_id, $user);
+					// $ongkir = $this->product_model->get_list_ongkir_by_user($item->product_id, $user);
+					$ongkir = 0;
 				// }
 		
 				if ($item->purchase_type == 'bidding') {

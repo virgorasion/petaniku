@@ -21,7 +21,12 @@
                     <div class="col-sm-12">
                         <br>
                         <strong>Telah Diklaim</strong> <?= $paket->diklaim ?>
+
+                        <?php if($paket->unlimited): ?>
+                        dari paket tak terbatas
+                        <?php else: ?>
                         dari <?= $paket->total_semua - $paket->diklaim ?> paket
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -30,7 +35,7 @@
                 <input type="hidden" name="variation<?php echo $paket->id; ?>[]" value="<?= $paket->label ?>">
                 <input type="hidden" name="paket_id<?php echo $paket->id; ?>[]" value="<?= $paket->id ?>">
                 <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
-                <input type="hidden" onchange="checkQty(this, '<?= $paket->minimal ?>')" name="product_quantity" class="form-control" min="<?= $paket->minimal ?>" value="<?= $paket->minimal ?>">
+                <input type="hidden" onchange="checkQty(this, '<?= $paket->minimal ?>', '<?= $paket->unlimited ?>')" name="product_quantity" class="form-control" min="<?= $paket->minimal ?>" value="<?= $paket->minimal ?>">
 
                 <button class="btn btn-md btn-favorite">Pilih Paket</button>
             </div>
@@ -48,10 +53,12 @@
 </div>
 
 <script>
-    function checkQty(that, minimal) {
+    function checkQty(that, minimal, unlimited) {
         var value = parseInt($(that).val());
-        if (value < minimal) {
-            $(that).val(minimal);
+        if(unlimited == false) {
+            if (value < minimal) {
+                $(that).val(minimal);
+            }
         }
     }
 </script>

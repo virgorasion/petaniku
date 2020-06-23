@@ -20,7 +20,12 @@
                         <tr>
                             <td><?php echo html_escape($paket->label); ?></td>
                             <td>
-                                <?php echo $paket->total_semua ?>&nbsp;
+                                <?php if ($paket->unlimited){
+                                    echo trans("unlimited");                                    
+                                } else {
+                                    echo $paket->total_semua;                                    
+                                }
+                                ?>&nbsp;
                             </td>
                             <td>
                                 <?php echo $paket->deskripsi ?>&nbsp;

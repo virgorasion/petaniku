@@ -139,7 +139,7 @@
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row hidden">
 								<div class="col-12">
 									<?php //$this->load->view("product/details/_detail_ongkir"); ?>
 									<?php $this->load->view("product/details/_detail_ongkir_maps"); ?>
@@ -161,7 +161,7 @@
 							</div>
 
 							<?php if($product->show_maps == 1): ?>
-							<div class="row">
+							<div class="row hidden">
 								<div class="col-12">
 									<?php if (!empty($product->country_id)): ?>
 										<div class="widget-location">

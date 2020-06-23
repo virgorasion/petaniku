@@ -361,7 +361,7 @@ if ($product->is_draft == 1) {
 														<button type="button" class="btn btn-sm btn-secondary btn-variation" data-toggle="modal" data-target="#addVariationModal">
 															<?php echo trans("add_variation"); ?>
 														</button>
-														<button type="button" class="btn btn-sm btn-secondary btn-variation" data-toggle="modal" data-target="#variationModalSelect">
+														<button type="button" class="btn btn-sm btn-secondary btn-variation hidden" data-toggle="modal" data-target="#variationModalSelect">
 															<?php echo trans("select_existing_variation"); ?>
 														</button>
 													</div>
@@ -523,7 +523,7 @@ if ($product->is_draft == 1) {
 															</select>
 															<!-- <input type="text" name="address" id="address_input" class="form-control form-input" value="<?php echo html_escape($address); ?>" placeholder="Kecamatan"> -->
 														</div>
-														<div class="col-12">
+														<div class="col-12 hidden">
 															<div class="custom-control custom-checkbox custom-control-validate-input">
 																<input type="checkbox" class="custom-control-input" name="show_maps" id="show_maps" value="1" <?= ($product->show_maps == 1) ? 'checked': '' ?>>
 																<label for="show_maps" class="custom-control-label">Tampilkan Maps di produk</label>

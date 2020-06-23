@@ -26,6 +26,7 @@ class Variation_model extends CI_Model
                 'visible' => $this->input->post('visible', true),
                 'minimal' => $this->input->post('minimal', true),
                 'total_semua' => $this->input->post('total_semua', true),
+                'unlimited' => ($this->input->post('is_limited', true) == "1") ? "0" : "1",                
                 'deskripsi' => $this->input->post('deskripsi', true),
                 'price' => $this->input->post('price', true),
                 'diklaim' => 0
@@ -88,6 +89,7 @@ class Variation_model extends CI_Model
                 'minimal' => $this->input->post('minimal', true),
                 'total_semua' => $this->input->post('total_semua', true),
                 'deskripsi' => $this->input->post('deskripsi', true),
+                'unlimited' => ($this->input->post('is_limited', true) == "1") ? "0" : "1",
                 'price' => $this->input->post('price', true)
             );
 

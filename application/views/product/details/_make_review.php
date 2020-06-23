@@ -29,7 +29,7 @@
         <div class="col-12">
             <div class="card card-1" style="width:90%;border-radius:0">
                 <div class="card-body">
-                    <p>Silahkan order terlebih dahulu untuk bisa review</p>
+                    <p><?= trans('no_reviews_found') ?></p>
                 </div>
             </div>
         </div>

@@ -142,6 +142,7 @@ class Cart_controller extends Home_Core_Controller
 		}
 		//check guest checkout
 		if (empty($this->auth_check) && $this->general_settings->guest_checkout != 1) {
+			die('Please login first');						
 			redirect(lang_base_url() . "cart");
 			exit();
 		}

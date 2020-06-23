@@ -20,7 +20,12 @@
                         <tr>
                             <td><?php echo html_escape($variation->label); ?></td>
                             <td>
-                                <?php echo $variation->total_semua ?>&nbsp;
+                                <?php if ($variation->unlimited){
+                                    echo trans("unlimited");                                    
+                                } else {
+                                    echo $variation->total_semua;                                    
+                                }
+                                ?>&nbsp;
                             </td>
                             <td>
                                 <?php echo $variation->deskripsi ?>&nbsp;

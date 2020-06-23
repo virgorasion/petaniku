@@ -80,18 +80,41 @@
 			<span><?php echo \Carbon\Carbon::parse($product->created_at)->diffForHumans(); ?></span>
 		</div>
 	</div>
-	<?php /*
-	if ($product->product_type == 'physical' && $product->country_id != 0): ?>
+	<?php
+	if ($product->country_id != 0): 
+		$CI =& get_instance();
+		$CI->load->model('locationid_model');
+
+		$kecamatan = $CI->locationid_model->get_kecamatan($product->address);
+		$state = $CI->locationid_model->get_state($product->state_id);
+		$city = $CI->locationid_model->get_city($product->city_id);
+						
+	?>
 		<div class="item-details">
 			<div class="left">
-				<label><?php echo trans("location"); ?></label>
+				<label><?php echo trans("district"); ?></label>
 			</div>
 			<div class="right">
-				<span><?php echo get_location($product); ?></span>
+				<span><?php echo empty($kecamatan) ? '' : $kecamatan->name ?></span>
 			</div>
 		</div>
-	<?php endif; 
-	*/ ?>
+		<div class="item-details">
+			<div class="left">
+				<label><?php echo trans("city"); ?></label>
+			</div>
+			<div class="right">
+				<span><?php echo empty($city) ? '' : $city->name ?></span>
+			</div>
+		</div>
+		<div class="item-details">
+			<div class="left">
+				<label><?php echo trans("province"); ?></label>
+			</div>
+			<div class="right">
+				<span><?php echo empty($state) ? '' : $state->name; ?></span>
+			</div>
+		</div>
+	<?php endif; ?>
 </div>
 
 <!--Include buttons-->
