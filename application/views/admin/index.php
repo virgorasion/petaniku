@@ -3,40 +3,6 @@
 <div class="row">
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box admin-small-box bg-success">
-            <div class="inner">
-                <h3 class="increase-count"><?php echo $order_count; ?></h3>
-                <a href="<?php echo admin_url(); ?>orders">
-                    <p><?php echo trans("orders"); ?></p>
-                </a>
-            </div>
-            <div class="icon">
-                <a href="<?php echo admin_url(); ?>orders">
-                    <i class="fa fa-shopping-cart"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box admin-small-box bg-purple">
-            <div class="inner">
-                <h3 class="increase-count"><?php echo $product_count; ?></h3>
-                <a href="<?php echo admin_url(); ?>products">
-                    <p><?php echo trans("products"); ?></p>
-                </a>
-            </div>
-            <div class="icon">
-                <a href="<?php echo admin_url(); ?>products">
-                    <i class="fa fa-shopping-basket"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
         <div class="small-box admin-small-box bg-danger">
             <div class="inner">
                 <h3 class="increase-count"><?php echo $pending_product_count; ?></h3>
@@ -54,15 +20,49 @@
 
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box admin-small-box bg-warning">
+        <div class="small-box admin-small-box bg-success">
             <div class="inner">
-                <h3 class="increase-count"><?php echo $members_count; ?></h3>
-                <a href="<?php echo admin_url(); ?>members">
-                    <p><?php echo trans("members"); ?></p>
+                <h3 class="increase-count"><?php echo $payout_requests_count; ?></h3>
+                <a href="<?php echo admin_url(); ?>payout-requests">
+                    <p><?php echo trans("payout_requests"); ?></p>
                 </a>
             </div>
             <div class="icon">
-                <a href="<?php echo admin_url(); ?>members">
+                <a href="<?php echo admin_url(); ?>payout-requests">
+                    <i class="fa fa-money"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box admin-small-box bg-purple">
+            <div class="inner">
+                <h3 class="increase-count"><?php echo $transactions_count; ?></h3>
+                <a href="<?php echo admin_url(); ?>transactions">
+                    <p><?php echo trans("transactions"); ?></p>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="<?php echo admin_url(); ?>transactions">
+                    <i class="fa fa-shopping-basket"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box admin-small-box bg-warning">
+            <div class="inner">
+                <h3 class="increase-count"><?php echo $shop_req_count; ?></h3>
+                <a href="<?php echo admin_url(); ?>shop-opening-requests">
+                    <p><?php echo trans("shop_opening_requests"); ?></p>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="<?php echo admin_url(); ?>shop-opening-requests">
                     <i class="fa fa-users"></i>
                 </a>
             </div>

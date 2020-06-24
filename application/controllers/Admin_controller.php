@@ -22,8 +22,11 @@ class Admin_controller extends Admin_Core_Controller
 		$data['blog_posts_count'] = $this->blog_model->get_all_posts_count();
 		$data['members_count'] = $this->auth_model->get_members_count();
 
-		$data['latest_orders'] = $this->order_admin_model->get_orders_limited(15);
+        $data['transactions_count'] = $this->transaction_model->get_transactions_count();
+        $data['payout_requests_count'] = $this->earnings_admin_model->get_payout_requests_count();
+		$data['shop_req_count'] = count($this->auth_model->get_shop_opening_requests());
 
+		$data['latest_orders'] = $this->order_admin_model->get_orders_limited(15);
 		$data['latest_pending_products'] = $this->product_admin_model->get_latest_pending_products(15);
 		$data['latest_products'] = $this->product_admin_model->get_latest_products(15);
 		
