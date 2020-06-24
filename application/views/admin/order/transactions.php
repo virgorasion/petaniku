@@ -22,12 +22,11 @@
                             <th><?php echo trans('id'); ?></th>
                             <th><?php echo trans('order'); ?></th>
                             <th><?php echo trans('payment_method'); ?></th>
-                            <th><?php echo trans('payment_id'); ?></th>
+                            <!-- <th><?php echo trans('payment_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
                             <th><?php echo trans('currency'); ?></th>
                             <th><?php echo trans('payment_amount'); ?></th>
                             <th><?php echo trans('payment_status'); ?></th>
-                            <th><?php echo trans('ip_address'); ?></th>
                             <th><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
@@ -41,8 +40,9 @@
                                     #<?php
                                     $order = $this->order_admin_model->get_order($item->order_id);
                                     if (!empty($order)):
-                                        echo $order->order_number;
-                                    endif; ?>
+                                        ?>
+                                        <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->order_id); ?>"><?= $order->order_number ?></a>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php
@@ -52,7 +52,7 @@
                                         echo $item->payment_method;
                                     } ?>
                                 </td>
-                                <td><?php echo $item->payment_id; ?></td>
+                                <!-- <td><?php echo $item->payment_id; ?></td> -->
                                 <td>
                                     <?php if ($item->user_id == 0): ?>
                                         <label class="label bg-olive"><?php echo trans("guest"); ?></label>
@@ -69,9 +69,8 @@
                                     ?>
                                 </td>
                                 <td><?php echo $item->currency; ?></td>
-                                <td><?php echo $item->payment_amount; ?></td>
-                                <td><?php echo $item->payment_status; ?></td>
-                                <td><?php echo $item->ip_address; ?></td>
+                                <td><?php echo print_price($item->payment_amount, $item->payment_amount); ?></td>
+                                <td><?php echo trans($item->payment_status); ?></td>
                                 <td><?php echo $item->created_at; ?></td>
                                 <td>
                                     <div class="dropdown">

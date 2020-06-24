@@ -246,6 +246,15 @@ class Order_admin_model extends CI_Model
         return $query->row();
     }
 
+    //get order shipping
+    public function get_order_shipping($id)
+    {
+        $id = clean_number($id);
+        $this->db->where('order_id', $id);
+        $query = $this->db->get('order_shipping');
+        return $query->row();
+    }
+
     //delete order
     public function delete_order($id)
     {

@@ -39,15 +39,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Minimal Pembelian</label>
+                                    <label class="control-label">Pembelian</label>
                                     <div>
-                                        <input type="number" class="form-control form-input input-variation-label" name="minimal" placeholder="Minimal Pembelian" maxlength="255">                                        
+                                        <input type="number" class="form-control form-input input-variation-label" name="minimal" placeholder="Pembelian" maxlength="255">                                        
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Total Paket yang tersedia</label>
+                                    <label class="control-label">
+                                        <input type="checkbox" name="is_limited" value="1" id="total_paket_checkbox">
+                                        Total Paket yang tersedia
+                                    </label>
                                     <div>
-                                        <input type="number" class="form-control form-input input-variation-label" name="total_semua" placeholder="Paket yang tersedia" maxlength="255">                                        
+                                        <input id="total_paket_inp" type="number" class="form-control form-input input-variation-label hidden" name="total_semua" placeholder="Paket yang tersedia" maxlength="255">                                        
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -83,7 +86,7 @@
                                         <input style="height: 40px;margin:0" type="text" name="harga" aria-describedby="basic-addon1" class="form-control form-input price-input validate-price-input" value="<?php echo ($product->price != 0) ? price_format_input($product->price) : ''; ?>" placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
                                     </div>
                                 </div>
-                                <div class="form-group m-0">
+                                <div class="form-group m-0 hidden">
                                     <div class="row">
                                         <div class="col-sm-3 col-xs-12">
                                             <label class="control-label"><?php echo trans('visible'); ?></label>

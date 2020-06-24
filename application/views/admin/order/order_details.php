@@ -24,7 +24,7 @@
                             </div>
                         </div>
 
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("order_id"); ?></strong>
                             </div>
@@ -145,6 +145,14 @@
                                             style="height: 120px;">
                                     </a>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("name"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $buyer->shipping_first_name; ?></strong>
                             </div>
                         </div>
                         <div class="row row-details">
@@ -278,13 +286,13 @@
 
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
-                                <strong> <?php echo trans("first_name"); ?></strong>
+                                <strong> <?php echo trans("name"); ?></strong>
                             </div>
                             <div class="col-sm-8">
                                 <strong class="font-right"><?php echo $shipping->shipping_first_name; ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("last_name"); ?></strong>
                             </div>
@@ -310,7 +318,7 @@
                         </div>
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
-                                <strong> <?php echo trans("address"); ?> 1</strong>
+                                <strong> <?php echo trans("address"); ?></strong>
                             </div>
                             <div class="col-sm-8">
                                 <strong class="font-right"><?php echo $shipping->shipping_address_1; ?></strong>
@@ -326,7 +334,7 @@
                             </div>
                         </div>
                         */?>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("country"); ?></strong>
                             </div>
@@ -334,7 +342,7 @@
                                 <strong class="font-right"><?php echo $shipping->shipping_country; ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("state"); ?></strong>
                             </div>
@@ -343,7 +351,7 @@
                                     class="font-right"><?php echo get_provinsi_id($shipping->shipping_state); ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("city"); ?></strong>
                             </div>
@@ -351,7 +359,7 @@
                                 <strong class="font-right"><?php echo get_kota_id($shipping->shipping_city); ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("zip_code"); ?></strong>
                             </div>
@@ -523,6 +531,24 @@
                 <div class="col-sm-6">
                     <strong
                         class="font-right"><?php echo print_price($order->price_subtotal, $order->price_currency); ?></strong>
+                </div>
+            </div>
+            <div class="row row-details">
+                <div class="col-xs-12 col-sm-6 col-right">
+                    <strong> Harga per km</strong>
+                </div>
+                <div class="col-sm-6">
+                    <strong
+                        class="font-right"><?= (isset($order_shipping->harga_per_km)) ? print_price($order_shipping->harga_per_km, $order->price_currency) : 'Tidak ada data' ?></strong>
+                </div>
+            </div>
+            <div class="row row-details">
+                <div class="col-xs-12 col-sm-6 col-right">
+                    <strong> Total km</strong>
+                </div>
+                <div class="col-sm-6">
+                    <strong
+                        class="font-right"><?= (isset($order_shipping->total_km)) ? $order_shipping->total_km . ' km' : 'Tidak ada data' ?></strong>
                 </div>
             </div>
             <?php if ($is_order_has_physical_product): ?>

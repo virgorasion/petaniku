@@ -41,7 +41,8 @@ class Order_admin_controller extends Admin_Core_Controller
             redirect(admin_url() . "orders");
         }
         $data['order_products'] = $this->order_admin_model->get_order_products($id);
-        
+        $data['order_shipping'] = $this->order_admin_model->get_order_shipping($id);
+
         $this->load->view('admin/includes/_header', $data);
         $this->load->view('admin/order/order_details', $data);
         $this->load->view('admin/includes/_footer');

@@ -142,6 +142,7 @@ class Cart_controller extends Home_Core_Controller
 		}
 		//check guest checkout
 		if (empty($this->auth_check) && $this->general_settings->guest_checkout != 1) {
+			die('Please login first');						
 			redirect(lang_base_url() . "cart");
 			exit();
 		}
@@ -691,7 +692,20 @@ class Cart_controller extends Home_Core_Controller
 			redirect(lang_base_url() . "/cart/payment");
 		} else {
 			//add order
-			$order_id = $this->order_model->add_order_offline_payment("Bank Transfer");
+
+			// add to tabel transaksi
+			$cart_total = $this->cart_model->get_sess_cart_total();				
+			$payment_id = $this->input->post('payment_id', true);
+			$data_transaction = array(
+				'payment_method' => "Bank Transfer",
+				'payment_id' => $payment_id,
+				'currency' => $cart_total->currency,
+				'payment_amount' => $cart_total->total,
+				'payment_status' => "awaiting_payment",
+			);
+			$order_id = $this->order_model->add_order($data_transaction);
+
+			// $order_id = $this->order_model->add_order_offline_payment("Bank Transfer");
 			$order = $this->order_model->get_order($order_id);
 			if (!empty($order)) {
 				//decrease product quantity after sale
@@ -726,8 +740,20 @@ class Cart_controller extends Home_Core_Controller
 	{
 		$mds_payment_type = $this->input->post('mds_payment_type', true);
 
+		// add to tabel transaksi
+		$cart_total = $this->cart_model->get_sess_cart_total();		
+		$payment_id = $this->input->post('payment_id', true);
+		$data_transaction = array(
+			'payment_method' => "Saldo",
+			'payment_id' => $payment_id,
+			'currency' => $cart_total->currency,
+			'payment_amount' => $cart_total->total,
+			'payment_status' => "payment_received",
+		);
+		$order_id = $this->order_model->add_order($data_transaction);
+
 		//add order
-		$order_id = $this->order_model->add_order_offline_payment("Saldo");
+		// $order_id = $this->order_model->add_order_offline_payment("Saldo");
 		$order = $this->order_model->get_order($order_id);
 		if (!empty($order)) {
 			//decrease saldo
@@ -763,8 +789,20 @@ class Cart_controller extends Home_Core_Controller
 	 */
 	public function cash_on_delivery_payment_post()
 	{
+		// add to tabel transaksi
+		$cart_total = $this->cart_model->get_sess_cart_total();		
+		$payment_id = $this->input->post('payment_id', true);
+		$data_transaction = array(
+			'payment_method' => "Cash On Delivery",
+			'payment_id' => $payment_id,
+			'currency' => $cart_total->currency,
+			'payment_amount' => $cart_total->total,
+			'payment_status' => "payment_received",
+		);
+		$order_id = $this->order_model->add_order($data_transaction);
+
 		//add order
-		$order_id = $this->order_model->add_order_offline_payment("Cash On Delivery");
+		// $order_id = $this->order_model->add_order_offline_payment("Cash On Delivery");
 		$order = $this->order_model->get_order($order_id);
 		if (!empty($order)) {
 			//decrease product quantity after sale

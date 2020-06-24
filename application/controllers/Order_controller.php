@@ -119,6 +119,7 @@ class Order_controller extends Home_Core_Controller
 			redirect(lang_base_url());
 		}
 		$data["order_products"] = $this->order_model->get_order_products($data["order"]->id);
+		$data["order_shipping"] = $this->order_model->get_order_shipping($data["order"]->id);
 		
 		$data["last_bank_transfer"] = $this->order_admin_model->get_bank_transfer_by_order_number($data["order"]->order_number);
 

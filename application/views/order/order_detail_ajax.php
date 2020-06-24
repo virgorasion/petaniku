@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                             <?php endif; ?>
-                            <div class="row no-gutters">
+                            <div class="row no-gutters hidden">
                                 <div class="col-auto pr-3 mb-3">
                                     <p class="text-gray small mb-1"><?php echo trans("country"); ?></p>
                                     <h6 class="m-0"><?php echo $shipping->shipping_country; ?></h6>
@@ -138,7 +138,7 @@
                                         </h6>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row hidden">
                                 <div class="col-sm-12 mb-3">
                                     <p class="text-gray small mb-1"><?php echo trans("zip_code"); ?></p>
                                     <h6 class="m-0"><?php echo $shipping->shipping_zip_code; ?></h6>
@@ -383,6 +383,24 @@
                         <div class="col-sm-6 small text-left text-sm-right">
                             <strong
                                 class="text-right"><?php echo print_price($order->price_subtotal, $order->price_currency); ?></strong>
+                        </div>
+                    </div>
+                    <div class="row row-details">
+                        <div class="col-xs-12 col-sm-6 col-right small">
+                            <span> Harga per km</span>
+                        </div>
+                        <div class="col-sm-6 small  text-left text-sm-right">
+                            <strong
+                                class="font-right"><?= (isset($order_shipping->harga_per_km)) ? print_price($order_shipping->harga_per_km, $order->price_currency) : 'Tidak ada data' ?></strong>
+                        </div>
+                    </div>
+                    <div class="row row-details">
+                        <div class="col-xs-12 col-sm-6 col-right small">
+                            <span> Total km</span>
+                        </div>
+                        <div class="col-sm-6 small  text-left text-sm-right">
+                            <strong
+                                class="font-right"><?= (isset($order_shipping->total_km)) ? $order_shipping->total_km . ' km' : 'Tidak ada data' ?></strong>
                         </div>
                     </div>
                     <?php if ($is_order_has_physical_product): ?>

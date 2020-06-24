@@ -38,6 +38,8 @@ class Cart_model extends CI_Model
 		$item->paket_id = ($paket) ? $paket->id : null;
 		$item->paket_title = ($paket) ? $paket->label : null;
 		$item->paket_total = ($paket) ? $paket->minimal : null;
+		$item->total_km = $product->total_km;
+		$item->harga_per_km = $product->harga_per_km;
 		array_push($cart, $item);
 
 		$this->session->set_userdata('mds_shopping_cart', $cart);
@@ -159,7 +161,8 @@ class Cart_model extends CI_Model
 	public function update_cart_product_quantity($product_id, $cart_item_id, $quantity)
 	{
 		$user = get_logged_user();
-		$ongkir = $this->product_model->get_list_ongkir_by_user($product_id, $user);		
+		// $ongkir = $this->product_model->get_list_ongkir_by_user($product_id, $user);
+		$ongkir = 0;				
 		$product = $this->product_model->get_product_by_id($product_id);
 		if (!empty($product)) {
 			$cart = $this->get_sess_cart_items();
@@ -198,7 +201,8 @@ class Cart_model extends CI_Model
 
 				// if(!$ongkir) {
 					$user = get_logged_user();
-					$ongkir = $this->product_model->get_list_ongkir_by_user($item->product_id, $user);
+					// $ongkir = $this->product_model->get_list_ongkir_by_user($item->product_id, $user);
+					$ongkir = 0;
 				// }
 		
 				if ($item->purchase_type == 'bidding') {
@@ -249,6 +253,8 @@ class Cart_model extends CI_Model
 		$std->shipping_city = $this->input->post('shipping_city', true);
 		$std->shipping_kecamatan = $this->input->post('shipping_kecamatan', true);
 		$std->shipping_zip_code = $this->input->post('shipping_zip_code', true);
+		$std->total_km = $this->input->post('total_km', true);
+		$std->harga_per_km = price_database_format($this->input->post('harga_per_km', true));
 		$std->billing_first_name = $this->input->post('billing_first_name', true);
 		$std->billing_last_name = $this->input->post('billing_last_name', true);
 		$std->billing_email = $this->input->post('billing_email', true);

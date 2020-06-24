@@ -67,7 +67,8 @@ class Home_controller extends Home_Core_Controller
 		$data['description'] = $this->settings->site_description;
 		$data['keywords'] = $this->settings->keywords;
 
-		$this->load->view('mapinit', $data);
+		// $this->load->view('mapinit', $data);
+		$this->load->view('mapinit-google', $data);
 	}
 
 	public function mapongkir() {
@@ -83,7 +84,7 @@ class Home_controller extends Home_Core_Controller
 		$data['description'] = $this->settings->site_description;
 		$data['keywords'] = $this->settings->keywords;
 
-		$this->load->view('mapongkir', $data);
+		$this->load->view('mapongkir-google', $data);
 	}
 
 	/**

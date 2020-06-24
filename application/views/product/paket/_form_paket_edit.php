@@ -44,9 +44,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Total Paket yang tersedia</label>
+                    <label class="control-label">
+                    <input type="checkbox" name="is_limited" onclick="checkLimited(this)" value="1" id="total_paket_checkbox_edit" <?= ($main_variation->unlimited == false) ? 'checked' : '' ?>>                    
+                    Total Paket yang tersedia</label>
                     <div>
-                        <input type="number" class="form-control form-input input-variation-label" name="total_semua" value="<?= $main_variation->total_semua ?>" placeholder="Paket yang tersedia" maxlength="255">                                        
+                        <input id="total_paket_inp_edit" type="number" class="form-control form-input input-variation-label <?= ($main_variation->unlimited) ? 'hidden' : '' ?>" name="total_semua" value="<?= $main_variation->total_semua ?>" placeholder="Paket yang tersedia" maxlength="255">                                        
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group hidden">
                     <div class="row">
                         <div class="col-sm-3 col-xs-12">
                             <label class="control-label"><?php echo trans('visible'); ?></label>

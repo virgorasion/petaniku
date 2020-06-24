@@ -4,7 +4,7 @@
 
     <div class="widget-content">
         <?php if($product->pengiriman){ ?>
-            <?php $this->load->view('mapongkir', ['start' => $product->pengiriman]); ?>
+            <?php $this->load->view('mapongkir-google', ['start' => $product->pengiriman]); ?>
             <div class="card card-body" style="background: #eaeaea1a;">
                 <div class="row">
                     <div class="col-12 col-md-12">
