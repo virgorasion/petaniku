@@ -179,7 +179,19 @@ class Balance_controller extends Home_Core_Controller
             $data['bukti'] = $bukti;
         }
 
-        if (!$this->earnings_model->deposit_money($data)) {
+        $id_deposit = $this->earnings_model->deposit_money($data);
+
+        // add to transaction
+        $data_transaction = array(
+            'payment_method' => "Deposit",
+            'payment_id' => $id_deposit,
+            'currency' => $this->input->post('currency', true),
+            'payment_amount' => $this->input->post('amount', true) . "00",
+            'payment_status' => "payment_received",
+        );
+        $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
+
+        if (!$id_deposit) {
             $this->session->set_flashdata('error', trans("msg_error"));
         } else {
             $this->session->set_flashdata('success', "Berhasil deposit. Tunggu konfirmasi dari admin terlebih dahulu");            

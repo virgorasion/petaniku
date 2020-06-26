@@ -153,6 +153,14 @@
 											<?php echo $shipping->shipping_address_1; ?>
 										</div>
 									</div>
+									<div class="row shipping-row-item">
+										<div class="col-5">
+											<?php echo trans("coordinat"); ?>&nbsp;
+										</div>
+										<div class="col-7">
+											<?php echo $shipping->koordinat; ?>
+										</div>
+									</div>
 									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("address"); ?>&nbsp;2

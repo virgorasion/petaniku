@@ -11,3 +11,9 @@ Update 23 Juni 2020
 ================================
 - table 'product_variations':
     - unlimited (INT)
+
+================================
+Update 26 Juni 2020
+================================
+- table 'order_shipping':
+    - koordinat (varchat)

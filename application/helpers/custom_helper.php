@@ -2040,6 +2040,29 @@ if (!function_exists('remove_special_characters')) {
 	}
 }
 
+
+if (!function_exists('cek_status_order')) {
+	function cek_status_order($order)
+	{
+		if($order->payment_status == "awaiting_payment") {
+			return trans("awaiting_payment");
+		}
+		if($order->payment_status == "payment_received") {
+			return trans("payment_received");
+		}
+		if($order->payment_status == "shipped") {
+			return trans("shipped");
+		}
+		if($order->payment_status == "cancelled") {
+			return trans("cancelled");
+		}
+		if($order->payment_status == "completed") {
+			return trans("completed");
+		}
+		return trans("order_processing");
+	}
+}
+
 if (!function_exists('time_ago')) {
 	function time_ago($timestamp)
 	{

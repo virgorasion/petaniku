@@ -22,6 +22,8 @@ class Cart_model extends CI_Model
 		// $totalongkir = ($ongkir*$quantity) . '00';
 		$totalongkir = ($ongkir) . '00';
 
+		$sess = $this->get_sess_cart_shipping_address_without_unset();
+
 		$item = new stdClass();
 		$item->cart_item_id = generate_unique_id();
 		$item->product_id = $product->id;
@@ -38,8 +40,9 @@ class Cart_model extends CI_Model
 		$item->paket_id = ($paket) ? $paket->id : null;
 		$item->paket_title = ($paket) ? $paket->label : null;
 		$item->paket_total = ($paket) ? $paket->minimal : null;
-		$item->total_km = $product->total_km;
-		$item->harga_per_km = $product->harga_per_km;
+		$item->total_km = $sess->total_km;
+		$item->harga_per_km = $sess->harga_per_km;
+		$item->koordinat = $sess->koordinat;
 		array_push($cart, $item);
 
 		$this->session->set_userdata('mds_shopping_cart', $cart);
@@ -265,6 +268,7 @@ class Cart_model extends CI_Model
 		$std->shipping_zip_code = $this->input->post('shipping_zip_code', true);
 		$std->total_km = $this->input->post('total_km', true);
 		$std->harga_per_km = price_database_format($this->input->post('harga_per_km', true));
+		$std->koordinat = $this->input->post('koordinat', true);
 		$std->billing_first_name = $this->input->post('billing_first_name', true);
 		$std->billing_last_name = $this->input->post('billing_last_name', true);
 		$std->billing_email = $this->input->post('billing_email', true);

@@ -19,7 +19,10 @@
                                 <?php if ($order->status == 1): ?>
                                 <label class="label label-success"><?php echo trans("completed"); ?></label>
                                 <?php else: ?>
-                                <label class="label label-default"><?php echo trans("order_processing"); ?></label>
+                                <label class="label label-default">
+                                <?= cek_status_order($order); ?>                                
+                                <?php //echo trans("order_processing"); ?>
+                                </label>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -32,7 +35,7 @@
                                 <strong class="font-right"><?php echo $order->id; ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("order_number"); ?></strong>
                             </div>
@@ -40,7 +43,7 @@
                                 <strong class="font-right"><?php echo $order->order_number; ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("payment_method"); ?></strong>
                             </div>
@@ -55,7 +58,7 @@
                                 </strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("currency"); ?></strong>
                             </div>
@@ -63,7 +66,7 @@
                                 <strong class="font-right"><?php echo $order->price_currency; ?></strong>
                             </div>
                         </div>
-                        <div class="row row-details">
+                        <div class="row row-details hidden">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("payment_status"); ?></strong>
                             </div>
@@ -324,6 +327,14 @@
                                 <strong class="font-right"><?php echo $shipping->shipping_address_1; ?></strong>
                             </div>
                         </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> <?php echo trans("coordinat"); ?></strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <strong class="font-right"><?php echo $shipping->koordinat; ?></strong>
+                            </div>
+                        </div>
                         <?php /*
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
@@ -399,7 +410,7 @@
                                         <th><?php echo trans('quantity'); ?></th>
                                         <th><?php echo trans('shipping_cost'); ?></th>
                                         <th><?php echo trans('total'); ?></th>
-                                        <th><?php echo trans('status'); ?></th>
+                                        <!-- <th><?php echo trans('status'); ?></th> -->
                                         <th><?php echo trans('updated'); ?></th>
                                         <th class="max-width-120"><?php echo trans('options'); ?></th>
                                     </tr>
@@ -453,7 +464,7 @@
                                         </td>
                                         <td><?php echo print_price($item->product_total_price, $item->product_currency); ?>
                                         </td>
-                                        <td>
+                                        <td class="hidden">
                                             <strong><?php echo trans($item->order_status); ?></strong>
                                             <?php if ($item->buyer_id == 0): ?>
                                             <?php if ($item->is_approved == 0): ?>

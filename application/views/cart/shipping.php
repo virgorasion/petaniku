@@ -99,6 +99,7 @@
                                                 <input id="inp_ongkir" type="hidden" name="ongkir" value="">
                                                 <input id="inp_total_km" type="hidden" name="total_km" value="0">
                                                 <input id="inp_harga_km" type="hidden" name="harga_per_km" value="0">
+                                                <input id="inp_koordinat" type="hidden" name="koordinat" value="0,0">
                                                 <textarea name="shipping_address_1" class="form-control form-input" placeholder="<?php echo trans("address"); ?>" required><?php echo $shipping_address->shipping_address_1; ?></textarea>                                                
                                                 <!-- <input type="text" name="shipping_address_1" class="form-control form-input" value="<?php echo $shipping_address->shipping_address_1; ?>" required> -->
                                             </div>
@@ -293,7 +294,11 @@
         subtotal = convertToAngka(subtotal)
         total = parseInt(subtotal) + parseInt(ongkir)
         $('.total_pd').text(convertToRupiah(total));
+    }
 
+    function getLongLat(lokasi) {
+        var lok = lokasi.lat + "," + lokasi.lng;
+        $('#inp_koordinat').val(lok);
     }
 
     function convertToRupiah(angka)

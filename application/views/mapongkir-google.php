@@ -162,6 +162,7 @@
                 lng: e.latLng.lng()
             };
             var tujuan = new google.maps.LatLng(lokasi);
+            getLongLat(lokasi);          
             countDistance(service, asal, tujuan);
         });
         
@@ -208,6 +209,7 @@
                 lng: place.geometry.location.lng()
             };
             var tujuan = new google.maps.LatLng(lokasi);
+            getLongLat(lokasi);                      
             countDistance(service, asal, tujuan);
 
             if (place.geometry.viewport) {
@@ -232,14 +234,20 @@
 
     function callback(response, status) {
         var distance = 0;
+        var asal = 0;
+        var tujuan = 0;
         if(response.rows[0].elements[0].distance == undefined) {
-            var tujuan = response.destinationAddresses[0].split(',')
-            var asal = response.originAddresses[0].split(',')
+            tujuan = response.destinationAddresses[0].split(',')
+            asal = response.originAddresses[0].split(',')
             distance = getDistance(asal, tujuan)
         } else {
             distance = parseFloat(response.rows[0].elements[0].distance.text);
         }
         getClicked(distance);
+    }
+
+    function getLongLat(tujuan) {
+        //
     }
 
     function toRadian(degree) {

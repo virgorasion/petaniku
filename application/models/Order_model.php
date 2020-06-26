@@ -200,6 +200,7 @@ class Order_model extends CI_Model
 				'billing_zip_code' => $shipping_address->billing_zip_code,
 				'total_km' => $shipping_address->total_km,
 				'harga_per_km' => $shipping_address->harga_per_km,
+				'koordinat' => $shipping_address->koordinat,
 			);
 
 			$country = get_country($shipping_address->shipping_country_id);

@@ -24,7 +24,8 @@
                             <th><?php echo trans('payment_method'); ?></th>
                             <!-- <th><?php echo trans('payment_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
-                            <th><?php echo trans('currency'); ?></th>
+                            <!-- <th><?php echo trans('currency'); ?></th> -->
+                            <th>ID Bank</th>
                             <th><?php echo trans('payment_amount'); ?></th>
                             <th><?php echo trans('payment_status'); ?></th>
                             <th><?php echo trans('date'); ?></th>
@@ -37,11 +38,13 @@
                             <tr>
                                 <td><?php echo $item->id; ?></td>
                                 <td class="order-number-table">
-                                    #<?php
+                                    <?php
                                     $order = $this->order_admin_model->get_order($item->order_id);
                                     if (!empty($order)):
                                         ?>
-                                        <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->order_id); ?>"><?= $order->order_number ?></a>
+                                        # <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->order_id); ?>"><?= $order->order_number ?></a>
+                                    <?php else: ?>
+                                        Deposit
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -68,7 +71,20 @@
                                     endif;
                                     ?>
                                 </td>
-                                <td><?php echo $item->currency; ?></td>
+                                <td class="hidden"><?php echo $item->currency; ?></td>
+                                <?php if(isset($order)): ?>
+                                    <?php
+                                        $bank_tf = $this->order_admin_model->get_bank_transfer_by_order_number($order->order_number);
+                                    ?>
+                                    <?php if(isset($bank_tf)){ ?>
+                                        <td><?php echo $bank_tf->id; ?></td>
+                                    <?php } else { ?>
+                                        <td>-</td>                                
+                                    <?php } ?>
+                                    <?php else: ?>
+                                        <td>-</td>
+                                    <?php endif; ?>
+
                                 <td><?php echo print_price($item->payment_amount, $item->payment_amount); ?></td>
                                 <td><?php echo trans($item->payment_status); ?></td>
                                 <td><?php echo $item->created_at; ?></td>

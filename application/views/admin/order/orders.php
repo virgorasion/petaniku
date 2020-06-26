@@ -74,7 +74,10 @@
                                     <?php if ($item->status == 1): ?>
                                     <label class="label label-success"><?php echo trans("completed"); ?></label>
                                     <?php else: ?>
-                                    <label class="label label-default"><?php echo trans("order_processing"); ?></label>
+                                    <label class="label label-default">
+                                        <?= cek_status_order($item); ?>
+                                        <?php //echo trans("order_processing"); ?>
+                                    </label>
                                     <?php endif; ?>
                                 </td>
                                 <td class="hidden">
