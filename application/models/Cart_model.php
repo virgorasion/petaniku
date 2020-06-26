@@ -29,7 +29,7 @@ class Cart_model extends CI_Model
 		$item->product_title = $product->title . " " . $appended_variations;
 		$item->quantity = $quantity;
 		$item->unit_price = $product->price;
-		$item->total_price = $product->price * $quantity;
+		$item->total_price = ($product->price * $quantity);
 		$item->currency = $product->currency;
 		$item->shipping_cost = ($ongkir) ? $totalongkir : $product->shipping_cost;
 		$item->is_avaible = check_product_available_for_sale($product);
@@ -184,6 +184,10 @@ class Cart_model extends CI_Model
 	//calculate cart total
 	public function calculate_cart_total()
 	{
+		// unik number
+		$digits = 3;
+		$uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
+
 		$cart = $this->get_sess_cart_items();
 		$cart_total = new stdClass();
 		$cart_total->subtotal = 0;
@@ -234,7 +238,13 @@ class Cart_model extends CI_Model
 				}
 			}
 		}
-		$cart_total->total = $cart_total->subtotal + $cart_total->shipping_cost;
+
+		$totalAll = $cart_total->subtotal + $cart_total->shipping_cost;
+		$cart_total->total = $totalAll;
+		// $cart_total->total = $totalAll/100;
+		// $cart_total->total += 211;
+		// $cart_total->total *= 100; // back to format
+		
 		$this->session->set_userdata('mds_shopping_cart_total', $cart_total);
 	}
 

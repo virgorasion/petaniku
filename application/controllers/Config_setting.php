@@ -206,14 +206,21 @@ class Config_setting extends CI_Controller
 
     public function bank_transfer_setting()
     {
+
+		$fh = fopen('DATABASE_BANK.txt','r');
+
         $config['bank_transfer_enabled'] = 1;
-        $config["bank_transfer_accounts"] = "
+        $bank_akun = "
         <p>Silahkan untuk membayar melalui akun bank di bawah ini</p>
 
-        <ul>
-            <li>0821323122 (BCA)</li>
-            <li>021312392 (BRI)</li>
-        </ul>";
+        <ul>";
+		while ($line = fgets($fh)) {
+            $bank_akun .= "<li>".$line."</li>";            
+		}
+        $bank_akun .= "</ul>";
+		fclose($fh);
+
+        $config["bank_transfer_accounts"] = $bank_akun;
         $data = array(
 			'bank_transfer_enabled' => $config['bank_transfer_enabled'],
 			'bank_transfer_accounts' => $config['bank_transfer_accounts']
