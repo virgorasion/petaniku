@@ -19,16 +19,16 @@
                         <?php $this->load->view('admin/order/_filter_transactions'); ?>
                         <thead>
                         <tr role="row">
-                            <th><?php echo trans('id'); ?></th>
+                            <th><?php echo trans('date'); ?></th>
+                            <!-- <th><?php //echo trans('id'); ?></th> -->
                             <th><?php echo trans('order'); ?></th>
                             <th><?php echo trans('payment_method'); ?></th>
-                            <!-- <th><?php echo trans('payment_id'); ?></th> -->
+                            <!-- <th><?php //echo trans('payment_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
                             <!-- <th><?php echo trans('currency'); ?></th> -->
                             <th>ID Bank</th>
                             <th><?php echo trans('payment_amount'); ?></th>
                             <th><?php echo trans('payment_status'); ?></th>
-                            <th><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -36,7 +36,8 @@
 
                         <?php foreach ($transactions as $item): ?>
                             <tr>
-                                <td><?php echo $item->id; ?></td>
+                                <td><?php echo $item->created_at; ?></td>
+                                <!-- <td><?php //echo $item->id; ?></td> -->
                                 <td class="order-number-table">
                                     <?php
                                     $order = $this->order_admin_model->get_order($item->order_id);
@@ -87,7 +88,6 @@
 
                                 <td><?php echo print_price($item->payment_amount, $item->payment_amount); ?></td>
                                 <td><?php echo trans($item->payment_status); ?></td>
-                                <td><?php echo $item->created_at; ?></td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn bg-purple dropdown-toggle btn-select-option"

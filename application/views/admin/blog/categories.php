@@ -13,6 +13,7 @@
             <div class="box-body">
                 <!-- include message block -->
                 <?php $this->load->view('admin/includes/_messages_form'); ?>
+                <?php /*
                 <div class="form-group">
                     <label><?php echo trans("language"); ?></label>
                     <select name="lang_id" class="form-control">
@@ -21,13 +22,15 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-
+                */ ?>
+                <input type="hidden" name="lang_id" value="2">
                 <div class="form-group">
                     <label><?php echo trans("category_name"); ?></label>
                     <input type="text" class="form-control" name="name" placeholder="<?php echo trans("category_name"); ?>"
                            value="<?php echo old('name'); ?>" maxlength="200" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
                 </div>
 
+                <?php /*
                 <div class="form-group">
                     <label class="control-label"><?php echo trans("slug"); ?>
                         <small>(<?php echo trans("slug_exp"); ?>)</small>
@@ -35,6 +38,7 @@
                     <input type="text" class="form-control" name="slug" placeholder="<?php echo trans("slug"); ?>"
                            value="<?php echo old('slug'); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
                 </div>
+                */ ?>
 
                 <div class="form-group">
                     <label class="control-label"><?php echo trans('description'); ?> (<?php echo trans('meta_tag'); ?>)</label>
@@ -48,11 +52,13 @@
                            placeholder="<?php echo trans('keywords'); ?> (<?php echo trans('meta_tag'); ?>)" value="<?php echo old('keywords'); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
                 </div>
 
+                <?php /*
                 <div class="form-group">
                     <label><?php echo trans('order'); ?></label>
                     <input type="number" class="form-control" name="category_order" placeholder="<?php echo trans('order'); ?>"
                            value="1" min="1" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
                 </div>
+                */ ?>
             </div>
 
             <!-- /.box-body -->
@@ -85,18 +91,20 @@
                                    aria-describedby="example1_info">
                                 <thead>
                                 <tr role="row">
-                                    <th width="20"><?php echo trans('id'); ?></th>
+                                    <th width="20"><?php echo trans('date'); ?></th>
                                     <th><?php echo trans('category_name'); ?></th>
-                                    <th><?php echo trans('language'); ?></th>
-                                    <th><?php echo trans('order'); ?></th>
+                                    <!-- <th><?php //echo trans('language'); ?></th> -->
+                                    <!-- <th><?php //echo trans('order'); ?></th> -->
                                     <th class="th-options"><?php echo trans('options'); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($categories as $item): ?>
                                     <tr>
-                                        <td><?php echo html_escape($item->id); ?></td>
+                                        <!-- <td><?php //echo html_escape($item->id); ?></td> -->
+                                        <td><?php echo html_escape($item->updated_at); ?></td>
                                         <td><?php echo html_escape($item->name); ?></td>
+                                        <?php /*
                                         <td>
                                             <?php
                                             $language = get_language($item->lang_id);
@@ -104,7 +112,8 @@
                                                 echo $language->name;
                                             } ?>
                                         </td>
-                                        <td><?php echo html_escape($item->category_order); ?></td>
+                                        */ ?>
+                                        <!-- <td><?php //echo html_escape($item->category_order); ?></td> -->
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn bg-purple dropdown-toggle btn-select-option"

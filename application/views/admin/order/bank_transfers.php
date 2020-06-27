@@ -19,14 +19,14 @@
                         <?php $this->load->view('admin/order/_filter_bank_transfers'); ?>
                         <thead>
                         <tr role="row">
-                            <th><?php echo trans('id'); ?></th>
+                            <th><?php echo trans('date'); ?></th>
+                            <!-- <th><?php //echo trans('id'); ?></th> -->
                             <th><?php echo trans('order'); ?></th>
                             <th><?php echo trans('user'); ?></th>
                             <th><?php echo trans('receipt'); ?></th>
                             <th><?php echo trans('payment_note'); ?></th>
                             <th><?php echo trans('status'); ?></th>
                             <th><?php echo trans('ip_address'); ?></th>
-                            <th><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -34,6 +34,7 @@
 
                         <?php foreach ($bank_transfers as $item): ?>
                             <tr>
+                                <td><?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td><?php echo $item->id; ?></td>
                                 <td>
                                     <?php
@@ -77,7 +78,6 @@
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo $item->ip_address; ?></td>
-                                <td><?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td>
                                     <?php echo form_open_multipart('order_admin_controller/bank_transfer_options_post'); ?>
                                     <input type="hidden" name="id" value="<?php echo $item->id; ?>">

@@ -15,6 +15,7 @@
             <div class="box-body">
                 <!-- include message block -->
                 <?php $this->load->view('admin/includes/_messages'); ?>
+                <?php /*
                 <div class="form-group">
                     <label><?php echo trans("language"); ?></label>
                     <select name="lang_id" class="form-control">
@@ -23,12 +24,15 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                */ ?>
+                <input type="hidden" name="lang_id" value="2">
                 <div class="form-group">
                     <label><?php echo trans("category_name"); ?></label>
                     <input type="text" class="form-control" name="name" placeholder="<?php echo trans("category_name"); ?>"
                            value="<?php echo html_escape($category->name); ?>" maxlength="200" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
                 </div>
 
+                <?php /*
                 <div class="form-group">
                     <label class="control-label"><?php echo trans("slug"); ?>
                         <small>(<?php echo trans("slug_exp"); ?>)</small>
@@ -36,6 +40,7 @@
                     <input type="text" class="form-control" name="slug" placeholder="<?php echo trans("slug"); ?>"
                            value="<?php echo html_escape($category->slug); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
                 </div>
+                */ ?>
 
                 <div class="form-group">
                     <label class="control-label"><?php echo trans('description'); ?> (<?php echo trans('meta_tag'); ?>)</label>
@@ -49,12 +54,13 @@
                            placeholder="<?php echo trans('keywords'); ?> (<?php echo trans('meta_tag'); ?>)" value="<?php echo html_escape($category->keywords); ?>" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?>>
                 </div>
 
-
+                <?php /*
                 <div class="form-group">
                     <label><?php echo trans('order'); ?></label>
                     <input type="number" class="form-control" name="category_order" placeholder="<?php echo trans('order'); ?>"
                            value="<?php echo html_escape($category->category_order); ?>" min="1" <?php echo ($rtl == true) ? 'dir="rtl"' : ''; ?> required>
                 </div>
+                */?>
             </div>
 
             <!-- /.box-body -->

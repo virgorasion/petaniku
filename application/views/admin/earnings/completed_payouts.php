@@ -26,13 +26,13 @@
 						<?php $this->load->view('admin/earnings/_filter_payouts'); ?>
 						<thead>
 						<tr role="row">
-							<th><?php echo trans('id'); ?></th>
-							<th><?php echo trans('user_id'); ?></th>
+							<th><?php echo trans('date'); ?></th>
+							<!-- <th><?php //echo trans('id'); ?></th> -->
+							<!-- <th><?php //echo trans('user_id'); ?></th> -->
 							<th><?php echo trans('user'); ?></th>
 							<!-- <th><?php echo trans('withdraw_method'); ?></th> -->
 							<th><?php echo trans('withdraw_amount'); ?></th>
 							<th><?php echo trans('status'); ?></th>
-							<th><?php echo trans('date'); ?></th>
 							<th class="max-width-120"><?php echo trans('options'); ?></th>
 						</tr>
 						</thead>
@@ -40,8 +40,9 @@
 
 						<?php foreach ($payouts as $item): ?>
 							<tr>
-								<td><?php echo $item->id; ?></td>
-								<td><?php echo $item->user_id; ?></td>
+								<!-- <td><?php //echo $item->id; ?></td>
+								<td><?php //echo $item->user_id; ?></td> -->
+								<td><?php echo $item->created_at; ?></td>
 								<td>
 									<?php $user = get_user($item->user_id);
 									if (!empty($user)):?>
@@ -62,7 +63,6 @@
 										echo trans("pending");
 									} ?>
 								</td>
-								<td><?php echo $item->created_at; ?></td>
 								<td>
 									<div class="dropdown">
 										<button class="btn bg-purple dropdown-toggle btn-select-option"

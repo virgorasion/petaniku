@@ -23,7 +23,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="table-responsive">
-							<table class="table table-bordered table-striped dataTable" id="cs_datatable" role="grid"
+							<table class="table table-bordered table-striped dataTable" id="categories_datatable" role="grid"
 								   aria-describedby="example1_info">
 								<thead>
 								<tr role="row">
@@ -99,3 +99,12 @@
 		</div>
 	</div>
 </div>
+<script>
+//datatable
+$(document).ready(function () {
+	$('#categories_datatable').DataTable({
+		"order": [[0, "asc"]],
+		"lengthChange": false
+	});
+});
+</script>

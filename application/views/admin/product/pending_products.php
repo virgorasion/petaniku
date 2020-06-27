@@ -20,13 +20,13 @@
                         <thead>
                         <tr role="row">
                             <th width="20"><input type="checkbox" class="checkbox-table" id="checkAll"></th>
-                            <th width="20"><?php echo trans('id'); ?></th>
-                            <th><?php echo trans('product'); ?></th>
-							<th><?php echo trans('product_type'); ?></th>
-                            <th><?php echo trans('category'); ?></th>
-                            <th><?php echo trans('purchased_plan'); ?></th>
-                            <th><?php echo trans('user'); ?></th>
                             <th><?php echo trans('date'); ?></th>
+                            <!-- <th width="20"><?php //echo trans('id'); ?></th> -->
+                            <th><?php echo trans('product'); ?></th>
+							<!-- <th><?php //echo trans('product_type'); ?></th> -->
+                            <th><?php echo trans('category'); ?></th>
+                            <!-- <th><?php //echo trans('purchased_plan'); ?></th> -->
+                            <th><?php echo trans('user'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -35,7 +35,8 @@
                         <?php foreach ($products as $item): ?>
                             <tr>
                                 <td><input type="checkbox" name="checkbox-table" class="checkbox-table" value="<?php echo $item->id; ?>"></td>
-                                <td><?php echo html_escape($item->id); ?></td>
+                                <td><?php echo $item->created_at; ?></td>
+                                <!-- <td><?php //echo html_escape($item->id); ?></td> -->
                                 <td class="td-product">
                                     <?php if ($item->is_promoted == 1): ?>
                                         <label class="label label-success"><?php echo trans("promoted"); ?></label>
@@ -49,7 +50,7 @@
                                         <?php echo html_escape($item->title); ?>
                                     </a>
                                 </td>
-								<td><?php echo trans($item->product_type); ?></td>
+								<!-- <td><?php //echo trans($item->product_type); ?></td> -->
 								<td>
 									<?php $categories_array = get_parent_categories_array($item->category_id);
 									if (!empty($categories_array)) {
@@ -61,11 +62,13 @@
 										}
 									} ?>
 								</td>
+                                <?php /*
                                 <td style="min-width: 120px;">
                                     <?php if ($item->is_promoted == 1): ?>
                                         <strong><?php echo $item->promote_plan; ?></strong>
                                     <?php endif; ?>
                                 </td>
+                                */ ?>
                                 <td>
                                     <?php $user = get_user($item->user_id);
                                     if (!empty($user)): ?>
@@ -74,7 +77,6 @@
                                         </a>
                                     <?php endif; ?>
                                 </td>
-                                <td><?php echo $item->created_at; ?></td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn bg-purple dropdown-toggle btn-select-option"

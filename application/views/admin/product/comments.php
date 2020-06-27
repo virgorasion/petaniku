@@ -21,12 +21,12 @@
                         <thead>
                         <tr role="row">
                             <th width="20" class="table-no-sort" style="text-align: center !important;"><input type="checkbox" class="checkbox-table" id="checkAll"></th>
-                            <th width="20"><?php echo trans('id'); ?></th>
+                            <th style="min-width: 10%"><?php echo trans('date'); ?></th>
+                            <!-- <th width="20"><?php //echo trans('id'); ?></th> -->
                             <th><?php echo trans('name'); ?></th>
                             <th><?php echo trans('email'); ?></th>
                             <th><?php echo trans('comment'); ?></th>
                             <th style="min-width: 20%"><?php echo trans('product'); ?></th>
-                            <th style="min-width: 10%"><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -35,7 +35,8 @@
                         <?php foreach ($comments as $item): ?>
                             <tr>
                                 <td style="text-align: center !important;"><input type="checkbox" name="checkbox-table" class="checkbox-table" value="<?php echo $item->id; ?>"></td>
-                                <td><?php echo html_escape($item->id); ?></td>
+                                <!-- <td><?php //echo html_escape($item->id); ?></td> -->
+                                <td><?php echo $item->created_at; ?></td>
                                 <td><?php echo html_escape($item->name); ?></td>
                                 <td><?php echo html_escape($item->email); ?></td>
                                 <td class="break-word"><?php echo html_escape($item->comment); ?></td>
@@ -47,7 +48,6 @@
                                         </a>
                                     <?php endif; ?>
                                 </td>
-                                <td><?php echo $item->created_at; ?></td>
 
                                 <td>
                                     <div class="dropdown">

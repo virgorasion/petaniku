@@ -12,7 +12,8 @@ class Blog_category_model extends CI_Model
             'slug' => $this->input->post('slug', true),
             'description' => $this->input->post('description', true),
             'keywords' => $this->input->post('keywords', true),
-            'category_order' => $this->input->post('category_order', true)
+            'category_order' => $this->input->post('category_order', true),
+            'updated_at' => date("Y-m-d H:i:s")
         );
         return $data;
     }
@@ -21,11 +22,12 @@ class Blog_category_model extends CI_Model
     public function add_category()
     {
         $data = $this->input_values();
+        $data['created_at'] = date("Y-m-d H:i:s");
 
         if (empty($data["slug"])) {
             //slug for title
             $data["slug"] = str_slug($data["name"]);
-        }
+        } 
 
         return $this->db->insert('blog_categories', $data);
     }
