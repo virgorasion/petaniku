@@ -19,6 +19,7 @@
                         <?php $this->load->view('admin/order/_filter_orders'); ?>
                         <thead>
                             <tr role="row">
+                                <th><?php echo trans('date'); ?></th>
                                 <th><?php echo trans('order'); ?></th>
                                 <th><?php echo trans('buyer'); ?></th>
                                 <th><?php echo trans('total'); ?></th>
@@ -26,7 +27,6 @@
                                 <th><?php echo trans('status'); ?></th>
                                 <th class="hidden"><?php echo trans('payment_status'); ?></th>
                                 <th><?php echo trans('updated'); ?></th>
-                                <th><?php echo trans('date'); ?></th>
                                 <th class="max-width-120"><?php echo trans('options'); ?></th>
                             </tr>
                         </thead>
@@ -34,6 +34,7 @@
 
                             <?php foreach ($orders as $item): ?>
                             <tr>
+                                <td> <?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td class="order-number-table">
                                     <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->id); ?>"
                                         class="table-link">
@@ -81,7 +82,6 @@
                                     <?php echo trans($item->payment_status); ?>
                                 </td>
                                 <td><?php echo time_ago($item->updated_at); ?></td>
-                                <td> <?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td>
                                     <?php echo form_open_multipart('order_admin_controller/order_options_post'); ?>
                                     <input type="hidden" name="id" value="<?php echo $item->id; ?>">

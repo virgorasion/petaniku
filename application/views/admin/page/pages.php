@@ -52,9 +52,9 @@
 								</td> -->
 								<td>
 									<?php if ($item->visibility == 1): ?>
-										<label class="label label-success"><i class="fa fa-eye"></i></label>
+										<label class="label label-success"><?php echo trans("published"); ?></label>
 									<?php else: ?>
-										<label class="label label-danger"><i class="fa fa-eye"></i></label>
+										<label class="label label-danger"><?php echo trans("draft"); ?></label>
 									<?php endif; ?>
 								</td>
 								<td><?php echo $item->created_at; ?></td>

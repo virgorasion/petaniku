@@ -38,14 +38,14 @@
 						<label class="control-label"><?php echo trans('status'); ?></label>
 					</div>
 					<div class="col-md-9 col-sm-12 right">
-						<?php if ($product->status == 1): ?>
-							<label class="label label-success"><?php echo trans("active"); ?></label>
-						<?php else: ?>
-							<label class="label label-danger"><?php echo trans("pending"); ?></label>
+						<?php if ($product->visibility == 1 && $product->is_draft == 1): ?>
+							<label class="label label-warning"><?php echo trans("draft"); ?></label>
+						<?php elseif($product->visibility == 1 && $product->is_draft == 0): ?>
+							<label class="label label-success"><?php echo trans("published"); ?></label>
 						<?php endif; ?>
 					</div>
 				</div>
-
+				<?php /*
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('visibility'); ?></label>
@@ -58,6 +58,7 @@
 						<?php endif; ?>
 					</div>
 				</div>
+				*/ ?>
 
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
@@ -75,6 +76,7 @@
 						<?php echo $product->title; ?>
 					</div>
 				</div>
+				<?php /*
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('slug'); ?></label>
@@ -83,6 +85,7 @@
 						<?php echo $product->slug; ?>
 					</div>
 				</div>
+				*/ ?>
 				<div class="row row-product-details hidden">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('product_type'); ?></label>
@@ -127,7 +130,7 @@
 						<label class="control-label"><?php echo trans('price'); ?></label>
 					</div>
 					<div class="col-md-9 col-sm-12 right">
-						<?php echo print_price($product->price, $product->currency) . " " . $product->currency; ?>
+						<?php echo print_price($product->price, $product->currency); ?>
 					</div>
 				</div>
 
@@ -178,9 +181,6 @@
 						<?php echo ($product->per_slot) ? html_escape($product->per_slot) : ''; ?>
 					</div>
 				</div>
-
-				
-
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('location'); ?></label>
@@ -189,8 +189,14 @@
 						<?php echo get_location($product); ?>
 					</div>
 				</div>
-
-
+				<div class="row row-product-details">
+					<div class="col-md-3 col-sm-12">
+						<label class="control-label">Koordinat Lokasi</label>
+					</div>
+					<div class="col-md-9 col-sm-12 right">
+					<?php $this->load->view('mapongkir-google', ['start' => $product->pengiriman]); ?>
+					</div>
+				</div>
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('user'); ?></label>
@@ -280,6 +286,7 @@
 						<?php echo $product->files_included; ?>
 					</div>
 				</div>
+				<?php /*
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('draft'); ?></label>
@@ -304,6 +311,7 @@
 						<?php endif; ?>
 					</div>
 				</div>
+				*/ ?>
 				<div class="row row-product-details">
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('video_preview'); ?></label>

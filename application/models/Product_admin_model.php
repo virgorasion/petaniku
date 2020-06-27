@@ -7,7 +7,7 @@ class Product_admin_model extends CI_Model
 	public function get_products()
 	{
 		$this->db->where('status', 1);
-		$this->db->order_by('products.created_at', 'DESC');
+		$this->db->order_by('products.updated_at', 'DESC');
 		$query = $this->db->get('products');
 		return $query->result();
 	}
@@ -19,7 +19,7 @@ class Product_admin_model extends CI_Model
 		$this->db->where('status', 1);
 		$this->db->where('products.is_draft', 0);
 		$this->db->where('products.is_deleted', 0);
-		$this->db->order_by('products.created_at', 'DESC');
+		$this->db->order_by('products.updated_at', 'DESC');
 		$this->db->limit($limit);
 		$query = $this->db->get('products');
 		return $query->result();
@@ -31,7 +31,7 @@ class Product_admin_model extends CI_Model
 		$this->db->where('status', 1);
 		$this->db->where('products.is_draft', 0);
 		$this->db->where('products.is_deleted', 0);
-		$this->db->order_by('products.created_at', 'DESC');
+		$this->db->order_by('products.updated_at', 'DESC');
 		$query = $this->db->get('products');
 		return $query->num_rows();
 	}
@@ -42,7 +42,7 @@ class Product_admin_model extends CI_Model
 		$this->db->where('status !=', 1);
 		$this->db->where('products.is_draft', 0);
 		$this->db->where('products.is_deleted', 0);
-		$this->db->order_by('products.created_at', 'DESC');
+		$this->db->order_by('products.updated_at', 'DESC');
 		$query = $this->db->get('products');
 		return $query->result();
 	}
@@ -54,7 +54,7 @@ class Product_admin_model extends CI_Model
 		$this->db->where('status !=', 1);
 		$this->db->where('products.is_draft', 0);
 		$this->db->where('products.is_deleted', 0);
-		$this->db->order_by('products.created_at', 'DESC');
+		$this->db->order_by('products.updated_at', 'DESC');
 		$this->db->limit($limit);
 		$query = $this->db->get('products');
 		return $query->result();
@@ -66,7 +66,7 @@ class Product_admin_model extends CI_Model
 		$this->db->where('status !=', 1);
 		$this->db->where('products.is_draft', 0);
 		$this->db->where('products.is_deleted', 0);
-		$this->db->order_by('products.created_at', 'DESC');
+		$this->db->order_by('products.updated_at', 'DESC');
 		$query = $this->db->get('products');
 		return $query->num_rows();
 	}
@@ -107,43 +107,43 @@ class Product_admin_model extends CI_Model
 				$this->db->where('products.visibility', 1);
 				$this->db->where('products.is_draft', 0);
 				$this->db->where('products.is_deleted', 0);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "promoted_products") {
 				$this->db->where('products.visibility', 1);
 				$this->db->where('products.is_promoted', 1);
 				$this->db->where('products.is_draft', 0);
 				$this->db->where('products.is_deleted', 0);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "pending_products") {
 				$this->db->where('products.visibility', 1);
 				$this->db->where('products.is_draft', 0);
 				$this->db->where('products.is_deleted', 0);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "hidden_products") {
 				$this->db->where('products.visibility', 0);
 				$this->db->where('products.is_draft', 0);
 				$this->db->where('products.is_deleted', 0);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "sold_products") {
 				$this->db->where('products.is_draft', 0);
 				$this->db->where('products.is_sold', 1);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "drafts") {
 				$this->db->where('products.is_draft', 1);
 				$this->db->where('products.is_deleted', 0);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "deleted_products") {
 				$this->db->where('products.is_deleted', 1);
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 			if ($list == "all") {
-				$this->db->order_by('products.created_at', 'DESC');
+				$this->db->order_by('products.updated_at', 'DESC');
 			}
 		}
 	}
@@ -163,7 +163,7 @@ class Product_admin_model extends CI_Model
 	{
 		$this->filter_products();
 		$this->filter_products_list($list);
-		$this->db->where('products.status', 1);
+		// $this->db->where('products.status', 1);
 		$this->db->limit($per_page, $offset);
 		$query = $this->db->get('products');
 		return $query->result();
@@ -405,6 +405,39 @@ class Product_admin_model extends CI_Model
 		if (!empty($product)) {
 			$data = array(
 				'is_deleted' => 0
+			);
+			$this->db->where('id', $product_id);
+			return $this->db->update('products', $data);
+		}
+		return false;
+	}
+
+	//Set as Draft
+	public function set_as_draft($product_id)
+	{
+		$product_id = clean_number($product_id);
+		$product = $this->get_product($product_id);
+		if (!empty($product)) {
+			$data = array(
+				'is_draft' => 1,
+				'updated_at' => date('Y-m-d H:i:s'),
+			);
+			$this->db->where('id', $product_id);
+			return $this->db->update('products', $data);
+		}
+		return false;
+	}
+
+	//Set as Published
+	public function set_as_publish($product_id)
+	{
+		$product_id = clean_number($product_id);
+		$product = $this->get_product($product_id);
+		if (!empty($product)) {
+			$data = array(
+				'visibility' => 1,
+				'is_draft' => 0,
+				'updated_at' => date('Y-m-d H:i:s'),
 			);
 			$this->db->where('id', $product_id);
 			return $this->db->update('products', $data);

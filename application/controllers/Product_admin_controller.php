@@ -283,6 +283,38 @@ class Product_admin_controller extends Admin_Core_Controller
     }
 
     /**
+     * Set as Draft Product
+     */
+    public function set_draft()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->product_admin_model->set_as_draft($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_updated"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+
+        //reset cache
+        reset_cache_data_on_change();
+    }
+
+    /**
+     * Set as Draft Product
+     */
+    public function set_publish()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->product_admin_model->set_as_publish($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_updated"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+
+        //reset cache
+        reset_cache_data_on_change();
+    }
+
+    /**
      * Delete Selected Products
      */
     public function delete_selected_products()

@@ -585,6 +585,7 @@ class Auth_model extends CI_Model
 	public function get_members()
 	{
 		$this->db->where('role', "member");
+		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');
 		return $query->result();
 	}
@@ -593,6 +594,7 @@ class Auth_model extends CI_Model
 	public function get_vendors()
 	{
 		$this->db->where('role', "vendor");
+		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');
 		return $query->result();
 	}
@@ -627,6 +629,7 @@ class Auth_model extends CI_Model
 	public function get_shop_opening_requests()
 	{
 		$this->db->where('is_active_shop_request', 1);
+		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');
 		return $query->result();
 	}

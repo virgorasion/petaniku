@@ -21,12 +21,12 @@
                            aria-describedby="example1_info">
                         <thead>
                         <tr role="row">
-                            <th width="20"><?php echo trans('id'); ?></th>
+                            <th><?php echo trans('date'); ?></th>
+                            <!-- <th width="20"><?php //echo trans('id'); ?></th> -->
                             <th><?php echo trans('image'); ?></th>
                             <th><?php echo trans('username'); ?></th>
                             <th><?php echo trans('email'); ?></th>
                             <th><?php echo trans('status'); ?></th>
-                            <th><?php echo trans('date'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
@@ -34,7 +34,8 @@
 
                         <?php foreach ($users as $user): ?>
                             <tr>
-                                <td><?php echo html_escape($user->id); ?></td>
+                                <td><?php echo $user->created_at; ?></td>
+                                <!-- <td><?php //echo html_escape($user->id); ?></td> -->
                                 <td>
                                     <img src="<?php echo get_user_avatar($user); ?>" alt="user" class="img-responsive" style="height: 50px;">
                                 </td>
@@ -54,7 +55,6 @@
                                         <label class="label label-danger"><?php echo trans('banned'); ?></label>
                                     <?php endif; ?>
                                 </td>
-                                <td><?php echo $user->created_at; ?></td>
 
                                 <td>
                                     <div class="dropdown">

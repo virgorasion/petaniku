@@ -20,13 +20,13 @@
 						<thead>
 						<tr role="row">
 							<th width="20"><input type="checkbox" class="checkbox-table" id="checkAll"></th>
-							<th width="20"><?php echo trans('id'); ?></th>
+							<th><?php echo trans('date'); ?></th>
+							<!-- <th width="20"><?php //echo trans('id'); ?></th> -->
 							<th><?php echo trans('product'); ?></th>
 							<!-- <th><?php //echo trans('product_type'); ?></th> -->
 							<th><?php echo trans('status'); ?></th>
 							<th><?php echo trans('category'); ?></th>
 							<th><?php echo trans('user'); ?></th>
-							<th><?php echo trans('date'); ?></th>
 							<th class="max-width-120"><?php echo trans('options'); ?></th>
 						</tr>
 						</thead>
@@ -35,7 +35,8 @@
 						<?php foreach ($products as $item): ?>
 							<tr>
 								<td><input type="checkbox" name="checkbox-table" class="checkbox-table" value="<?php echo $item->id; ?>"></td>
-								<td><?php echo html_escape($item->id); ?></td>
+								<td><?php echo $item->updated_at; ?></td>
+								<!-- <td><?php //echo html_escape($item->id); ?></td> -->
 								<td class="td-product">
 									<?php if ($item->is_promoted == 1): ?>
 										<label class="label label-success"><?php echo trans("promoted"); ?></label>
@@ -50,10 +51,10 @@
 									</a>
 								</td>
 								<td>
-									<?php if ($item->visibility == 1): ?>
-                                    <label class="label label-success"><?php echo trans("published"); ?></label>
-                                    <?php elseif($item->is_draft == 1): ?>
+									<?php if ($item->visibility == 1 && $item->is_draft == 1): ?>
                                     <label class="label label-warning"><?php echo trans("draft"); ?></label>
+                                    <?php elseif($item->visibility == 1): ?>
+                                    <label class="label label-success"><?php echo trans("published"); ?></label>
                                     <?php elseif($item->is_draft == 0 && $item->visibility == 0): ?>
 									<label class="label label-danger"><?php echo trans("hidden"); ?></label>
 									<?php endif; ?>
@@ -79,7 +80,6 @@
 									<?php endif; ?>
 								</td>
 
-								<td><?php echo $item->created_at; ?></td>
 								<td>
 									<div class="dropdown">
 										<button class="btn bg-purple dropdown-toggle btn-select-option"
@@ -111,6 +111,16 @@
 											<li>
 												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/delete_product_permanently','<?php echo $item->id; ?>','<?php echo trans("confirm_product_permanent"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete_permanently'); ?></a>
 											</li>
+											<?php if ($item->visibility == 1 && $item->is_draft == 0): ?>
+											<li>
+												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_draft','<?php echo $item->id; ?>','<?php echo "Produk Dijadikan Draft"; ?>');"><i class="fa fa-file option-icon"></i><?php echo "Jadikan draft"; ?></a>
+											</li>
+											<?php endif; ?>
+											<?php if ($item->is_draft == 1): ?>
+											<li>
+												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_publish','<?php echo $item->id; ?>','<?php echo "Produk Dipublish"; ?>');"><i class="fa fa-check option-icon"></i><?php echo trans("published"); ?></a>
+											</li>
+											<?php endif; ?>
 										</ul>
 									</div>
 								</td>

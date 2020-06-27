@@ -2,6 +2,7 @@
     <div class="col-sm-12">
         <?php echo form_open($form_action, ['method' => 'GET']); ?>
 
+        <?php /*
         <div class="item-table-filter" style="width: 80px; min-width: 80px;">
             <label><?php echo trans("show"); ?></label>
             <select name="show" class="form-control">
@@ -11,6 +12,8 @@
                 <option value="100" <?php echo ($this->input->get('show', true) == '100') ? 'selected' : ''; ?>>100</option>
             </select>
         </div>
+        */ ?>
+        <input type="hidden" name="show" value="30">
 
         <div class="item-table-filter">
             <label><?php echo trans("search"); ?></label>

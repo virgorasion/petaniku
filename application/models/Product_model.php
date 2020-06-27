@@ -50,7 +50,8 @@ class Product_model extends Core_Model
 			'is_deleted' => 0,
 			'is_draft' => 1,
 			'is_free_product' => 0,
-			'created_at' => date('Y-m-d H:i:s')
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
 		);
 
 		$data["slug"] = str_slug($data["title"]);
@@ -98,7 +99,8 @@ class Product_model extends Core_Model
 			'pengiriman' => $this->input->post('pengiriman', true),
 			'km_max' => $this->input->post('km_max', true),
 			'km_price' => price_database_format($this->input->post('km_price', true)),
-			'is_draft' => 0
+			'is_draft' => 0,
+			'updated_at' => date('Y-m-d H:i:s'),
 		);
 
 		$data["price"] = price_database_format($data["price"]);
@@ -167,6 +169,7 @@ class Product_model extends Core_Model
 			'product_type' => $this->input->post('product_type', true),
 			'listing_type' => $this->input->post('listing_type', true),
 			'description' => $this->input->post('description', false),
+			'updated_at' => date('Y-m-d H:i:s'),
 		);
 		$data["slug"] = str_slug($data["title"]);
 
@@ -315,6 +318,7 @@ class Product_model extends Core_Model
 		if (empty($product->slug) || $product->slug == "-") {
 			$data = array(
 				'slug' => $product->id,
+				'updated_at' => date('Y-m-d H:i:s'),
 			);
 		} else {
 			if ($this->general_settings->product_link_structure == "id-slug") {
@@ -704,6 +708,7 @@ class Product_model extends Core_Model
 				if (date_difference($item->promote_end_date, date('Y-m-d H:i:s')) < 1) {
 					$data = array(
 						'is_promoted' => 0,
+						'updated_at' => date('Y-m-d H:i:s'),
 					);
 					$this->db->where('id', $item->id);
 					$this->db->update('products', $data);
@@ -1136,7 +1141,8 @@ class Product_model extends Core_Model
 				//increase hit
 				setcookie("modesy_product_" . $product->id, '1', time() + (86400 * 300), "/");
 				$data = array(
-					'hit' => $product->hit + 1
+					'hit' => $product->hit + 1,
+					'updated_at' => date('Y-m-d H:i:s'),
 				);
 
 				$this->db->where('id', $product->id);
@@ -1201,11 +1207,13 @@ class Product_model extends Core_Model
 			if (user()->id == $product->user_id) {
 				if ($product->is_sold == 1) {
 					$data = array(
-						'is_sold' => 0
+						'is_sold' => 0,
+						'updated_at' => date('Y-m-d H:i:s'),
 					);
 				} else {
 					$data = array(
-						'is_sold' => 1
+						'is_sold' => 1,
+						'updated_at' => date('Y-m-d H:i:s'),
 					);
 				}
 				$this->db->where('id', $product_id);
@@ -1223,7 +1231,8 @@ class Product_model extends Core_Model
 		$product = $this->get_product_by_id($product_id);
 		if (!empty($product)) {
 			$data = array(
-				'is_deleted' => 1
+				'is_deleted' => 1,
+				'updated_at' => date('Y-m-d H:i:s'),
 			);
 			$this->db->where('id', $product_id);
 			return $this->db->update('products', $data);

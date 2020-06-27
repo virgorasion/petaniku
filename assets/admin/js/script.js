@@ -6,8 +6,9 @@ $("form").submit(function () {
 //datatable
 $(document).ready(function () {
 	$('#cs_datatable').DataTable({
-		"order": [[0, "desc"]],
-		"aLengthMenu": [[15, 30, 60, 100], [15, 30, 60, 100, "All"]]
+		"ordering": false,
+		"lengthChange": false,
+		"pageLength": 30
 	});
 });
 
@@ -59,7 +60,7 @@ function get_blog_categories_by_lang(val) {
 }
 
 //delete selected products
-function delete_selected_products(message) {
+function delete_product_permanently(message) {
 	swal({
 		text: message,
 		icon: "warning",
@@ -78,7 +79,7 @@ function delete_selected_products(message) {
 			data[csfr_token_name] = $.cookie(csfr_cookie_name);
 			$.ajax({
 				type: "POST",
-				url: base_url + "product_admin_controller/delete_selected_products",
+				url: base_url + "product_admin_controller/delete_selected_products_permanently",
 				data: data,
 				success: function (response) {
 					location.reload();

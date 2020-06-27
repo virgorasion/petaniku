@@ -118,8 +118,9 @@
         var table = $('#cs_datatable_lang').DataTable({
             dom: 'l<"#table_dropdown">frtip',
             "order": [[0, "desc"]],
-            "aLengthMenu": [[15, 30, 60, 100], [15, 30, 60, 100, "All"]]
+            "lengthChange": false
         });
+        <?php /*
         //insert a label
         $('<label class="table-label"><label/>').text('Language').appendTo('#table_dropdown');
 
@@ -136,6 +137,7 @@
         $("#table_dropdown select").change(function () {
             table.column(<?php echo $lang_search_column; ?>).search($(this).val()).draw();
         });
+        */ ?>
     </script>
 <?php endif; ?>
 <script>
