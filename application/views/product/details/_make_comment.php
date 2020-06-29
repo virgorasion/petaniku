@@ -17,7 +17,7 @@
         </div>
     </div>
 <?php else: ?>
-    <div class="row">
+    <div class="row hidden">
         <div class="col-12">
             <?php /*
             <form id="make_comment">

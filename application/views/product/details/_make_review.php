@@ -24,19 +24,9 @@
             <button type="submit" id="submit_review" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
         </div>
     </div>
-    <?php else: ?>
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-1" style="width:90%;border-radius:0">
-                <div class="card-body">
-                    <p><?= trans('no_reviews_found') ?></p>
-                </div>
-            </div>
-        </div>
-    </div>    
     <?php endif; ?>
 <?php else: ?>
-    <div class="row">
+    <div class="row hidden">
         <div class="col-12">
             <!-- <div class="row-custom">
                 <div class="rating-bar">
@@ -72,7 +62,7 @@
         <div class="row-custom error-own-product">
             <p><?php echo trans("review_own_error"); ?></p>
         </div>
-        <div class="reviews">
+        <div class="reviews" style="margin-top:0">
             <?php if ($review_count > 0): ?>
                 <div class="row-custom review-total">
                     <label class="label-review"><?php echo trans("reviews"); ?></label>
@@ -80,6 +70,16 @@
                     <?php $this->load->view('partials/_review_stars', ['review' => $product->rating]); ?>
                     <span>(<?php echo $review_count; ?>)</span>
                 </div>
+            <?php else: ?>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-1" style="width:90%;border-radius:0">
+                        <div class="card-body">
+                            <p><?= trans('no_reviews_found') ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>   
             <?php endif; ?>
             <ul class="review-list">
                 <?php foreach ($reviews as $review): ?>

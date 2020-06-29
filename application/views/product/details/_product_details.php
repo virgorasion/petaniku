@@ -90,7 +90,7 @@
 		$city = $CI->locationid_model->get_city($product->city_id);
 						
 	?>
-		<div class="item-details">
+		<div class="item-details hidden">
 			<div class="left">
 				<label><?php echo trans("district"); ?></label>
 			</div>
@@ -98,7 +98,7 @@
 				<span><?php echo empty($kecamatan) ? '' : $kecamatan->name ?></span>
 			</div>
 		</div>
-		<div class="item-details">
+		<div class="item-details hidden">
 			<div class="left">
 				<label><?php echo trans("city"); ?></label>
 			</div>
@@ -106,12 +106,20 @@
 				<span><?php echo empty($city) ? '' : $city->name ?></span>
 			</div>
 		</div>
-		<div class="item-details">
+		<div class="item-details hidden">
 			<div class="left">
 				<label><?php echo trans("province"); ?></label>
 			</div>
 			<div class="right">
 				<span><?php echo empty($state) ? '' : $state->name; ?></span>
+			</div>
+		</div>
+		<div class="item-details">
+			<div class="left">
+				<label><?php echo trans("location"); ?></label>
+			</div>
+			<div class="right">
+				<span><?php echo get_location($product); ?></span>
 			</div>
 		</div>
 	<?php endif; ?>
