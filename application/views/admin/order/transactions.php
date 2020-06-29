@@ -86,7 +86,11 @@
                                         <td>-</td>
                                     <?php endif; ?>
 
-                                <td><?php echo print_price($item->payment_amount, $item->payment_amount); ?></td>
+                                <td>                                        
+                                    <?php 
+                                        echo print_price($item->payment_amount, $item->currency); 
+                                    ?>
+                                </td>
                                 <td><?php echo trans($item->payment_status); ?></td>
                                 <td>
                                     <div class="dropdown">

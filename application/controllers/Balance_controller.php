@@ -160,6 +160,10 @@ class Balance_controller extends Home_Core_Controller
     public function deposit_post()
     {
         $this->load->model('upload_model');
+        
+        $amount = $this->input->post('amount', true);
+        $kode = $this->input->post('kodeunik', true);
+        $tf = ($amount) + (int) $kode;
         $data = array(
             'user_id' => $this->user_id,
             'amount' => $this->input->post('amount', true),
@@ -167,11 +171,13 @@ class Balance_controller extends Home_Core_Controller
             'bank_name' => $this->input->post('bank_name', true),
             'bank_type' => $this->input->post('bank_type', true),
             'bank_number' => $this->input->post('bank_number', true),
+            'kodeunik' => $this->input->post('kodeunik', true),
+            'transfer' => price_database_format($tf),
             'status' => 0,
             'created_at' => date('Y-m-d H:i:s')
         );
         $data["amount"] = price_database_format($data["amount"]);
-        
+
         $temp_path = $this->upload_model->upload_temp_image('bukti');
 		if (!empty($temp_path)) {
             $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
@@ -186,7 +192,7 @@ class Balance_controller extends Home_Core_Controller
             'payment_method' => "Deposit",
             'payment_id' => $id_deposit,
             'currency' => $this->input->post('currency', true),
-            'payment_amount' => $this->input->post('amount', true) . "00",
+            'payment_amount' => price_database_format($tf),
             'payment_status' => "payment_received",
         );
         $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);

@@ -17,3 +17,12 @@ Update 26 Juni 2020
 ================================
 - table 'order_shipping':
     - koordinat (varchat)
+
+================================
+Update 29 Juni 2020
+================================
+- table 'orders':
+    - kodeunik (INT)
+- table 'deposit':
+    - kodeunik (INT)
+    - transfer (INT)

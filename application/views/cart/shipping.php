@@ -268,6 +268,7 @@
     }
 
     var km_max = <?= ($product->km_max) ? $product->km_max : 0 ?>;
+    var kode_unik = <?= (isset($cart_items[0]->kode_unik)) ? $cart_items[0]->kode_unik : 0 ?>;
     var km_price = <?= ($product->km_price) ? price_format_input($product->km_price) : 0 ?>;
     var total_jarak = 0
 
@@ -292,7 +293,7 @@
         var total = 0
         var subtotal = $('.subtotal_pd').text();
         subtotal = convertToAngka(subtotal)
-        total = parseInt(subtotal) + parseInt(ongkir)
+        total = parseInt(subtotal) + parseInt(ongkir) + kode_unik
         $('.total_pd').text(convertToRupiah(total));
     }
 

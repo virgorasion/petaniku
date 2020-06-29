@@ -623,6 +623,7 @@ $lang["update_order_status"] = "Perbarui Status Pesanan";
 $lang["place_order"] = "Tempatkan Order";
 $lang["stripe_checkout"] = "Stripe Checkout";
 $lang["coordinat"] = "Koordinat";
+$lang["kode_unik"] = "Kode Unik";
 $lang["iyzico"] = "Iyzico";
 $lang["api_key"] = "Api Key";
 $lang["msg_complete_payment"] = "Silakan klik tombol di bawah ini untuk menyelesaikan pembayaran.";

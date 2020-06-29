@@ -181,7 +181,7 @@
                                     </strong>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row hidden">
                                 <div class="col-sm-4">
                                     <?php echo trans("country"); ?>
                                 </div>
@@ -206,7 +206,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <?php echo trans("iban"); ?>
+                                    <?php echo trans("bank_number"); ?>
                                 </div>
                                 <div class="col-sm-8">
                                     <strong>

@@ -27,6 +27,7 @@
                             <th><?php echo trans('user'); ?></th>
                             <th>Detail Bank</th>
                             <th>Jumlah Deposit</th>
+                            <th>Jumlah Transfer (Deposit + Kode unik)</th>
                             <th><?php echo trans('status'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
@@ -60,6 +61,7 @@
                                     </p>
                                 </td>
                                 <td><?php echo print_price($item->amount, $item->currency); ?></td>
+                                <td><?php echo print_price($item->transfer, $item->currency); ?></td>
                                 <td>
                                     <?php if ($item->status == 1) { ?>
                                         <label class="label label-success"><?php echo trans("completed"); ?></label>

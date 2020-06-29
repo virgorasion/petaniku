@@ -22,6 +22,14 @@ class Cart_model extends CI_Model
 		// $totalongkir = ($ongkir*$quantity) . '00';
 		$totalongkir = ($ongkir) . '00';
 
+		// unik number
+		$digits = 3;
+		$uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
+		if($this->session->userdata('mds_shopping_cart_kodeunik') != null) {
+			$uniq = $this->session->userdata('mds_shopping_cart_kodeunik');
+			$this->session->unset_userdata('mds_shopping_cart_kodeunik');
+		}
+		
 		$sess = $this->get_sess_cart_shipping_address_without_unset();
 
 		$item = new stdClass();
@@ -43,6 +51,7 @@ class Cart_model extends CI_Model
 		$item->total_km = $sess->total_km;
 		$item->harga_per_km = $sess->harga_per_km;
 		$item->koordinat = $sess->koordinat;
+		$item->kode_unik = $uniq;
 		array_push($cart, $item);
 
 		$this->session->set_userdata('mds_shopping_cart', $cart);
@@ -242,11 +251,15 @@ class Cart_model extends CI_Model
 			}
 		}
 
+		$kodeunik = (isset($cart[0]->kode_unik)) ? $cart[0]->kode_unik : $uniq;
+
 		$totalAll = $cart_total->subtotal + $cart_total->shipping_cost;
-		$cart_total->total = $totalAll;
-		// $cart_total->total = $totalAll/100;
-		// $cart_total->total += 211;
-		// $cart_total->total *= 100; // back to format
+		// $cart_total->total = $totalAll;
+		$cart_total->total = $totalAll/100;
+		$cart_total->total += $kodeunik;
+		$cart_total->total *= 100; // back to format
+
+		$cart_total->kode_unik = $kodeunik;
 		
 		$this->session->set_userdata('mds_shopping_cart_total', $cart_total);
 	}
@@ -465,6 +478,7 @@ class Cart_model extends CI_Model
 						if ($this->form_settings->shipping != 1) {
 							$item->shipping_cost = 0;
 						}
+						$item->kode_unik = $cart_item->kode_unik;						
 						array_push($new_cart, $item);
 					}
 				}

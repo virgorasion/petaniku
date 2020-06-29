@@ -25,17 +25,26 @@ class Order_model extends CI_Model
 
 		$cart_total = $this->cart_model->get_sess_cart_total();
 		if (!empty($cart_total)) {
+
+			//total dikurangi kodeunik
+			// $pricetotal = $cart_total->total/100;
+			// $pricetotal = $pricetotal - $cart_total->kode_unik;
+			// $pricetotal *= 100;
+
+			$pricetotal = $cart_total->total;
+			
 			$data = array(
 				'order_number' => uniqid(),
 				'buyer_id' => 0,
 				'buyer_type' => "guest",
 				'price_subtotal' => $cart_total->subtotal,
 				'price_shipping' => $cart_total->shipping_cost,
-				'price_total' => $cart_total->total,
+				'price_total' => $pricetotal, //$cart_total->total
 				'price_currency' => $cart_total->currency,
 				'status' => 0,
 				'payment_method' => $data_transaction["payment_method"],
 				'payment_status' => $payment_status,
+				'kodeunik' => $cart_total->kode_unik,
 				'updated_at' => date('Y-m-d H:i:s'),
 				'created_at' => date('Y-m-d H:i:s')
 			);

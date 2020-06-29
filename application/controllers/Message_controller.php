@@ -41,27 +41,27 @@ class Message_controller extends Home_Core_Controller
         $imData["formatedDate"]=date('l, M j, Y');
         $imData["demo"]=DEMO;
         $imData["var"]=$this->config->item("app_dv_var");
-		$resToken=$this->session->userdata("responseToken");
-         if($this->session->userdata("session_token")!=null){
-             if(!ID_LOGIN) {
-                 if ($this->IMUser_Model->isValidToken($resToken)) {
-                 } else {
-                    redirect(base_url('imuserview/logout'));
-                 }
-             }else{
-                 if ($resToken!=null || trim($resToken)!="") {
-                 } else {
-                    redirect(base_url('imuserview/logout'));
-                 }
-             }
-        }else{
-            redirect(base_url('imuserview/logout'));
-		}
+		// $resToken=$this->session->userdata("responseToken");
+        //  if($this->session->userdata("session_token")!=null){
+        //      if(!ID_LOGIN) {
+        //          if ($this->IMUser_Model->isValidToken($resToken)) {
+        //          } else {
+        //             redirect(base_url('imuserview/logout'));
+        //          }
+        //      }else{
+        //          if ($resToken!=null || trim($resToken)!="") {
+        //          } else {
+        //             redirect(base_url('imuserview/logout'));
+        //          }
+        //      }
+        // }else{
+        //     redirect(base_url('imuserview/logout'));
+		// }
 		$data['imData'] = $imData;
 
 		$this->load->view('partials/_header', $data);
-		$this->load->view('message/im-messages', $data);
-		// $this->load->view('message/messages', $data);
+		// $this->load->view('message/im-messages', $data);
+		$this->load->view('message/messages', $data);
 		$this->load->view('partials/_footer');
 	}
 

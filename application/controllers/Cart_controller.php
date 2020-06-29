@@ -235,6 +235,8 @@ class Cart_controller extends Home_Core_Controller
 					if ($product->status != 1) {
 						$this->session->set_flashdata('product_details_error', trans("msg_error_cart_unapproved_products"));
 					} else {
+						$this->session->set_userdata('mds_shopping_cart_kodeunik', $cart->kode_unik);
+						
 						$this->cart_model->remove_from_cart($cart->cart_item_id);
 						$this->cart_model->add_to_cart($product, $ongkir, $cart->quantity);
 					}

@@ -1,4 +1,8 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); 
+
+    $digits = 3;
+    $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
+?>
 
 <style>
     .card-balance{
@@ -84,22 +88,30 @@
                             <h2 class="title">Isi Saldo</h2>
                             <?php echo form_open_multipart('balance_controller/deposit_post', ['id' => 'form_validate_payout_1', 'class' => 'validate_price',]); ?>
                             <div class="form-group">
-                                <label>Jumlah Isi Saldo</label>
-                                <?php
-                                $min_value = 0;
-                                if ($payment_settings->payout_paypal_enabled) {
-                                    $min_value = $payment_settings->min_payout_paypal;
-                                } elseif ($payment_settings->payout_iban_enabled) {
-                                    $min_value = $payment_settings->min_payout_iban;
-                                } elseif ($payment_settings->payout_swift_enabled) {
-                                    $min_value = $payment_settings->min_payout_swift;
-                                } ?>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text input-group-text-currency" id="basic-addon2"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
-                                        <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label>Jumlah Isi Saldo</label>
+                                        <?php
+                                        $min_value = 0;
+                                        if ($payment_settings->payout_paypal_enabled) {
+                                            $min_value = $payment_settings->min_payout_paypal;
+                                        } elseif ($payment_settings->payout_iban_enabled) {
+                                            $min_value = $payment_settings->min_payout_iban;
+                                        } elseif ($payment_settings->payout_swift_enabled) {
+                                            $min_value = $payment_settings->min_payout_swift;
+                                        } ?>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text input-group-text-currency" id="basic-addon2"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
+                                                <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
+                                            </div>
+                                            <input type="text" onchange="changeSaldo(this)" name="amount" id="product_price_input" aria-describedby="basic-addon2" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
+                                        </div>
                                     </div>
-                                    <input type="text" name="amount" id="product_price_input" aria-describedby="basic-addon2" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
+                                    <div class="col-md-4">
+                                        <label>Jumlah transfer</label>
+                                        <p style="font-weight:800" id="jumlah_transfer"></p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -107,6 +119,7 @@
                                     <div class="col-md-4">
                                         <label for="">Nama Bank Sistem</label>
                                         <input type="text" name="bank_name" class="form-control">
+                                        <input type="hidden" name="kodeunik" value="<?= $uniq ?>" class="form-control">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="">Jenis Bank</label>
@@ -190,6 +203,27 @@
 
 
 <script>
+    $(document).ready(function(){
+        $('#jumlah_transfer').html(convertToRupiah(0));
+    });
+
+    function changeSaldo(that)
+    {
+        var kode_unik = <?= $uniq ?>;
+        var total = parseInt($(that).val()) + kode_unik;
+        $('#jumlah_transfer').html(convertToRupiah(total));
+    }
+
+
+
+    function convertToRupiah(angka)
+    {
+        var rupiah = '';		
+        var angkarev = angka.toString().split('').reverse().join('');
+        for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+        return 'Rp'+rupiah.split('',rupiah.length-1).reverse().join('');
+    }
+
     function update_payout_input(option) {
         if (option == "paypal") {
             $('#payout_price_input').attr('min', '<?php echo price_format_decimal($payment_settings->min_payout_paypal); ?>');
