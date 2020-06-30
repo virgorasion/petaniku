@@ -9,12 +9,12 @@ class Balance_controller extends Home_Core_Controller
         if (!auth_check()) {
             redirect(lang_base_url());
         }
-        if (!is_user_vendor()) {
-            redirect(lang_base_url());
-        }
-        if (!is_sale_active()) {
-            redirect(lang_base_url());
-        }
+        // if (!is_user_vendor()) {
+        //     redirect(lang_base_url());
+        // }
+        // if (!is_sale_active()) {
+        //     redirect(lang_base_url());
+        // }
         $this->earnings_per_page = 15;
         $this->user_id = user()->id;
     }

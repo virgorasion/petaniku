@@ -45,11 +45,11 @@ class Profile_controller extends Home_Core_Controller
 		$data['description'] = $data["user"]->username . " - " . $this->app_name;
 		$data['keywords'] = $data["user"]->username . "," . $this->app_name;
 		
-		if ($data["user"]->role == 'member') {
-			$data['redirect'] = lang_base_url() . 'favorites/' . $data["user"]->slug;
+		// if ($data["user"]->role == 'member') {
+		// 	$data['redirect'] = lang_base_url() . 'favorites/' . $data["user"]->slug;
 
-			return $data;
-		}
+		// 	return $data;
+		// }
 		
 		//set pagination
 		$pagination = $this->paginate(generate_profile_url($data["user"]),
