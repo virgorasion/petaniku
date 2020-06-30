@@ -136,7 +136,7 @@
                     <ul class="treeview-menu">
                         <li><a href="<?php echo admin_url(); ?>orders"> <?php echo trans("orders"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>transactions"> <?php echo trans("transactions"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>order-bank-transfers"> <?php echo trans("bank_transfer_notifications"); ?></a></li>
+                        <!-- <li><a href="<?php echo admin_url(); ?>order-bank-transfers"> <?php echo trans("bank_transfer_notifications"); ?></a></li> -->
                     </ul>
                 </li>
                 <!-- <li>

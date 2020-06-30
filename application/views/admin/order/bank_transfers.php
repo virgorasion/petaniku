@@ -35,7 +35,7 @@
                         <?php foreach ($bank_transfers as $item): ?>
                             <tr>
                                 <td><?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
-                                <td><?php echo $item->id; ?></td>
+                                <!-- <td><?php echo $item->id; ?></td> -->
                                 <td>
                                     <?php
                                     $order = $this->order_admin_model->get_order_by_order_number($item->order_number);
