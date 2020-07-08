@@ -394,9 +394,12 @@ if ($language->id == $site_lang->id):?>
 						<div class="form-group">
 							<input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("password"); ?>" minlength="4" required>
 						</div>
+						<div class="form-group">
+							<?php generate_recaptcha(); ?>
+						</div>
 						<div class="form-group text-right">
 							<a href="<?php echo lang_base_url(); ?>forgot-password" class="link-forgot-password"><?php echo trans("forgot_password"); ?></a>
-						</div>
+						</div>						
 						<div class="form-group">
 							<button type="submit" class="btn btn-md btn-custom btn-block"><?php echo trans("login"); ?></button>
 						</div>

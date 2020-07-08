@@ -56,6 +56,8 @@
             <span class=" glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
 
+        <?php generate_recaptcha(); ?>
+
         <div class="row">
             <div class="col-sm-8 col-xs-12">
             </div>
