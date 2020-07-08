@@ -25,7 +25,7 @@ class Auth_controller extends Home_Core_Controller
 		//validate inputs
 		$this->form_validation->set_rules('email', trans("email_address"), 'required|xss_clean|max_length[100]');
 		$this->form_validation->set_rules('password', trans("password"), 'required|xss_clean|max_length[30]');
-		if ($this->form_validation->run() == false) {
+		if ($this->form_validation->run() == false && $this->recaptcha_verify_request() == true) {
 			$this->session->set_flashdata('errors', validation_errors());
 			$this->session->set_flashdata('form_data', $this->auth_model->input_values());
 			$this->load->view('partials/_messages');
