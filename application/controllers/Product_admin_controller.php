@@ -203,6 +203,7 @@ class Product_admin_controller extends Admin_Core_Controller
     {
         $data['title'] = trans("product_details");
         $data['product'] = $this->product_admin_model->get_product($id);
+        $data['paket_product'] = $this->product_admin_model->get_paket_product($id);
         if (empty($data['product'])) {
             redirect($this->agent->referrer());
         }
