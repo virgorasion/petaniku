@@ -108,13 +108,13 @@
                                             <input type="text" onchange="changeSaldo(this)" name="amount" id="product_price_input" aria-describedby="basic-addon2" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden">
                                         <label>Jumlah transfer</label>
                                         <p style="font-weight:800" id="jumlah_transfer"></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="">Nama Bank Sistem</label>
@@ -139,7 +139,7 @@
                                     </select>
                                 </div>
                             </div> -->
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label>Bukti Transfer</label><br>
                                 <input type="file" name="bukti">
                             </div>
@@ -163,6 +163,7 @@
                             <thead>
                             <tr>
                                 <th scope="col">Jumlah Pengisian</th>
+                                <th scope="col">Nominal Transfer</th>
                                 <th scope="col"><?php echo trans("status"); ?></th>
                                 <th scope="col"><?php echo trans("date"); ?></th>
                             </tr>
@@ -171,6 +172,9 @@
                             <?php foreach ($deposit as $row): ?>
                                 <tr>
                                     <td><?php echo print_price($row->amount, $row->currency); ?></td>
+                                    <td><?php 
+                                    $tf = ($row->transfer) ? $row->transfer : $row->amount;
+                                    echo print_price($tf, $row->currency); ?></td>
                                     <td>
                                         <?php if ($row->status == 1) {
                                             echo trans("completed");

@@ -710,6 +710,7 @@ $lang["email_text_new_product"] = "Produk baru telah ditambahkan";
 $lang["email_text_thank_for_order"] = "Terima kasih atas pesanan Anda!";
 $lang["email_text_new_order"] = "Pesanan Anda telah diterima dan sekarang sedang diproses. Detail pesanan Anda ditunjukkan di bawah ini.";
 $lang["order_information"] = "Informasi pemesanan";
+$lang["transfer_info"] = "Informasi Transfer";
 $lang["you_have_new_message"] = "Anda memiliki pesan baru";
 $lang["your_order_shipped"] = "Pesanan Anda sudah dikirimkan";
 $lang["shipped_product"] = "Produk Dikirim";

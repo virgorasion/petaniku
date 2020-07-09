@@ -236,6 +236,14 @@ class Earnings_model extends CI_Model
         return $query->num_rows();
     }
 
+    public function get_deposit_by_id($id)
+    {
+        $id = clean_number($id);
+        $this->db->where('id', $id);
+        $query = $this->db->get('deposit');
+        return $query->row();
+    }
+
     //get paginated payouts
     public function get_paginated_deposits($user_id, $per_page, $offset)
     {
@@ -255,6 +263,8 @@ class Earnings_model extends CI_Model
 
     public function deposit_money($data)
     {
-        return $this->db->insert('deposit', $data);
+        $this->db->insert('deposit', $data);
+        $insert_id = $this->db->insert_id();
+        return  $insert_id;
     }
 }

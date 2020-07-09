@@ -350,7 +350,7 @@ class Cart_controller extends Home_Core_Controller
 			exit();
 		}
 
-		//check is set cart payment method
+		// //check is set cart payment method
 		$data['cart_payment_method'] = $this->cart_model->get_sess_cart_payment_method();
 		if (empty($data['cart_payment_method'])) {
 			redirect(lang_base_url() . "cart/payment-method");
@@ -385,9 +385,11 @@ class Cart_controller extends Home_Core_Controller
 		}
 
 		//check pagseguro
-		if ($data['cart_payment_method']->payment_option == 'pagseguro') {
-			$this->load->library('pagseguro');
-			$data['session_code'] = $this->pagseguro->get_session_code();
+		if(isset($data['cart_payment_method'])) {
+			if ($data['cart_payment_method']->payment_option == 'pagseguro') {
+				$this->load->library('pagseguro');
+				$data['session_code'] = $this->pagseguro->get_session_code();
+			}
 		}
 
 		$this->load->view('partials/_header', $data);
@@ -676,23 +678,23 @@ class Cart_controller extends Home_Core_Controller
 	{
 		$mds_payment_type = $this->input->post('mds_payment_type', true);
 
-		if ($mds_payment_type == 'promote') {
-			$promoted_plan = $this->session->userdata('modesy_selected_promoted_plan');
-			if (!empty($promoted_plan)) {
-				//execute payment
-				$this->promote_model->execute_promote_payment_bank($promoted_plan);
+		// if ($mds_payment_type == 'promote') {
+		// 	$promoted_plan = $this->session->userdata('modesy_selected_promoted_plan');
+		// 	if (!empty($promoted_plan)) {
+		// 		//execute payment
+		// 		$this->promote_model->execute_promote_payment_bank($promoted_plan);
 
-				$type = $this->session->userdata('mds_promote_product_type');
+		// 		$type = $this->session->userdata('mds_promote_product_type');
 
-				if (empty($type)) {
-					$type = "new";
-				}
-				$transaction_number = $this->session->userdata('mds_promote_bank_transaction_number');
-				redirect(lang_base_url() . "promote-payment-completed?method=bank_transfer&transaction_number=" . $transaction_number . "&product_id=" . $promoted_plan->product_id);
-			}
-			$this->session->set_flashdata('error', trans("msg_error"));
-			redirect(lang_base_url() . "/cart/payment");
-		} else {
+		// 		if (empty($type)) {
+		// 			$type = "new";
+		// 		}
+		// 		$transaction_number = $this->session->userdata('mds_promote_bank_transaction_number');
+		// 		redirect(lang_base_url() . "promote-payment-completed?method=bank_transfer&transaction_number=" . $transaction_number . "&product_id=" . $promoted_plan->product_id);
+		// 	}
+		// 	$this->session->set_flashdata('error', trans("msg_error"));
+		// 	redirect(lang_base_url() . "/cart/payment");
+		// } else {
 			//add order
 
 			// add to tabel transaksi
@@ -732,7 +734,7 @@ class Cart_controller extends Home_Core_Controller
 
 			$this->session->set_flashdata('error', trans("msg_error"));
 			redirect(lang_base_url() . "/cart/payment");
-		}
+		// }
 	}
 
 	/**

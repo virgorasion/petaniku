@@ -49,6 +49,8 @@
 											echo '1.';
 										} ?>
 										&nbsp;<?php echo trans("payment_method"); ?></h2>
+									
+									<!-- payment_method_post -->
 									<?php echo form_open('cart_controller/payment_method_post', ['id' => 'form_validate', 'class' => 'validate_terms']); ?>
 									<input type="hidden" name="mds_payment_type" value="<?php echo $mds_payment_type ?>">
 									<div class="row">
@@ -267,3 +269,24 @@
 	</div>
 </div>
 <!-- Wrapper End-->
+
+<!-- <script>
+	$('.custom-radio').find('input').change(function(){
+		if($(this).is(':checked')) {
+			var val = $(this).val();
+			changePayment(val);
+		}
+	});
+
+	function changePayment(pilihan) {
+		var url = "<?= site_url('cart_controller/bank_transfer_payment_post') ?>";
+		
+		if(pilihan == "bank_transfer") {
+			url = "<?= site_url('cart_controller/bank_transfer_payment_post') ?>"	;
+		} else if(pilihan == "saldo") {
+			url = "<?= site_url('cart_controller/saldo_payment_post') ?>"	;
+		}
+
+		$('#form_validate').attr('action', url);
+	}
+</script> -->

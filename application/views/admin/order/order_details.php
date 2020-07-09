@@ -562,7 +562,7 @@
                         class="font-right"><?= (isset($order_shipping->total_km)) ? $order_shipping->total_km . ' km' : 'Tidak ada data' ?></strong>
                 </div>
             </div>
-            <div class="row row-details">
+            <!-- <div class="row row-details">
                 <div class="col-xs-12 col-sm-6 col-right">
                     <strong><?= trans('kode_unik') ?></strong>
                 </div>
@@ -570,7 +570,7 @@
                     <strong
                         class="font-right"><?= (isset($order->kodeunik)) ? $order->kodeunik  : 0 ?></strong>                    
                 </div>
-            </div>
+            </div> -->
             <?php if ($is_order_has_physical_product): ?>
             <div class="row row-details">
                 <div class="col-xs-12 col-sm-6 col-right">

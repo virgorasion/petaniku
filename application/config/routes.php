@@ -235,6 +235,7 @@ $route[$r_admin . '/add-payout'] = 'earnings_admin_controller/add_payout';
 // $route[$r_admin . '/seller-balances'] = 'earnings_admin_controller/seller_balances';
 $route[$r_admin . '/update-seller-balance/(:num)'] = 'earnings_admin_controller/update_seller_balance/$1';
 
+$route[$r_admin . '/deposit-details/(:num)'] = 'balance_admin_controller/deposit_details/$1';
 $route[$r_admin . '/deposit-requests'] = 'balance_admin_controller/deposit_requests';
 $route[$r_admin . '/completed-deposit'] = 'balance_admin_controller/completed_deposit';
 

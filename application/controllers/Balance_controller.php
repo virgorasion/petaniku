@@ -193,14 +193,14 @@ class Balance_controller extends Home_Core_Controller
             'payment_id' => $id_deposit,
             'currency' => $this->input->post('currency', true),
             'payment_amount' => price_database_format($tf),
-            'payment_status' => "payment_received",
+            'payment_status' => "awaiting_payment",
         );
         $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
 
         if (!$id_deposit) {
             $this->session->set_flashdata('error', trans("msg_error"));
         } else {
-            $this->session->set_flashdata('success', "Berhasil deposit. Tunggu konfirmasi dari admin terlebih dahulu");            
+            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar {print_price($tf, 'IDR')}.Tunggu konfirmasi dari admin terlebih dahulu");            
         }
         redirect($this->agent->referrer());
     }

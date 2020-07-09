@@ -255,6 +255,19 @@ class Earnings_admin_model extends CI_Model
         return false;
     }
 
+    public function complete_deposit_transaction($payout_id, $user_id, $amount)
+    {
+        $payout_id = clean_number($payout_id);
+        $user_id = clean_number($user_id);
+        $data = array(
+            'payment_status' => 'payment_received'
+        );
+
+        $this->db->where('payment_option', "Deposit");
+        $this->db->where('order_id', $payout_id);
+        return $this->db->update('transactions', $data);
+    }
+
     //check user balance
     public function check_user_balance($user_id, $amount)
     {

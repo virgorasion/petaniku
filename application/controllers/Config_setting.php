@@ -211,7 +211,7 @@ class Config_setting extends CI_Controller
 
         $config['bank_transfer_enabled'] = 1;
         $bank_akun = "
-        <p>Silahkan untuk membayar melalui akun bank di bawah ini</p>
+        <p>Pilih salah satu pembayaran melalui akun bank di bawah ini</p>
 
         <ul>";
 		while ($line = fgets($fh)) {

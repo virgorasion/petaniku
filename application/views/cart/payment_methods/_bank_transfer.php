@@ -29,10 +29,11 @@
 		<input type="hidden" name="mds_payment_type" value="<?php echo $mds_payment_type; ?>">
 		<div id="payment-button-container" class=paypal-button-cnt">
 			<div class="bank-account-container">
+				Silahkan membayar tepat <strong><?php echo print_price($cart_total->total, $this->payment_settings->default_product_currency); ?></strong>
 				<?php echo $payment_settings->bank_transfer_accounts; ?>
 			</div>
-			<p class="p-complete-payment"><?php echo trans("msg_bank_transfer_text"); ?></p>
-			<button type="submit" name="submit" value="update" class="btn btn-lg btn-custom float-right"><?php echo trans("place_order") ?></button>
+			<!-- <p class="p-complete-payment"><?php echo trans("msg_bank_transfer_text"); ?></p> -->
+			<button type="submit" name="submit" value="update" class="btn btn-lg btn-custom float-right"><?php echo trans("see_details") ?></button>
 		</div>
 		<?php echo form_close(); ?>
 	<?php endif; ?>

@@ -64,10 +64,12 @@
 													<span class="text-info">(<?php echo trans("pending"); ?>)</span>
 												<?php elseif ($last_bank_transfer->status == "declined"): ?>
 													<span class="text-danger">(<?php echo trans("bank_transfer_declined"); ?>)</span>
-													<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
+													<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#infoPaymentModal"><?php echo trans("transfer_info"); ?></button>
+													<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button> -->
 												<?php endif; ?>
 											<?php else: ?>
-												<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
+												<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#infoPaymentModal"><?php echo trans("transfer_info"); ?></button>											
+												<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button> -->
 											<?php endif; ?>
 
 
@@ -427,7 +429,7 @@
 												class="font-600"><?= (isset($order_shipping->total_km)) ? $order_shipping->total_km . ' km' : 'Tidak ada data' ?></strong>
 										</div>
 									</div>
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-6 col-left">
 											<span><?= trans('kode_unik') ?></span>
 										</div>
@@ -435,7 +437,7 @@
 											<strong
 												class="font-600"><?= (isset($order->kodeunik)) ? $order->kodeunik  : 0 ?></strong>
 										</div>
-									</div>
+									</div> -->
 									<?php if ($is_order_has_physical_product): ?>
 										<div class="row">
 											<div class="col-6 col-left">
@@ -473,6 +475,32 @@
 	</div>
 </div>
 <!-- Wrapper End-->
+
+
+<div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<?php echo form_open_multipart('order_controller/bank_transfer_payment_report_post'); ?>
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<br><br>
+				<h4 class=" text-center">
+				Silahkan melakukan transfer sebesar <br> <strong><?php echo print_price($order->price_total, $order->price_currency); ?></strong>					
+				</h4><br><br>
+				<?php echo $payment_settings->bank_transfer_accounts; ?>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>				
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="reportPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
