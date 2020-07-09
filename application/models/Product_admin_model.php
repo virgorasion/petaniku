@@ -153,7 +153,7 @@ class Product_admin_model extends CI_Model
 	{
 		$this->filter_products();
 		$this->filter_products_list($list);
-		$this->db->where('products.status', 1);
+		// $this->db->where('products.status', 1);
 		$query = $this->db->get('products');
 		return $query->num_rows();
 	}
@@ -294,6 +294,14 @@ class Product_admin_model extends CI_Model
 		$this->db->where('products.id', $id);
 		$query = $this->db->get('products');
 		return $query->row();
+	}
+
+	public function get_paket_product($id)
+	{
+		$id = clean_number($id);
+		$this->db->where('product_variations.product_id', $id);
+		$query = $this->db->get('product_variations');
+		return $query->result();
 	}
 
 	//approve product

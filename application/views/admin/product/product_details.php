@@ -194,7 +194,7 @@
 						<label class="control-label">Koordinat Lokasi</label>
 					</div>
 					<div class="col-md-9 col-sm-12 right">
-					<?php $this->load->view('mapongkir-google', ['start' => $product->pengiriman]); ?>
+						<?= $product->pengiriman ?>
 					</div>
 				</div>
 				<div class="row row-product-details">
@@ -333,6 +333,38 @@
 					</div>
 					<div class="col-md-9 col-sm-12 right description">
 						<?php echo $product->description; ?>
+					</div>
+				</div>
+				<div class="row row-product-details">
+					<div class="col-md-3 col-sm-12">
+						<label class="control-label"><?= "Paket" ?></label>
+					</div>
+					<div class="col-md-9 col-sm-12 right description">
+						<table class="table table-product-variations">
+							<thead>
+							<tr>
+								<th scope="col"><?php echo trans("label"); ?></th>
+								<th scope="col">Paket yang tersedia</th>
+								<th scope="col">Deskripsi</th>
+							</tr>
+							</thead>
+							<tbody>
+								<?php foreach($paket_product as $item): ?>
+								<tr>
+									<td><?= $item->label ?></td>
+									<td>
+										<?php if ($item->unlimited){
+											echo trans("unlimited");                                    
+										} else {
+											echo $item->total_semua;                                    
+										}
+										?>
+									</td>
+									<td><?= $item->deskripsi ?></td>
+								</tr>
+								<?php endforeach ?>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
