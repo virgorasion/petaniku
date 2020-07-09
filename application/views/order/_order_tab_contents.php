@@ -15,7 +15,7 @@ $active_classes = 'fade active show';
                         <th scope="col"><?php echo trans("order"); ?></th>
                         <th scope="col"><?php echo trans("buyer"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
-                        <th scope="col"><?php echo trans("payment"); ?></th>
+                        <th scope="col" class="hidden"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
                         <th scope="col"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
@@ -40,7 +40,7 @@ $active_classes = 'fade active show';
                                     </div>
                                 </td>
                                 <td><?php echo print_price($order->price_total, $order->price_currency); ?></td>
-                                <td>
+                                <td class="hidden">
                                     <?php if ($order->payment_status == 'payment_received'):
                                         echo trans("payment_received");
                                     else:
@@ -104,7 +104,7 @@ $active_classes = 'fade active show';
                         <th scope="col"><?php echo trans("total"); ?></th>
                         <th scope="col"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
-                        <th scope="col"><?php echo trans("status"); ?></th>
+                        <th scope="col" class="hidden"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
                     </tr>
                 </thead>
@@ -128,7 +128,7 @@ $active_classes = 'fade active show';
                                         </div>
                                     </td>
                                     <td><?php echo print_price($order->price_total, $order->price_currency); ?></td>
-                                    <td>
+                                    <td class="hidden">
                                         <?php if ($order->payment_status == 'payment_received'):
                                             echo trans("payment_received");
                                         else:
