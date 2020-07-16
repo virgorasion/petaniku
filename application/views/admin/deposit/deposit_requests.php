@@ -67,7 +67,7 @@
                                         <label class="label label-warning"><?php echo trans("pending"); ?></label>
                                     <?php } ?>
                                 </td>
-                                <td>
+                                <td class="hidden">
                                     <?php echo form_open_multipart('balance_admin_controller/complete_deposit_request_post'); ?>
                                     <input type="hidden" name="payout_id" value="<?php echo $item->id; ?>">
                                     <input type="hidden" name="user_id" value="<?php echo $item->user_id; ?>">
