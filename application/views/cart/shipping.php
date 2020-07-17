@@ -52,6 +52,7 @@
                                             <div class="form-group">
                                             <?php if($product->pengiriman){ ?>
                                                 <?php $this->load->view('mapongkir-google', ['start' => $product->pengiriman]); ?>
+                                                <button class="btn btn-success btn-lg text-white mt-4 mb-3 w-100" type="button" id="getCurrentPosition">Ambil alamat otomatis</button>
                                                 <div class="card">
                                                     <div class="card-body" style="background:#939494;color:#FFF">
                                                         Pilih tujuan pengiriman dari maps. Untuk mencari lokasi dengan pencarian, Anda dapat mengklik zoom out / simbol minus terlebih dahulu.
@@ -300,6 +301,9 @@
     function getLongLat(lokasi) {
         var lok = lokasi.lat + "," + lokasi.lng;
         $('#inp_koordinat').val(lok);
+    }
+    const getCurrentPosition = () => {
+        // 
     }
 
     function convertToRupiah(angka)

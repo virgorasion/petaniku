@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'	=> '',
-    'hostname' => 'localhost',
+    'hostname' => '127.0.0.1',
     'username' => 'root',
-    'password' => 'root',
-    'database' => 'modesy_online_bawaan',
+    'password' => '',
+    'database' => 'modesy',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
