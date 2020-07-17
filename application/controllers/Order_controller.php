@@ -293,5 +293,17 @@ class Order_controller extends Home_Core_Controller
 			$this->order_admin_model->update_order_status_if_completed($order_product->order_id);
 		}
 	}
+	
+	/**
+	 * Cancel Order Product
+	 */
+	public function report_cancel_product()
+	{
+		$order_number = $this->input->post('order_number', true);
+		$note_cancel = $this->input->post('note_cancel', true);
+		$this->Order_model->cancel_order();
+		redirect($this->agent->referrer());
+	}
+
 
 }

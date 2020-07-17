@@ -593,6 +593,7 @@ class Order_model extends CI_Model
 	//add bank transfer payment report
 	public function add_bank_transfer_payment_report()
 	{
+
 		$data = array(
 			'order_number' => $this->input->post('order_number', true),
 			'payment_note' => $this->input->post('payment_note', true),
@@ -617,8 +618,14 @@ class Order_model extends CI_Model
 		if (!empty($file_path)) {
 			$data["receipt_path"] = $file_path;
 		}
-
-		return $this->db->insert('bank_transfers', $data);
+		$this->db->insert('bank_transfers', $data);
+		$get_order_id = $this->db->select("orders.id")->from("orders")->join("bank_transfers","bank_transfers.order_number = orders.order_number")->where("bank_transfers.order_number", $this->input->post('order_number', true))->get()->result();
+		$this->db->set("payment_status", "awaiting_verification");
+		$this->db->where("id", $get_order_id[0]->id);
+		$this->db->update("orders");
+		$this->db->set("payment_status","awaiting_verification");
+		$this->db->where("order_id", $get_order_id[0]->id);
+		return $this->db->update("transactions");
 	}
 
 	//get sales count
@@ -629,7 +636,8 @@ class Order_model extends CI_Model
 		$this->db->select('orders.id');
 		$this->db->group_by('orders.id');
 		$this->db->where('order_products.seller_id', $user_id);
-		$this->db->where('order_products.order_status !=', 'completed');
+		$this->db->where('order_products.is_approved', '0');
+		$this->db->where('orders.payment_status', 'payment_received');
 		$query = $this->db->get('orders');
 		return $query->num_rows();
 	}
@@ -642,7 +650,8 @@ class Order_model extends CI_Model
 		$this->db->select('orders.id');
 		$this->db->group_by('orders.id');
 		$this->db->where('order_products.seller_id', $user_id);
-		$this->db->where('order_products.order_status !=', 'completed');
+		$this->db->where('order_products.is_approved', '0');
+		$this->db->where('orders.payment_status', 'payment_received');
 		$this->db->order_by('orders.created_at', 'DESC');
 		$this->db->limit($per_page, $offset);
 		$query = $this->db->get('orders');
@@ -787,4 +796,25 @@ class Order_model extends CI_Model
 		}
 	}
 
+	// cancel order Product
+	public function cancel_product($order_number, $note_cancel)
+	{
+		$order_number = $this->input->post('order_number', true);
+		$data = array(
+			'status_cancel' => 1,
+			'note_cancel' => $this->input->post('note_cancel', true),
+			'updated_at' => date('Y-m-d H:i:s')
+		);
+		if (auth_check()) {
+			$data["user_id"] = user()->id;
+			$data["user_type"] = "registered";
+		}
+		$ip = $this->input->ip_address();
+		if (!empty($ip)) {
+			$data['ip_address'] = $ip;
+		}
+
+		return $this->db->update("orders", $data, $order_number);
+
+	}
 }

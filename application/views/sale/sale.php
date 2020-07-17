@@ -43,15 +43,7 @@
 										<?php echo trans("status"); ?>
 									</div>
 									<div class="col-9">
-										<?php
-										$order_status = 1;
-										foreach ($order_products as $item):
-											if ($item->order_status != 'completed') {
-												$order_status = 0;
-											}
-										endforeach; ?>
-
-										<?php if ($order_status == 1): ?>
+										<?php if ($order_products[0]->is_approved == 1): ?>
 											<strong><?php echo trans("completed"); ?></strong>
 										<?php else: ?>
 											<strong><?php echo trans("order_processing"); ?></strong>

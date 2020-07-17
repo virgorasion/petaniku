@@ -41,7 +41,7 @@ $active_classes = 'fade active show';
                                         <strong class="font-600">
                                             <?php
                                             if ($sale->payment_status == 'awaiting_payment'):
-                                                if ($sale->payment_method == 'Cash On Delivery') {
+                                                if ($sale->payment_method == 'Bank Transfer') {
                                                     echo trans("order_processing");
                                                 } else {
                                                     echo trans("awaiting_payment");
@@ -122,7 +122,8 @@ $active_classes = 'fade active show';
                                         </td>
                                         <td>
                                             <strong class="font-600">
-                                                <?php
+                                            <?= trans("completed") ?>
+                                                <?php /*
                                                 if ($sale->payment_status == 'awaiting_payment'):
                                                     if ($sale->payment_method == 'Cash On Delivery') {
                                                         echo trans("order_processing");
@@ -135,7 +136,7 @@ $active_classes = 'fade active show';
                                                     else:
                                                         echo trans("completed");
                                                     endif;
-                                                endif; ?>
+                                                endif; */ ?>
                                             </strong>
                                         </td>
                                         <td><?php echo date("Y-m-d / h:i", strtotime($sale->created_at)); ?></td>

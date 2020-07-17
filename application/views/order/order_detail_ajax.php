@@ -9,7 +9,6 @@
                 <?php $this->load->view('product/_messages'); ?>
             </div>
         </div>
-
         <div class="order-details-container">
             <div class="order-head">
                 <h2 class="title border-0"><?php echo trans("order"); ?> #<?php echo $order->order_number; ?></h2>
@@ -34,32 +33,24 @@
                         <p class="text-gray small mb-1"><?php echo trans("payment_status"); ?></p>
                         <h6 class="m-0"><?php echo trans($order->payment_status); ?></h6><br>
 
-                        <?php if ($order->payment_method == "Bank Transfer" && $order->payment_status == "awaiting_payment"):
-
-                        if (isset($last_bank_transfer)):?>
-                            <?php if ($last_bank_transfer->status == "pending"): ?>
-                                <span class="text-info">(<?php echo trans("pending"); ?>)</span>
-                            <?php elseif ($last_bank_transfer->status == "declined"): ?>
-                                <span class="text-danger">(<?php echo trans("bank_transfer_declined"); ?>)</span>
+                        <?php if ($order->payment_method == "Bank Transfer" && $order->payment_status == "awaiting_verification" || $order->payment_status == "awaiting_payment"):
+                        
+                            if (isset($last_bank_transfer)):?>
+                                <?php if ($last_bank_transfer->status == "pending"): ?>
+                                    <span class="text-info">(<?php echo trans("pending"); ?>)</span>
+                                <?php elseif ($last_bank_transfer->status == "declined"): ?>
+                                    <span class="text-danger">(<?php echo trans("bank_transfer_declined"); ?>)</span>
+                                    <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
+                                <?php endif; ?>
+                            <?php else: ?>
                                 <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
                             <?php endif; ?>
-                        <?php else: ?>
-                            <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
-                        <?php endif; ?>
-
 
                         <?php endif; ?>
+                        <?php if($order->payment_status == "payment_received" && $order_products[0]->order_status != "completed" && $order_products[0]->order_status != "shipping"):?>
+                            <button class="btn btn-sm btn-danger m-l-14" data-toggle="modal" data-target="#reportCancelOrder">Ajukan Pembatalan</button>
+                        <?php endif ?>
 
-                    </div>
-                    <div class="col-sm-6 col-md-4 mb-3">
-                        <p class="text-gray small mb-1"><?php echo trans("payment_method"); ?></p>
-                        <h6 class="m-0"><?php
-                            if ($order->payment_method == "Bank Transfer") {
-                                echo trans("bank_transfer");
-                            } else {
-                                echo $order->payment_method;
-                            }
-                        ?></h6>
                     </div>
                 </div>
                 <div class="row">
@@ -220,7 +211,7 @@
                                 <thead>
                                     <tr role="row">
                                         <th style="width: auto"><?php echo trans('product'); ?></th>
-                                        <th style="width: 180px; max-width: 40%"><?php echo trans('status'); ?></th>
+                                        <!-- <th style="width: 180px; max-width: 40%"><?php //echo trans('status'); ?></th> -->
                                         <th style="width: 140px; max-width: 40%"><?php echo trans('updated'); ?></th>
                                         <th style="width: 200px; max-width: 40%"><?php echo trans('options'); ?></th>
                                     </tr>
@@ -296,9 +287,9 @@
                                                     <?php endif; ?>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <strong class="no-wrap"><?php echo trans($item->order_status) ?></strong>
-                                            </td>
+                                            <!-- <td>
+                                                <strong class="no-wrap"><?php //echo trans($item->order_status) ?></strong>
+                                            </td> -->
                                             <td>
                                                 <?php if ($item->product_type == 'physical'):
                                                     echo time_ago($item->updated_at);
@@ -463,6 +454,34 @@
 						</a><br>
 						<span class='badge badge-info' id="upload-file-info"></span>
 					</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
+				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+			</div>
+			<?php echo form_close(); ?><!-- form end -->
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reportCancelOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<?php echo form_open('order_controller/report_cancel_order'); ?>
+			<div class="modal-header">
+				<h5 class="modal-title">Pengajuan Pembatalan</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="order_number" class="form-control form-input" value="<?php echo $order->order_number; ?>">
+				<div class="form-group">
+					<label>Catatan Pembatalan</label>
+					<textarea name="note_cancel" class="form-control form-textarea" maxlength="499"></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">

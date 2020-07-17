@@ -27,6 +27,12 @@ class Order_admin_model extends CI_Model
             );
             $this->db->where('id', $order_id);
             $this->db->update('orders', $data_order);
+            // Update Transactions
+            $data_order = array(
+                'payment_status' => "payment_received"
+            );
+            $this->db->where('order_id', $order_id);
+            $this->db->update('transactions', $data_order);
 
             //update order products payment status
             $order_products = $this->get_order_products($order_id);
@@ -105,7 +111,7 @@ class Order_admin_model extends CI_Model
         $order_products = $this->get_order_products($order_id);
         if (!empty($order_products)) {
             foreach ($order_products as $order_product) {
-                if ($order_product->order_status == "awaiting_payment" || $order_product->order_status == "order_processing" || $order_product->order_status == "cancelled") {
+                if ($order_product->order_status == "awaiting_payment" || $order_product->order_status == "cancelled") {
                     $all_received = false;
                 }
             }

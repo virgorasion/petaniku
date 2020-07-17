@@ -58,7 +58,6 @@
 										<?php echo trans($order->payment_status); ?>
 
 										<?php if ($order->payment_method == "Bank Transfer" && $order->payment_status == "awaiting_payment"):
-
 											if (isset($last_bank_transfer)):?>
 												<?php if ($last_bank_transfer->status == "pending"): ?>
 													<span class="text-info">(<?php echo trans("pending"); ?>)</span>
@@ -71,8 +70,6 @@
 												<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#infoPaymentModal"><?php echo trans("transfer_info"); ?></button>											
 												<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button> -->
 											<?php endif; ?>
-
-
 										<?php endif; ?>
 									</div>
 								</div>
@@ -298,7 +295,7 @@
 										<thead>
 										<tr>
 											<th scope="col"><?php echo trans("product"); ?></th>
-											<th scope="col"><?php echo trans("status"); ?></th>
+											<!-- <th scope="col"><?php //echo trans("status"); ?></th> -->
 											<th scope="col"><?php echo trans("updated"); ?></th>
 											<th scope="col"><?php echo trans("options"); ?></th>
 										</tr>
@@ -340,9 +337,9 @@
 														</div>
 													</div>
 												</td>
-												<td>
-													<strong class="no-wrap"><?php echo trans($item->order_status) ?></strong>
-												</td>
+												<!-- <td>
+													<strong class="no-wrap"><?php //echo trans($item->order_status) ?></strong>
+												</td> -->
 												<td>
 													<?php if ($item->product_type == 'physical') {
 														echo time_ago($item->updated_at);
@@ -370,6 +367,7 @@
 													<?php else: ?>
 														<?php if ($item->order_status == "completed"): ?>
 															<strong class="font-600"><i class="icon-check"></i>&nbsp;<?php echo trans("confirmed"); ?></strong>
+														<?php elseif($item->order_status == ""):?>
 														<?php else: ?>
 															<?php if ($item->order_status == "shipped"): ?>
 																<button type="submit" class="btn btn-sm btn-custom" onclick="approve_order_product('<?php echo $item->id; ?>','<?php echo trans("confirm_approve_order"); ?>');"><i class="icon-check"></i><?php echo trans("confirm_order_received"); ?></button>

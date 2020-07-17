@@ -200,7 +200,7 @@ class Balance_controller extends Home_Core_Controller
         if (!$id_deposit) {
             $this->session->set_flashdata('error', trans("msg_error"));
         } else {
-            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar {print_price($tf, 'IDR')}.Tunggu konfirmasi dari admin terlebih dahulu");            
+            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar { print_price($tf, 'IDR') }.Tunggu konfirmasi dari admin terlebih dahulu");            
         }
         redirect($this->agent->referrer());
     }

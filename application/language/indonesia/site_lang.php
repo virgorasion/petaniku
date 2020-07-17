@@ -616,6 +616,7 @@ $lang["promoted_products_payment_currency"] = "Mata Uang Pembayaran Produk Promo
 $lang["promote_plan"] = "Promosikan Paket";
 $lang["payment_received"] = "Pembayaran diterima";
 $lang["awaiting_payment"] = "Menunggu Pembayaran";
+$lang["awaiting_verification"] = "Menunggu Verifikasi";
 $lang["order_processing"] = "Sedang diproses";
 $lang["shipped"] = "Dikirim";
 $lang["cancelled"] = "Dibatalkan";

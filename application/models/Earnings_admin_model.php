@@ -263,7 +263,7 @@ class Earnings_admin_model extends CI_Model
             'payment_status' => 'payment_received'
         );
 
-        $this->db->where('payment_option', "Deposit");
+        $this->db->where('payment_method', "Deposit");
         $this->db->where('order_id', $payout_id);
         return $this->db->update('transactions', $data);
     }

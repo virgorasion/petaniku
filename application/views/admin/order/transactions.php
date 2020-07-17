@@ -38,7 +38,7 @@
                             <th>ID Bank</th>
                             <th><?php echo trans('payment_amount'); ?></th>
                             <th><?php echo trans('payment_status'); ?></th>
-                            <th class="max-width-120"><?php echo trans('options'); ?></th>
+                            <!-- <th class="max-width-120"><?php //echo trans('options'); ?></th> -->
                         </tr>
                         </thead>
                         <tbody>
@@ -57,9 +57,9 @@
                                     }
                                     if (!empty($order)):
                                         ?>
-                                        # <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->order_id); ?>"><?= $order->order_number ?></a>
+                                        Pesanan (# <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->order_id); ?>"><?= $order->order_number ?>)</a>
                                     <?php else: ?>
-                                      # <a href="<?php echo admin_url(); ?>deposit-details/<?php echo html_escape($item->order_id); ?>"><?= $deposit->id ?></a>
+                                      Deposit (# <a href="<?php echo admin_url(); ?>deposit-details/<?php echo html_escape($item->order_id); ?>"><?= $deposit->id ?>)</a>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -113,20 +113,20 @@
                                     ?>
                                 </td>
                                 <td><?php echo trans($item->payment_status); ?></td>
-                                <td>
+                                <!-- <td>
                                     <div class="dropdown">
                                         <button class="btn bg-purple dropdown-toggle btn-select-option"
                                                 type="button"
-                                                data-toggle="dropdown"><?php echo trans('select_option'); ?>
+                                                data-toggle="dropdown"><?php //echo trans('select_option'); ?>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu options-dropdown">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_item('order_admin_controller/delete_transaction_post','<?php echo $item->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
+                                                <a href="javascript:void(0)" onclick="delete_item('order_admin_controller/delete_transaction_post','<?php //echo $item->id; ?>','<?php //echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php //echo trans('delete'); ?></a>
                                             </li>
                                         </ul>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
 
                         <?php endforeach; ?>
@@ -283,7 +283,7 @@
     <div id="accountDetailsDepositModel_<?php echo $deposit->id; ?>" class="modal fade" 
         role="dialog" 
         style="z-index: 2 !important;">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="margin-top:120px">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
