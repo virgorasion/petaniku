@@ -497,6 +497,14 @@ class Order_model extends CI_Model
 		return $query->result();
 	}
 
+	// get Product Variation
+	public function get_product_variation($product_id)
+	{
+		$product_id = clean_number($product_id);
+		$this->db->where("product_id", $product_id);
+		return $this->db->get("product_variations")->result();
+	}
+
 	//get seller order products
 	public function get_seller_order_products($order_id, $seller_id)
 	{
@@ -543,7 +551,7 @@ class Order_model extends CI_Model
 		if (!empty($order_product)) {
 			if ($order_product->seller_id == user()->id) {
 				$data = array(
-					'order_status' => $this->input->post('order_status', true),
+					'order_status' => $this->input->post('status', true),
 					'is_approved' => 0,
 					'updated_at' => date('Y-m-d H:i:s'),
 				);
@@ -626,6 +634,26 @@ class Order_model extends CI_Model
 		$this->db->set("payment_status","awaiting_verification");
 		$this->db->where("order_id", $get_order_id[0]->id);
 		return $this->db->update("transactions");
+	}
+
+	//add shipping note
+	public function add_shipping_note()
+	{
+		$data = array(
+			'shipping_note' => $this->input->post('shipping_note', true),
+			'receipt_path' => "",
+			'updated_at' => date('Y-m-d H:i:s')
+		);
+		if (auth_check()) {
+			$data["buyer_id"] = user()->id;
+			$data["buyer_type"] = "registered";
+		}
+		$this->load->model('upload_model');
+		$file_path = $this->upload_model->receipt_upload('file');
+		if (!empty($file_path)) {
+			$data["receipt_path"] = $file_path;
+		}
+		return $this->db->update('orders', $data,['id'=>$this->input->post("order_id")]);
 	}
 
 	//get sales count
@@ -797,24 +825,29 @@ class Order_model extends CI_Model
 	}
 
 	// cancel order Product
-	public function cancel_product($order_number, $note_cancel)
+	public function request_cancel_order($order_number, $note_cancel)
 	{
 		$order_number = $this->input->post('order_number', true);
 		$data = array(
-			'status_cancel' => 1,
+			'request_cancel' => 1,
 			'note_cancel' => $this->input->post('note_cancel', true),
 			'updated_at' => date('Y-m-d H:i:s')
 		);
 		if (auth_check()) {
-			$data["user_id"] = user()->id;
-			$data["user_type"] = "registered";
+			$data["buyer_id"] = user()->id;
+			$data["buyer_type"] = "registered";
 		}
-		$ip = $this->input->ip_address();
-		if (!empty($ip)) {
-			$data['ip_address'] = $ip;
-		}
+		return $this->db->update("orders", $data, ['order_number' => $order_number]);
 
-		return $this->db->update("orders", $data, $order_number);
+	}
 
+	public function cancel_order($order_id)
+	{
+		$this->db->where("id",$order_id);
+		$this->db->set(['status_cancel'=>1,'request_cancel'=>1]);
+		$this->db->update("orders");
+		$this->db->where("order_id",$order_id);
+		$this->db->set(['order_status'=>'cancelled']);
+		return $this->db->update("order_products");
 	}
 }

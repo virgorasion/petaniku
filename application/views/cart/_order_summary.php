@@ -28,6 +28,7 @@
 								<?php endif; ?>
 								<div class="list-item">
 									<a href="<?php echo generate_product_url($product); ?>">
+									<?=$cart_item->paket_id?>
 										<?php echo html_escape($cart_item->product_title); ?>
 									</a>
 								</div>

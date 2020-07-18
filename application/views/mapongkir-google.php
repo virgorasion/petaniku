@@ -135,6 +135,30 @@
         var geocoder = new google.maps.Geocoder();
         var infowindow = new google.maps.InfoWindow();
 
+        // get user position
+        document.querySelector("#getCurrentPosition").addEventListener('click', e => {
+          console.log("fetching location...")
+          navigator.geolocation.getCurrentPosition(pos => {
+            let lat = pos.coords.latitude
+            let lng = pos.coords.longitude
+            let lok = {
+              lat: lat,
+              lng: lng
+            }
+            marker = new google.maps.Marker({
+              map: map,
+              position: lok,
+              icon: icon,
+            });
+            marker.setMap(map)
+            map.setCenter(lok)
+            getLongLat(lok)
+
+            var tujuan = new google.maps.LatLng({lat: lat, lng: lng});
+            countDistance(service, asal, tujuan);
+          })
+        })
+
         // map diklik
         map.addListener('click', function(e) {
             if(marker != undefined) marker.setMap(null);                        

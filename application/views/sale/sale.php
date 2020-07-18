@@ -54,9 +54,14 @@
 									<div class="col-3">
 										<?php echo trans("payment_status"); ?>
 									</div>
-									<div class="col-9">
+									<div class="col-5">
 										<?php echo trans($order->payment_status); ?>
 									</div>
+									<?php if($order->request_cancel == 1): ?>
+									<div class="col-4">
+										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrder">Pembatalan Order</button>
+									</div>
+									<?php endif ?>
 								</div>
 								<div class="row order-row-item">
 									<div class="col-3">
@@ -328,18 +333,22 @@
 														} ?>
 													</td>
 													<td>
-														<?php if ($item->order_status == "completed"): ?>
-															<strong class="font-600"><i class="icon-check"></i>&nbsp;<?php echo trans("approved"); ?></strong>
-														<?php else: ?>
-															<p class="m-b-5">
-																<button type="button" class="btn btn-sm btn-primary btn-sale-options" data-toggle="modal" data-target="#updateStatusModal_<?php echo $item->id; ?>"><?php echo trans('update_order_status'); ?></button>
-															</p>
+														<?= form_open("order_controller/update_order_product_status_post",['id'=>'form_status_product']) ?>
+														<input type="hidden" name="order_id" value="<?= $item->id ?>">
+														<?php if ($item->order_status == "payment_received"): ?>
+															<input type="hidden" name="status" value="order_processing">
+															<button type="submit" id="changeOrderPesanan" class="btn btn-sm text-light btn-success btn-sale-options"><?php echo trans('process_order'); ?></button>
+														<?php elseif($item->order_status == "order_processing"): ?>
+															<input type="hidden" name="status" value="shipping">
+															<button type="button" id="changeOrderPesanan" data-toggle="modal" data-target="#confirmOrder" class="btn btn-sm text-light btn-success btn-sale-options"><?php echo trans('confirm_order'); ?></button>
+														<?php elseif($item->order_status == "shipping"): ?>
 															<?php if ($item->product_type == 'physical'): ?>
 																<p>
-																	<button type="button" class="btn btn-sm btn-primary btn-sale-options" data-toggle="modal" data-target="#addTrackingNumberModal_<?php echo $item->id; ?>"><?php echo trans('add_tracking_number'); ?></button>
+																	<button type="button" class="btn btn-sm text-light btn-info btn-sale-options" data-toggle="modal" data-target="#addTrackingNumberModal_<?php echo $item->id; ?>"><?php echo trans('add_tracking_number'); ?></button>
 																</p>
 															<?php endif; ?>
 														<?php endif; ?>
+														<?= form_close() ?>
 													</td>
 												</tr>
 												<?php if ($item->order_status == "shipped"): ?>
@@ -409,6 +418,7 @@
 <!-- Wrapper End-->
 <?php foreach ($order_products as $item):
 	if ($item->seller_id == user()->id):?>
+		<?php /*
 		<div class="modal fade" id="updateStatusModal_<?php echo $item->id; ?>" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-custom">
@@ -428,8 +438,8 @@
 									<label class="control-label"><?php echo trans('status'); ?></label>
 									<div class="selectdiv">
 										<select name="order_status" class="form-control order-status-select" data-order-product-id="<?php echo $item->id; ?>">
-											<?php if ($item->product_type == 'physical'): ?>
-												<?php if ($order->payment_method == "Bank Transfer"): ?>
+											<?php if ($item->product_type == 'registered'): ?>
+												<?php if ($order->payment_method == "Bank Transfer" ): ?>
 													<option value="awaiting_payment" <?php echo ($item->order_status == 'awaiting_payment') ? 'selected' : ''; ?>><?php echo trans("awaiting_payment"); ?></option>
 												<?php endif; ?>
 											<?php endif; ?>
@@ -454,7 +464,7 @@
 				</div>
 			</div>
 		</div>
-
+*/?>
 		<div class="modal fade" id="addTrackingNumberModal_<?php echo $item->id; ?>" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-custom">
@@ -483,12 +493,75 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
 						<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
 					</div>
 					<?php echo form_close(); ?><!-- form end -->
 				</div>
 			</div>
 		</div>
-	<?php endif;
-endforeach; ?>
+	<?php endif; endforeach; ?>
+<!-- Modal -->
+<div class="modal fade" id="confirmOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<?php echo form_open_multipart('order_controller/shipping_report_post'); ?>
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("confirm_order"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="order_id" class="form-control form-input" value="<?php echo $order_products[0]->id; ?>">
+				<input type="hidden" name="status" value="shipping">
+					<div class="form-group text-center">
+					<label><?php echo trans("shipping_note"); ?></label>
+					<textarea name="shipping_note" class="form-control form-textarea" maxlength="499" autofocus></textarea>
+				</div>
+				<div class="form-group text-center">
+					<label><?php echo trans("receipt"); ?>
+						<small>(.png, .jpg, .jpeg)</small>
+					</label>
+					<p>
+						<a class='btn btn-md btn-secondary btn-file-upload'>
+							<?php echo trans('select_image'); ?>
+							<input type="file" name="file" size="40" accept=".png, .jpg, .jpeg" onchange="$('#upload-file-info').html($(this).val());">
+						</a><br>
+						<span class='badge badge-info' id="upload-file-info"></span>
+					</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+			</div>
+			<?php echo form_close(); ?><!-- form end -->
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="cancelOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<div class="modal-header">
+				<h5 class="modal-title text-center">Keterangan Pembatalan</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<?= form_open("order_controller/cancel_order") ?>
+			<input type="hidden" name="order_id" value="<?=$order->id?>">
+			<div class="modal-body">
+				<div class="form-group text-center">
+					<label>Catatan Pembatalan</label>
+					<textarea name="note_cancel" class="form-control form-textarea" maxlength="499"><?= $order->note_cancel ?></textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-md btn-danger"><?php echo trans("cancel_order"); ?></button>
+			</div>
+			<?= form_close() ?>
+		</div>
+	</div>
+</div>

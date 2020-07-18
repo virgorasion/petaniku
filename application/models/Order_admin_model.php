@@ -39,7 +39,7 @@ class Order_admin_model extends CI_Model
             if (!empty($order_products)) {
                 foreach ($order_products as $order_product) {
                     $data = array(
-                        'order_status' => "payment_received",
+                        'order_status' => "order_processing",
                         'updated_at' => date('Y-m-d H:i:s'),
                     );
                     if ($order_product->product_type == 'digital') {

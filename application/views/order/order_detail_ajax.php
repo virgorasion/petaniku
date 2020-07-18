@@ -22,12 +22,17 @@
                     <div class="col-sm-6 col-md-4 mb-3">
                         <p class="text-gray small mb-1"><?php echo trans("status"); ?></p>
                         <h6 class="m-0"><?php
-                        if ($order->status == 1): ?>
+                            if ($order_products[0]->order_status == "completed"): ?>
                             <strong style="color: green"><?php echo trans("completed"); ?></strong>
-                            <?php else: ?>
+                            <?php elseif($order_products[0]->order_status == "shipped"): ?>
+                            <strong style="color: green"><?php echo trans("shipped"); ?></strong>
+                            <?php elseif($order_products[0]->order_status == "order_processing"): ?>
                             <strong style="color: orange"><?php echo trans("order_processing"); ?></strong>
-                            <?php
-                        endif; ?></h6>
+                            <?php elseif($order_products[0]->order_status == "awaiting_payment"): ?>
+                            <strong style="color: grey"><?php echo trans("awaiting_payment"); ?></strong>
+                            <?php elseif($order_products[0]->order_status == "cancelled"): ?>
+                            <strong style="color: red"><?php echo trans("cancelled"); ?></strong>
+                            <?php endif; ?></h6>
                     </div>
                     <div class="col-sm-6 col-md-4 mb-3">
                         <p class="text-gray small mb-1"><?php echo trans("payment_status"); ?></p>
@@ -47,8 +52,12 @@
                             <?php endif; ?>
 
                         <?php endif; ?>
-                        <?php if($order->payment_status == "payment_received" && $order_products[0]->order_status != "completed" && $order_products[0]->order_status != "shipping"):?>
+                        <?php if($order->payment_status == "payment_received" && $order_products[0]->order_status != "completed" && $order_products[0]->order_status != "shipped"):?>
+                            <?php if($order->request_cancel == 0 && $order->status_cancel == 0): ?>
                             <button class="btn btn-sm btn-danger m-l-14" data-toggle="modal" data-target="#reportCancelOrder">Ajukan Pembatalan</button>
+                            <?php elseif($order->request_cancel == 1): ?>
+                            <span class="text-danger">(Sedang Mengajukan Pembatalan)</span>
+                            <?php endif ?>
                         <?php endif ?>
 
                     </div>
@@ -211,7 +220,7 @@
                                 <thead>
                                     <tr role="row">
                                         <th style="width: auto"><?php echo trans('product'); ?></th>
-                                        <!-- <th style="width: 180px; max-width: 40%"><?php //echo trans('status'); ?></th> -->
+                                        <th style="width: 180px; max-width: 40%"><?php echo trans('paket'); ?></th>
                                         <th style="width: 140px; max-width: 40%"><?php echo trans('updated'); ?></th>
                                         <th style="width: 200px; max-width: 40%"><?php echo trans('options'); ?></th>
                                     </tr>
@@ -287,9 +296,9 @@
                                                     <?php endif; ?>
                                                 </div>
                                             </td>
-                                            <!-- <td>
-                                                <strong class="no-wrap"><?php //echo trans($item->order_status) ?></strong>
-                                            </td> -->
+                                            <td>
+                                                <strong class="no-wrap"><?php// $order_variation[0]->label ?></strong>
+                                            </td>
                                             <td>
                                                 <?php if ($item->product_type == 'physical'):
                                                     echo time_ago($item->updated_at);
@@ -441,7 +450,7 @@
 				<input type="hidden" name="order_number" class="form-control form-input" value="<?php echo $order->order_number; ?>">
 				<div class="form-group">
 					<label><?php echo trans("payment_note"); ?></label>
-					<textarea name="payment_note" class="form-control form-textarea" maxlength="499"></textarea>
+					<textarea name="payment_note" class="form-control form-textarea" maxlength="499" autofocus></textarea>
 				</div>
 				<div class="form-group">
 					<label><?php echo trans("receipt"); ?>

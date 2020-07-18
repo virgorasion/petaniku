@@ -68,7 +68,7 @@
 											<div class="col-12">
 												<div class="newsletter-inner">
 													<div class="d-table-cell">
-														<input type="email" class="form-control" name="email" placeholder="<?php echo trans("enter_email"); ?>" required>
+														<input type="email" class="form-control" name="email" placeholder="<?php echo trans("enter_email"); ?>">
 													</div>
 													<div class="d-table-cell align-middle">
 														<button class="btn btn-default"><?php echo trans("subscribe"); ?></button>
@@ -241,6 +241,10 @@ $(document).on('change', '#Multifileupload2', function () {
 	} else {
 		alert("This browser does not support HTML5 FileReader.");
 	}
+
+	$("#changeOrderPesanan").click(function(){
+		$("#form_status_product").submit();
+	})
 });
 
 	function get_cities_ongkir(val) {
