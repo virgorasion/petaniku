@@ -29,6 +29,7 @@
             </select>
         </div>
 
+        <?php /*
         <div class="item-table-filter">
             <label><?php echo trans("payment_status"); ?></label>
             <select name="payment_status" class="form-control">
@@ -41,6 +42,7 @@
                     <?php echo trans("awaiting_payment"); ?></option>
             </select>
         </div>
+        */ ?>
 
         <div class="item-table-filter">
             <label><?php echo trans("search"); ?></label>

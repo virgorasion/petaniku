@@ -372,6 +372,22 @@ $(document).on('change', '#Multifileupload2', function () {
 			});
 		});
 	}
+
+	//delete item
+	function ajax_post(url, id) {
+		var data = {
+			'id': id,
+		};
+		data[csfr_token_name] = $.cookie(csfr_cookie_name);
+		$.ajax({
+			type: "POST",
+			url: base_url + url,
+			data: data,
+			success: function (response) {
+				location.reload();
+			}
+		});
+	};
 </script>
 <?php echo $general_settings->google_adsense_code; ?>
 <?php echo $general_settings->google_analytics; ?>

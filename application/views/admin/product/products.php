@@ -113,12 +113,12 @@
 											</li>
 											<?php if ($item->visibility == 1 && $item->is_draft == 0): ?>
 											<li>
-												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_draft','<?php echo $item->id; ?>','<?php echo "Produk Dijadikan Draft"; ?>');"><i class="fa fa-file option-icon"></i><?php echo "Jadikan draft"; ?></a>
+												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_draft','<?php echo $item->id; ?>','<?php echo trans("set_as_draft"); ?>');"><i class="fa fa-file option-icon"></i><?php echo trans("set_as_draft"); ?></a>
 											</li>
 											<?php endif; ?>
 											<?php if ($item->is_draft == 1): ?>
 											<li>
-												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_publish','<?php echo $item->id; ?>','<?php echo "Produk Dipublish"; ?>');"><i class="fa fa-check option-icon"></i><?php echo trans("published"); ?></a>
+												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_publish','<?php echo $item->id; ?>','<?php echo trans("set_as_publish"); ?>');"><i class="fa fa-check option-icon"></i><?php echo trans("published"); ?></a>
 											</li>
 											<?php endif; ?>
 										</ul>

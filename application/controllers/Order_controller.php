@@ -151,9 +151,7 @@ class Order_controller extends Home_Core_Controller
 	// Shipping note
 	public function shipping_report_post()
 	{
-		if ($this->input->post("shipping_note") != NULL || $this->input->post("file") != NULL) {
-			$this->order_model->add_shipping_note();
-		}
+		$this->order_model->add_shipping_note();
 		$this->update_order_product_status_post();
 		redirect($this->agent->referrer());
 	}
@@ -257,7 +255,7 @@ class Order_controller extends Home_Core_Controller
 	 */
 	public function update_order_product_status_post()
 	{
-		$id = $this->input->post('order_id', true);
+		$id = $this->input->post('product_id', true);
 		$order_product = $this->order_model->get_order_product($id);
 		if (!empty($order_product)) {
 			if ($this->order_model->update_order_product_status($id)) {

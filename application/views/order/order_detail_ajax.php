@@ -29,9 +29,11 @@
                             <?php elseif($order_products[0]->order_status == "order_processing"): ?>
                             <strong style="color: orange"><?php echo trans("order_processing"); ?></strong>
                             <?php elseif($order_products[0]->order_status == "awaiting_payment"): ?>
-                            <strong style="color: grey"><?php echo trans("awaiting_payment"); ?></strong>
+                            <strong style="color: grey"><?php echo trans("awaiting_get_payment"); ?></strong>
                             <?php elseif($order_products[0]->order_status == "cancelled"): ?>
                             <strong style="color: red"><?php echo trans("cancelled"); ?></strong>
+                            <?php elseif($order_products[0]->order_status == "payment_received"): ?>
+                            <strong style="color: orange"><?php echo trans("awaiting_get_payment"); ?></strong>
                             <?php endif; ?></h6>
                     </div>
                     <div class="col-sm-6 col-md-4 mb-3">
@@ -55,6 +57,8 @@
                         <?php if($order->payment_status == "payment_received" && $order_products[0]->order_status != "completed" && $order_products[0]->order_status != "shipped"):?>
                             <?php if($order->request_cancel == 0 && $order->status_cancel == 0): ?>
                             <button class="btn btn-sm btn-danger m-l-14" data-toggle="modal" data-target="#reportCancelOrder">Ajukan Pembatalan</button>
+                            <?php elseif($order->request_cancel == 1 && $order_products[0]->order_status != "order_processing"): ?>
+                            <span class="text-danger">(Pengajuan Pembatalan Ditolak)</span>
                             <?php elseif($order->request_cancel == 1): ?>
                             <span class="text-danger">(Sedang Mengajukan Pembatalan)</span>
                             <?php endif ?>
@@ -220,7 +224,7 @@
                                 <thead>
                                     <tr role="row">
                                         <th style="width: auto"><?php echo trans('product'); ?></th>
-                                        <th style="width: 180px; max-width: 40%"><?php echo trans('paket'); ?></th>
+                                        <!-- <th style="width: 180px; max-width: 40%"><?php //echo trans('paket'); ?></th> -->
                                         <th style="width: 140px; max-width: 40%"><?php echo trans('updated'); ?></th>
                                         <th style="width: 200px; max-width: 40%"><?php echo trans('options'); ?></th>
                                     </tr>
@@ -296,9 +300,9 @@
                                                     <?php endif; ?>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <!-- <td>
                                                 <strong class="no-wrap"><?php// $order_variation[0]->label ?></strong>
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 <?php if ($item->product_type == 'physical'):
                                                     echo time_ago($item->updated_at);
@@ -328,8 +332,50 @@
                                                         <strong class="font-600"><i class="icon-check"></i>&nbsp;<?php echo trans("confirmed"); ?></strong>
                                                     <?php else: ?>
                                                         <?php if ($item->order_status == "shipped"): ?>
+                                                            <button type="submit" class="btn btn-sm btn-custom mb-1" data-toggle="modal" data-target="#shippingNote"><i class=""></i><?php echo trans("shipping_seller_note"); ?></button>
                                                             <button type="submit" class="btn btn-sm btn-custom" onclick="approve_order_product('<?php echo $item->id; ?>','<?php echo trans("confirm_approve_order"); ?>');"><i class="icon-check"></i><?php echo trans("confirm_order_received"); ?></button>
                                                             <small class="text-confirm-order-table"><?php echo trans("confirm_order_received_exp"); ?></small>
+                                                            <!-- Modal -->
+                                                            <div id="shippingNote" class="modal fade" 
+                                                                role="dialog" 
+                                                                style="z-index: 2 !important;">
+                                                                <div class="modal-dialog">
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title">Keterangan</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <?php if(isset($order)): ?>
+                                                                                <table class="table table-responsive">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>Gambar</td>
+                                                                                            <td>
+                                                                                                <?php if (!empty($order->receipt_path)): ?>
+                                                                                                    <a class="magnific-image-popup" href="<?php echo base_url() . $order->receipt_path; ?>" target="_blank">
+                                                                                                        <img src="<?php echo base_url() . $order->receipt_path; ?>" alt="" style="max-width: 60px; max-height: 60px;">
+                                                                                                    </a>
+                                                                                                <?php endif; ?>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Catatan Penjual</td>
+                                                                                            <td>
+                                                                                                <?php echo $order->shipping_note; ?>
+                                                                                            </td>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            <?php endif; ?>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
                                                 <?php endif; ?>

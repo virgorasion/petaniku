@@ -57,7 +57,7 @@
 									<div class="col-5">
 										<?php echo trans($order->payment_status); ?>
 									</div>
-									<?php if($order->request_cancel == 1): ?>
+									<?php if($order->request_cancel == 1 && $order_products[0]->order_status == "order_processing"): ?>
 									<div class="col-4">
 										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrder">Pembatalan Order</button>
 									</div>
@@ -339,9 +339,9 @@
 															<input type="hidden" name="status" value="order_processing">
 															<button type="submit" id="changeOrderPesanan" class="btn btn-sm text-light btn-success btn-sale-options"><?php echo trans('process_order'); ?></button>
 														<?php elseif($item->order_status == "order_processing"): ?>
-															<input type="hidden" name="status" value="shipping">
+															<input type="hidden" name="status" value="shipped">
 															<button type="button" id="changeOrderPesanan" data-toggle="modal" data-target="#confirmOrder" class="btn btn-sm text-light btn-success btn-sale-options"><?php echo trans('confirm_order'); ?></button>
-														<?php elseif($item->order_status == "shipping"): ?>
+														<?php elseif($item->order_status == "shipped"): ?>
 															<?php if ($item->product_type == 'physical'): ?>
 																<p>
 																	<button type="button" class="btn btn-sm text-light btn-info btn-sale-options" data-toggle="modal" data-target="#addTrackingNumberModal_<?php echo $item->id; ?>"><?php echo trans('add_tracking_number'); ?></button>
@@ -513,8 +513,9 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<input type="hidden" name="order_id" class="form-control form-input" value="<?php echo $order_products[0]->id; ?>">
-				<input type="hidden" name="status" value="shipping">
+				<input type="hidden" name="product_id" class="form-control form-input" value="<?php echo $order_products[0]->id; ?>">
+				<input type="hidden" name="order_id" class="form-control form-input" value="<?php echo $order->id; ?>">
+				<input type="hidden" name="status" value="shipped">
 					<div class="form-group text-center">
 					<label><?php echo trans("shipping_note"); ?></label>
 					<textarea name="shipping_note" class="form-control form-textarea" maxlength="499" autofocus></textarea>

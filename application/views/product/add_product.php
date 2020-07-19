@@ -16,6 +16,27 @@
 					<ol class="breadcrumb"></ol>
 				</nav>
 				<h1 class="page-title page-title-product"><?php echo trans("sell_now"); ?></h1>
+				<center>
+					<div class="col-md-8">
+						<div class="steps">
+							<div class="step-progress">
+								<div class="step-progress-line" data-now-value="33" data-number-of-steps="3" style="width: 33%;"></div>
+							</div>
+							<div class="step active">
+								<div class="step-icon"><i class="icon-check"></i></div>
+								<p>Buat Produk</p>
+							</div>
+							<div class="step">
+								<div class="step-icon"><i class="icon-check"></i></div>
+								<p>Detail Produk</p>
+							</div>
+							<div class="step">
+								<div class="step-icon"><i class="icon-check"></i></div>
+								<p>Selesai</p>
+							</div>
+						</div>
+					</div>
+				</center>
 				<div class="form-add-product">
 					<div class="row justify-content-center">
 						<div class="col-12 col-md-12 col-lg-11">

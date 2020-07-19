@@ -97,6 +97,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label><?php echo trans("address"); ?> *</label>
+                                                <input type="hidden" name="variation<?php echo $_SESSION['mds_shopping_cart'][0]->paket_id; ?>[]" value="<?= $_SESSION['mds_shopping_cart'][0]->paket_title ?>">
+                                                <input type="hidden" name="paket_id<?php echo $_SESSION['mds_shopping_cart'][0]->paket_id; ?>[]" value="<?= $_SESSION['mds_shopping_cart'][0]->paket_id ?>">
+                                                <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
                                                 <input id="inp_ongkir" type="hidden" name="ongkir" value="">
                                                 <input id="inp_total_km" type="hidden" name="total_km" value="0">
                                                 <input id="inp_harga_km" type="hidden" name="harga_per_km" value="0">

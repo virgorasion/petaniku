@@ -1,5 +1,8 @@
 <?php defined("BASEPATH") OR exit("No direct script access allowed");
 
+//custom
+$lang['shipping_seller_note'] = "Catatan Pengiriman Penjual";
+// ========================
 $lang["active"] = "Aktif";
 $lang["add_category"] = "Tambah Kategori";
 $lang["add_language"] = "Tambah Bahasa";
@@ -539,6 +542,7 @@ $lang["gmail_warning"] = "Untuk mengirim e-mail dengan server Gmail, baca bagian
 $lang["logo_email"] = "Logo Email";
 $lang["shopping_cart"] = "Keranjang Belanja";
 $lang["cart"] = "Keranjang";
+$lang["awaiting_get_payment"] = "Menunggu Pembayaran Diterima";
 $lang["my_cart"] = "Keranjang Saya";
 $lang["add_to_cart"] = "Preorder Sekarang";
 $lang["keep_shopping"] = "Tetap berbelanja";
@@ -723,6 +727,8 @@ $lang["facebook_login"] = "Facebook Login";
 $lang["page_views"] = "Tampilan Halaman";
 $lang["set_as_sold"] = "Tetapkan sebagai Dijual";
 $lang["set_as_unsold"] = "Tetapkan sebagai Tidak Dijual";
+$lang["set_as_draft"] = "Tetapkan sebagai Draft";
+$lang["set_as_publish"] = "Tetapkan sebagai Publish";
 $lang["multi_vendor_system"] = "Sistem Multi-Vendor";
 $lang["multi_vendor_system_exp"] = "Jika Anda menonaktifkannya, hanya Admin yang dapat menambahkan produk.";
 $lang["payout_settings"] = "Pengaturan Pembayaran";

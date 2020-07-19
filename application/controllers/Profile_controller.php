@@ -679,4 +679,30 @@ class Profile_controller extends Home_Core_Controller
 		$this->profile_model->follow_unfollow_user();
 		redirect($this->agent->referrer());
 	}
+
+	/**
+    * Set as Draft Product
+    */
+    public function set_draft()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->profile_model->set_as_draft($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_updated"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+    }
+
+    /**
+     * Set as Draft Product
+     */
+    public function set_publish()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->profile_model->set_as_publish($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_updated"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+    }
 }
