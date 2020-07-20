@@ -612,6 +612,7 @@ const fetchSummary = () => {
         let users = res.datas.users
         for (var key in users) {
             report[0].data.push(users[key].length)
+            // console.log(key+" "+users[key].length)
         }
         reportChart.update()
     })

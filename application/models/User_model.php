@@ -46,15 +46,33 @@ class User_model extends CI_Model
 		$end_date = date('Y-m-d H:i:s');
 		$start_date = date('Y-m-d H:i:s', strtotime('-6 days'));
 
-		$users = $this->db->query("SELECT id, created_at FROM users WHERE created_at >= '$start_date' AND created_at <= '$end_date'")->result_array();
+		$pendingProduct = $this->db->query("SELECT id, created_at FROM products WHERE created_at >= '$start_date' AND created_at <= '$end_date' AND status = 0 AND is_draft = 0 AND is_deleted = 0")->result_array();
+		$payouts = $this->db->query("SELECT id, created_at FROM payouts WHERE created_at >= '$start_date' AND created_at <= '$end_date' AND status = 0")->result_array();
+		$transactions = $this->db->query("SELECT id, created_at FROM transactions WHERE created_at >= '$start_date' AND created_at <= '$end_date'")->result_array();
+		$openShop = $this->db->query("SELECT id, created_at FROM users WHERE created_at >= '$start_date' AND created_at <= '$end_date' AND is_active_shop_request = 1")->result_array();
 
 		$newDatas = [];
-		foreach ($users as $user) {
+		foreach ($pendingProduct as $product) {
 			// bind created_at from timestamp to date Y-m-d
-			$user['created_at'] = explode(" ", $user['created_at'])[0];
-			$newDatas[] = $user;
+			$product['created_at'] = explode(" ", $product['created_at'])[0];
+			$newDatas['pendingProduct'][] = $product;
 		}
-
+		foreach ($payouts as $pay) {
+			// bind created_at from timestamp to date Y-m-d
+			$pay['created_at'] = explode(" ", $pay['created_at'])[0];
+			$newDatas['payouts'][] = $pay;
+		}
+		foreach ($transactions as $trx) {
+			// bind created_at from timestamp to date Y-m-d
+			$trx['created_at'] = explode(" ", $trx['created_at'])[0];
+			$newDatas['trx'][] = $trx;
+		}
+		foreach ($openShop as $shop) {
+			// bind created_at from timestamp to date Y-m-d
+			$shop['created_at'] = explode(" ", $shop['created_at'])[0];
+			$newDatas['openShop'][] = $shop;
+		}
+		
 		// generating dates in a week
 		$dates = [];
 		$period = new DatePeriod(
@@ -66,14 +84,15 @@ class User_model extends CI_Model
 			$dates[$val->format('Y-m-d')] = [];
 		}
 
-		foreach ($newDatas as $user) {
+		foreach ($newDatas as $data) {
+			// var_dump($data[0]['id']);
 			// group data based on created_at (registered date)
-			if (!array_key_exists($user['created_at'], $dates)) {
-				$dates[$user['created_at']] = [];
+			if (!array_key_exists($data[0]['created_at'], $dates)) {
+				$dates[$data[0]['created_at']] = [];
 			}	
-			$dates[$user['created_at']][] = $user;
+			$dates[$data[0]['created_at']][] = $data;
 		}
-
+		dd($datas);
 		return $dates;
 	}
 }
