@@ -36,4 +36,9 @@ class User_model extends CI_Model
 		}
 		return false;
 	}
+
+	public function empty_balance($id)
+	{
+		return $this->db->where('id', $id)->set('balance', 0)->update('users');
+	}
 }

@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="row">
+
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box admin-small-box bg-danger">
@@ -72,6 +73,26 @@
 </div>
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Report Summary</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-8">
+                    <canvas class="w-100" id="report"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-6 col-sm-12 col-xs-12">
         <div class="box box-primary box-sm">
             <div class="box-header with-border">
@@ -524,5 +545,39 @@
     </div>
 </div>
 
+<script src="<?= base_url(); ?>assets/vendor/Chart.js/dist/Chart.min.js"></script>
+<script>
+const select = dom => document.querySelector(dom)
 
+let report = [
+    {
+        label: "User",
+        data: [10, 9, 11, 30, 25, 22, 40],
+        borderColor: '#e74c3c',
+        fill: false,
+    },
+    {
+        label: "Seller",
+        data: [10, 5, 4, 28, 20, 14, 8],
+        borderColor: '#2ecc71',
+        fill: false,
+    },
+]
+const generateChart = e => {
+    let ctx = select("#report").getContext('2d')
+    let reportChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['User','Seller','Deposited','Withdrawn','Active Project','Balance'],
+            datasets: report
+        }
+    })
+}
+generateChart()
+document.addEventListener('keydown', e => {
+    if (e.key == "g") {
+        generateChart()
+    }
+})
+</script>
 
