@@ -165,7 +165,7 @@ class Product_controller extends Home_Core_Controller
 				//add product images
 				$this->file_model->add_product_images($last_id);
 				$this->session->set_flashdata("step",2);
-				$this->session->set_flashdata("progress",33);
+				$this->session->set_flashdata("style",2);
 				redirect(lang_base_url() . 'sell-now/product-details/' . $last_id);
 			} else {
 				$this->session->set_flashdata('error', trans("msg_error"));
@@ -429,8 +429,8 @@ class Product_controller extends Home_Core_Controller
 					exit();
 				}
 				if ($this->promoted_products_enabled == 1) {
-					$this->session->set_flashdata("step",2);
-					$this->session->set_flashdata("progress",33);
+					$this->session->set_flashdata("step",3);
+					$this->session->set_flashdata("style",3);
 					redirect(lang_base_url() . "promote-product/pricing/" . $product_id . "?type=new");
 				} else {
 					redirect(lang_base_url() . $product->slug);

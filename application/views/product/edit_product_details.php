@@ -32,7 +32,7 @@ if ($product->is_draft == 1) {
 						<div class="col-md-8">
 							<div class="steps">
 								<div class="step-progress">
-									<div class="step-progress-line" data-now-value="<?= @$_SESSION['progress'] ?>" data-number-of-steps="3" style="width: <?=@$_SESSION['progress']?>%;"></div>
+									<div class="step-progress-line" <?= (@$_SESSION['style'] == 2)? 'data-now-value="33"': 'data-now-value="33"' ?> data-number-of-steps="3" <?= (@$_SESSION['style'] == 2)? 'style="width: 66%;"': 'style="width: 100%;"' ?>></div>
 								</div>
 								<div class="step active">
 									<div class="step-icon"><i class="icon-check"></i></div>
