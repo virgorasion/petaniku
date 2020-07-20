@@ -21,10 +21,12 @@
                            aria-describedby="example1_info">
                         <thead>
                         <tr role="row">
-                            <th><?php echo trans('date'); ?></th>
                             <!-- <th width="20"><?php //echo trans('id'); ?></th> -->
+                            <th><?php echo trans('date'); ?></th>
                             <th><?php echo trans('image'); ?></th>
-                            <th><?php echo trans('username'); ?></th>
+                            <th><?php echo trans('full_name'); ?></th>
+                            <th><?php echo trans('balance'); ?></th>
+                            <th><?php echo trans('description'); ?></th>
                             <th><?php echo trans('email'); ?></th>
                             <th><?php echo trans('status'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
@@ -39,7 +41,16 @@
                                 <td>
                                     <img src="<?php echo get_user_avatar($user); ?>" alt="user" class="img-responsive" style="height: 50px;">
                                 </td>
-                                <td><?php echo html_escape($user->username); ?></td>
+                                <td>
+                                    <?php echo html_escape($user->username); ?>
+                                    <?php if($user->getNewsletter): ?>
+                                        <span class="label label-success"><i class="fa fa-check"></i></span>
+                                    <?php endif ?>
+                                    <br>
+                                    (<?= html_escape($user->full_name)?>)
+                                </td>
+                                <td><?= print_price($user->balance, 'IDR') ?></td>
+                                <td><?php echo html_escape($user->about_me); ?></td>
                                 <td>
                                     <?php echo html_escape($user->email);
                                     if ($user->email_status == 1): ?>
@@ -47,13 +58,23 @@
                                     <?php else: ?>
                                         <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
                                     <?php endif; ?>
+                                    <br>
+                                    <?php echo html_escape($user->phone_number);
+                                    if ($user->phone_status == 1): ?>
+                                        <small class="text-success">(<?php echo trans("confirmed"); ?>)</small>
+                                    <?php else: ?>
+                                        <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($user->banned == 0): ?>
-                                        <label class="label label-success"><?php echo trans('active'); ?></label>
-                                    <?php else: ?>
+                                    <?php if ($user->banned == 1): ?>
                                         <label class="label label-danger"><?php echo trans('banned'); ?></label>
+                                    <?php elseif($user->role == "member"): ?>
+                                        <label class="label label-warning">Belum Terverifikasi</label>
                                     <?php endif; ?>
+                                    <?php if($user->seller_status): ?>
+                                        <label class="label label-success">Seller</label>
+                                    <?php endif ?>                                        
                                 </td>
 
                                 <td>

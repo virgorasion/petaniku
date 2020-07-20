@@ -1,5 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<style>
+.mfp-content {
+    z-index: 99999999 !important;
+}
+.modal-backdrop{
+    z-index: 1 !important;
+}
+</style>
+
 <div class="box">
 	<div class="box-header with-border">
 		<div class="left">
@@ -21,11 +30,11 @@
 						   aria-describedby="example1_info">
 						<thead>
 						<tr role="row">
-							<th width="20"><?php echo trans('id'); ?></th>
+							<th><?php echo trans('date'); ?></th>
 							<th><?php echo trans('image'); ?></th>
 							<th><?php echo trans('username'); ?></th>
-							<th><?php echo trans('email'); ?></th>
 							<th><?php echo trans('shop_name'); ?></th>
+							<th><?php echo trans('email'); ?></th>
 							<th><?php echo trans('shop_description'); ?></th>
 							<th>Persyaratan</th>
 							<th class="max-width-120"><?php echo trans('options'); ?></th>
@@ -35,20 +44,36 @@
 
 						<?php foreach ($requests as $user): ?>
 							<tr>
-								<td><?php echo html_escape($user->id); ?></td>
+								<td><?php echo $user->created_at; ?></td>
 								<td>
-									<img src="<?php echo get_user_avatar($user); ?>" alt="user" class="img-responsive" style="height: 50px;">
+									<a class="magnific-image-popup" href="<?php echo get_user_avatar($user); ?>">
+									<img src="<?php echo get_user_avatar($user); ?>" alt="user" class="magnific-image-popup img-responsive" style="height: 50px;">
+									</a>
 								</td>
-								<td><?php echo html_escape($user->username); ?></td>
 								<td>
-									<?php echo html_escape($user->email);
-									if ($user->email_status == 1): ?>
-										<small class="text-success">(<?php echo trans("confirmed"); ?>)</small>
-									<?php else: ?>
-										<small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
-									<?php endif; ?>
-								</td>
+                                    <?php echo html_escape($user->username); ?>
+                                    <?php if($user->getNewsletter): ?>
+                                        <span class="label label-success"><i class="fa fa-check"></i></span>
+                                    <?php endif ?>
+                                    <br>
+                                    (<?= html_escape($user->full_name)?>)
+                                </td>
 								<td><?php echo html_escape($user->shop_name); ?></td>
+								<td>
+                                    <?php echo html_escape($user->email);
+                                    if ($user->email_status == 1): ?>
+                                        <small class="text-success">(<?php echo trans("confirmed"); ?>)</small>
+                                    <?php else: ?>
+                                        <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
+                                    <?php endif; ?>
+                                    <br>
+                                    <?php echo html_escape($user->phone_number);
+                                    if ($user->phone_status == 1): ?>
+                                        <small class="text-success">(<?php echo trans("confirmed"); ?>)</small>
+                                    <?php else: ?>
+                                        <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
+                                    <?php endif; ?>
+                                </td>
 								<td><?php echo html_escape($user->about_me); ?></td>
 								<td>
 									<button class="btn btn-default btn-block" data-toggle="modal" data-target="#ktpModal<?= $user->id ?>">Foto KTP & Selfi</button>
@@ -90,7 +115,7 @@
 </div>
 
 <?php foreach ($requests as $user): ?>
-<div class="modal fade" id="ktpModal<?= $user->id ?>" role="dialog">
+<div class="modal fade" id="ktpModal<?= $user->id ?>" role="dialog"  style="z-index: 2 !important;">
 	<div class="modal-dialog modal-dialog-centered login-modal" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -101,11 +126,15 @@
 			</div>
 			<div class="modal-body">
 				<h3>Foto Ktp</h3>
-				<img src="<?= get_foto_toko($user->foto_ktp) ?>" />
+				<a class="magnific-image-popup" href="<?= get_foto_toko($user->foto_ktp) ?>">
+					<img src="<?= get_foto_toko($user->foto_ktp) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+				</a>
 				<br><br>
 
 				<h3>Foto Selfi</h3>
-				<img src="<?= get_foto_toko($user->foto_selfi) ?>" />
+				<a class="magnific-image-popup" href="<?= get_foto_toko($user->foto_selfi) ?>">
+					<img src="<?= get_foto_toko($user->foto_selfi) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+				</a>
 			</div>		
 		</div>
 	</div>

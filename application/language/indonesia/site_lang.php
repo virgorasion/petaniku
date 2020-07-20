@@ -2,6 +2,7 @@
 
 //custom
 $lang['shipping_seller_note'] = "Catatan Pengiriman Penjual";
+$lang['verified'] = "Terverifikasi";
 // ========================
 $lang["active"] = "Aktif";
 $lang["add_category"] = "Tambah Kategori";

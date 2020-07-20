@@ -67,7 +67,7 @@ class Product_model extends Core_Model
 		if (empty($data["country_id"])) {
 			$data["country_id"] = 0;
 		}
-
+		$this->db->update("users",['seller_status'=>1],['id'=>user()->id]);
 		return $this->db->insert('products', $data);
 	}
 

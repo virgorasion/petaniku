@@ -145,6 +145,11 @@
                                 <br>
                                 <br>
                                 <input type="checkbox" name="newsletter" id="newsletter" value="1" <?=($user->getNewsletter == "1")? "checked": "";?>> <?php echo trans('newsletter'); ?>
+                                <?php if($user->role != "vendor"): ?>
+                                <br>
+                                <br>
+                                <a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-sm btn-primary text-light">Verifikasi Akun</a>
+                                <?php endif ?>
                             </p>
                         </div>
                     </div>
@@ -153,12 +158,12 @@
                             <div class="row">
                                 <div class="col-12 col-md-6 m-b-sm-15">
                                     <label class="control-label">Username</label>
-                                    <input type="text" name="username" class="form-control form-input" value="<?php echo $user->username; ?>" placeholder="Username" required readonly>
+                                    <input type="text" name="username" class="form-control form-input" value="<?php echo $user->username; ?>" placeholder="Username" readonly>
 
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label class="control-label">Nama Lengkap</label>
-                                    <input type="text" name="name" class="form-control form-input" value="<?php echo $user->shipping_first_name; ?> <?php echo $user->shipping_last_name; ?>" placeholder="Nama Lengkap" required readonly>
+                                    <input type="text" name="name" class="form-control form-input" value="<?php echo $user->full_name; ?>" placeholder="Nama Lengkap" readonly>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +181,7 @@
                                     <span style="float:right">
                                         <a href="javascript:void(0)" onclick="changeHP()">Ubah</a>
                                     </span>
-                                    <input id="profile_hp" type="text" name="shipping_phone_number" class="form-control form-input" value="<?php echo $user->shipping_phone_number; ?>" placeholder="<?php echo trans("phone_number"); ?>" required readonly>
+                                    <input id="profile_hp" type="text" name="shipping_phone_number" class="form-control form-input" value="<?php echo $user->phone_number; ?>" placeholder="<?php echo trans("phone_number"); ?>" required readonly>
                                 </div>
                             </div>
                         </div> 

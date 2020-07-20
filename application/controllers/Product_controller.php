@@ -71,7 +71,8 @@ class Product_controller extends Home_Core_Controller
 			'phone_number' => $this->input->post('phone_number', true),
 			'about_me' => $this->input->post('about_me', true),
 			'foto_ktp' => $foto_ktp,
-			'foto_selfi' => $foto_selfi
+			'foto_selfi' => $foto_selfi,
+			'full_name' => $this->input->post("full_name")
 		);
 
 

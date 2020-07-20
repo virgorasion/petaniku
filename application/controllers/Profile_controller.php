@@ -334,21 +334,25 @@ class Profile_controller extends Home_Core_Controller
 	 */
 	public function update_profile_post()
 	{
+		$user_id = user()->id;
 		//check user
 		if (!auth_check()) {
 			redirect(lang_base_url());
 		}
-
-		$user_id = user()->id;
+		$get_user = $this->profile_model->detail_user($user_id);
+		$checkEmail = ($get_user->email == $this->input->post('email'));
+		$checkPhone = ($get_user->phone_number == $this->input->post('shipping_phone_number'));
 		$action = $this->input->post('submit', true);
 
-		if ($action == "resend_activation_email") {
-			//send activation email
-			$this->load->model("email_model");
-			$this->email_model->send_email_activation($user_id);
-			$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
-			redirect($this->agent->referrer());
-		}
+		// if (!$checkEmail) {
+		// 	//send activation email
+		// 	$this->load->model("email_model");
+		// 	$this->email_model->send_email_activation($user_id);
+		// 	$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
+		// 	$data['email_status'] = 0;
+		// 	$data['is_active_shop_request'] = 1;
+		// 	// redirect($this->agent->referrer());
+		// }
 
 		// if(!preg_match('/^[a-z0-9.]+$/i', $this->input->post('username', true))) {
 		// 	$this->session->set_flashdata('errors', "Error! Karakter pada username hanya boleh menggunakan alphabet, angka, atau titik");
@@ -367,15 +371,28 @@ class Profile_controller extends Home_Core_Controller
 				'username' => $this->input->post('username', true),
 				// 'slug' => str_slug($this->input->post('slug', true)),
 				'getNewsletter' => ($this->input->post("newsletter",true) == 1)? "1" : "0",
-				'email' => $this->input->post('email', true),
 				'shop_name' => $this->input->post('name', true),
 				'about_me' => $this->input->post('about_me', true),
 				// 'firstName' => $this->input->post('name', true),
 				'shipping_first_name' => $this->input->post('name', true),
 				'shipping_email' => $this->input->post('email', true),
-				'shipping_phone_number' => $this->input->post('shipping_phone_number', true),
 				'send_email_new_message' => $this->input->post('send_email_new_message', true)
 			);
+			
+			if(!$checkEmail && !$checkPhone){
+				$data['email_status'] = 0;
+				$data['email'] = $this->input->post('email', true);
+				$data['phone_number'] = $this->input->post('shipping_phone_number', true);
+				$data['is_active_shop_request'] = 1;
+			} elseif (!$checkPhone) {
+				$data['phone_statusr'] = 0;
+				$data['phone_number'] = $this->input->post('shipping_phone_number', true);
+				$data['is_active_shop_request'] = 1;
+			} elseif(!$checkEmail){
+				$data['email_status'] = 0;
+				$data['email'] = $this->input->post('email', true);
+				$data['is_active_shop_request'] = 1;
+			}
 
 			//is email unique
 			if (!$this->auth_model->is_unique_email($data["email"], $user_id)) {
@@ -415,7 +432,7 @@ class Profile_controller extends Home_Core_Controller
 			if ($this->profile_model->update_profile($data, $user_id)) {
 				$this->session->set_flashdata('success', trans("msg_updated"));
 				//check email changed
-				if(($_POST['tipe']!='update_profile')) {
+				if(!$checkEmail) {
 					if ($this->profile_model->check_email_updated($user_id)) {
 						$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
 					}

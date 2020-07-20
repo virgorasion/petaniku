@@ -53,7 +53,19 @@
 												<div class="form-box-body">
 
 													<div class="form-group">
-														<label class="control-label">Nama Lengkap</label>
+														<div class="row">
+															<div class="col">
+																<label class="control-label"><?= trans("full_name") ?></label>
+															</div>
+															<div class="col-auto">
+																<a href="" class="small text-primary">Nama Tidak Dapat Dirubah Setelah Diverifikasi</a>
+															</div>
+														</div>
+														<input type="text" name="full_name" class="form-control form-input" value="<?php echo html_escape($this->auth_user->full_name); ?>" placeholder="<?php echo trans("full_name"); ?>">
+													</div>
+
+													<div class="form-group">
+														<label class="control-label">Nama Toko</label>
 														<input type="text" name="shop_name" class="form-control form-input" value="<?php echo $this->auth_user->username; ?>" placeholder="<?php echo trans("shop_name"); ?>" maxlength="<?php echo $this->username_maxlength; ?>" required>
 													</div>
 
