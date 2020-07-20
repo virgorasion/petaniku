@@ -515,6 +515,7 @@
 			<div class="modal-body">
 				<input type="hidden" name="product_id" class="form-control form-input" value="<?php echo $order_products[0]->id; ?>">
 				<input type="hidden" name="order_id" class="form-control form-input" value="<?php echo $order->id; ?>">
+				<input type="hidden" name="buyer_id" class="form-control form-input" value="<?php echo $order->buyer_id; ?>">
 				<input type="hidden" name="status" value="shipped">
 					<div class="form-group text-center">
 					<label><?php echo trans("shipping_note"); ?></label>

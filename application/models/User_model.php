@@ -57,21 +57,21 @@ class User_model extends CI_Model
 			$product['created_at'] = explode(" ", $product['created_at'])[0];
 			$newDatas['pendingProduct'][] = $product;
 		}
-		foreach ($payouts as $pay) {
-			// bind created_at from timestamp to date Y-m-d
-			$pay['created_at'] = explode(" ", $pay['created_at'])[0];
-			$newDatas['payouts'][] = $pay;
-		}
-		foreach ($transactions as $trx) {
-			// bind created_at from timestamp to date Y-m-d
-			$trx['created_at'] = explode(" ", $trx['created_at'])[0];
-			$newDatas['trx'][] = $trx;
-		}
-		foreach ($openShop as $shop) {
-			// bind created_at from timestamp to date Y-m-d
-			$shop['created_at'] = explode(" ", $shop['created_at'])[0];
-			$newDatas['openShop'][] = $shop;
-		}
+		// foreach ($payouts as $pay) {
+		// 	// bind created_at from timestamp to date Y-m-d
+		// 	$pay['created_at'] = explode(" ", $pay['created_at'])[0];
+		// 	$newDatas['payouts'][] = $pay;
+		// }
+		// foreach ($transactions as $trx) {
+		// 	// bind created_at from timestamp to date Y-m-d
+		// 	$trx['created_at'] = explode(" ", $trx['created_at'])[0];
+		// 	$newDatas['trx'][] = $trx;
+		// }
+		// foreach ($openShop as $shop) {
+		// 	// bind created_at from timestamp to date Y-m-d
+		// 	$shop['created_at'] = explode(" ", $shop['created_at'])[0];
+		// 	$newDatas['openShop'][] = $shop;
+		// }
 		
 		// generating dates in a week
 		$dates = [];
@@ -92,7 +92,7 @@ class User_model extends CI_Model
 			}	
 			$dates[$data[0]['created_at']][] = $data;
 		}
-		dd($datas);
+		dd($dates);
 		return $dates;
 	}
 }

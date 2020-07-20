@@ -645,7 +645,7 @@ class Order_model extends CI_Model
 			'updated_at' => date('Y-m-d H:i:s')
 		);
 		if (auth_check()) {
-			$data["buyer_id"] = user()->id;
+			$data["buyer_id"] = $this->input->post("buyer_id",true);
 			$data["buyer_type"] = "registered";
 		}
 		$this->load->model('upload_model');
