@@ -10,6 +10,9 @@ class Admin_controller extends Admin_Core_Controller
 		if (!is_admin()) {
 			redirect(admin_url() . 'login');
 		}
+
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 	}
 
 	public function index()
@@ -1619,5 +1622,21 @@ class Admin_controller extends Admin_Core_Controller
 				echo "<option value='" . $state->id . "'>" . html_escape($state->name) . "</option>";
 			}
 		}
+	}
+
+	public function response($data)
+	{
+		header("Content-Type: application/json");
+		echo json_encode($data);
+	}
+	public function get_dashboard_summary()
+	{
+		$user = $this->user_model->registered_in_week();
+		return $this->response([
+			// 'status' => 200,
+			'datas' => [
+				'users' => $user
+			]
+		]);
 	}
 }

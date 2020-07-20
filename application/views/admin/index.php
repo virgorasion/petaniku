@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="row">
+
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box admin-small-box bg-danger">
@@ -72,6 +73,41 @@
 </div>
 
 <div class="row">
+    <?php
+    $end_date = date('Y-m-d');
+    $start_date = date('Y-m-d', strtotime('-6 days'));
+    $dates = [];
+    $period = new DatePeriod(
+        new DateTime($start_date),
+        new DateInterval('P1D'),
+        new DateTime($end_date)
+    );
+    foreach ($period as $val) {
+        array_push($dates, $val->format('Y-m-d'));
+    }
+    array_push($dates, $end_date);
+    $dates = implode(",", $dates);
+    ?>
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Report Summary</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-8">
+                    <canvas class="w-100" id="report"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-6 col-sm-12 col-xs-12">
         <div class="box box-primary box-sm">
             <div class="box-header with-border">
@@ -524,5 +560,69 @@
     </div>
 </div>
 
+<script src="<?= base_url(); ?>assets/vendor/Chart.js/dist/Chart.min.js"></script>
+<script>
+const select = dom => document.querySelector(dom)
 
+let report = [
+    {
+        label: "User",
+        data: [],
+        borderColor: '#e74c3c',
+        fill: false,
+    },
+    {
+        label: "Seller",
+        data: [10, 5, 4, 28, 20, 14, 8],
+        borderColor: '#2ecc71',
+        fill: false,
+    },
+]
+const request = (url, data) => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+}
+let reportChart
+const generateChart = () => {
+    let ctx = select("#report").getContext('2d')
+    reportChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: "<?= $dates; ?>".split(","),
+            datasets: report
+        },
+        options: {
+            animation: {
+                duration: 0
+            }
+        }
+    })
+}
+generateChart()
+const fetchSummary = () => {
+    reportChart.data.datasets[0]['data'] = []
+    let path = "<?= base_url(); ?>Admin_controller/get_dashboard_summary"
+    let req = request(path)
+    .then(res => {
+        let users = res.datas.users
+        for (var key in users) {
+            report[0].data.push(users[key].length)
+        }
+        reportChart.update()
+    })
+}
+setInterval(() => {
+    fetchSummary()
+}, 1000);
+document.addEventListener('keydown', e => {
+    if (e.key == "g") {
+        generateChart()
+    }
+})
+</script>
 

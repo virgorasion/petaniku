@@ -177,6 +177,8 @@ class Earnings_controller extends Home_Core_Controller
         if (!$this->earnings_model->withdraw_money($data)) {
             $this->session->set_flashdata('error', trans("msg_error"));
         }
+
+        $this->user_model->empty_balance($this->user_id);
         redirect($this->agent->referrer());
     }
 }
