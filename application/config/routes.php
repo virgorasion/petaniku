@@ -358,6 +358,8 @@ $route['imApi/searchMessageList'] = 'ImApi/searchMessageList';
 $route['imApi/searchMessageUpper'] = 'ImApi/searchMessageUpper';
 $route['imApi/searchMessageLower'] = 'ImApi/searchMessageLower';
 
+$route['dashboard-summary'] = "Admin/get_dashboard_summary";
+
 /*
 *-------------------------------------------------------------------------------------------------
 * DYNAMIC ROUTES

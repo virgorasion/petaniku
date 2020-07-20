@@ -73,6 +73,21 @@
 </div>
 
 <div class="row">
+    <?php
+    $end_date = date('Y-m-d');
+    $start_date = date('Y-m-d', strtotime('-6 days'));
+    $dates = [];
+    $period = new DatePeriod(
+        new DateTime($start_date),
+        new DateInterval('P1D'),
+        new DateTime($end_date)
+    );
+    foreach ($period as $val) {
+        array_push($dates, $val->format('Y-m-d'));
+    }
+    array_push($dates, $end_date);
+    $dates = implode(",", $dates);
+    ?>
     <div class="col-md-12">
         <div class="box">
             <div class="box-header with-border">
@@ -552,7 +567,7 @@ const select = dom => document.querySelector(dom)
 let report = [
     {
         label: "User",
-        data: [10, 9, 11, 30, 25, 22, 40],
+        data: [],
         borderColor: '#e74c3c',
         fill: false,
     },
@@ -563,17 +578,47 @@ let report = [
         fill: false,
     },
 ]
-const generateChart = e => {
+const request = (url, data) => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+}
+let reportChart
+const generateChart = () => {
     let ctx = select("#report").getContext('2d')
-    let reportChart = new Chart(ctx, {
+    reportChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['User','Seller','Deposited','Withdrawn','Active Project','Balance'],
+            labels: "<?= $dates; ?>".split(","),
             datasets: report
+        },
+        options: {
+            animation: {
+                duration: 0
+            }
         }
     })
 }
 generateChart()
+const fetchSummary = () => {
+    reportChart.data.datasets[0]['data'] = []
+    let path = "<?= base_url(); ?>Admin_controller/get_dashboard_summary"
+    let req = request(path)
+    .then(res => {
+        let users = res.datas.users
+        for (var key in users) {
+            report[0].data.push(users[key].length)
+        }
+        reportChart.update()
+    })
+}
+setInterval(() => {
+    fetchSummary()
+}, 1000);
 document.addEventListener('keydown', e => {
     if (e.key == "g") {
         generateChart()
