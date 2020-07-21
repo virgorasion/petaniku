@@ -14,6 +14,13 @@ class Review_model extends CI_Model
 			'created_at' => date("Y-m-d H:i:s")
 		);
 
+		$temp_path = $this->upload_model->upload_temp_image('file');
+		if (!empty($temp_path)) {
+            $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
+			$this->upload_model->delete_temp_image($temp_path);
+            $data['foto'] = $bukti;
+        }
+
 		if (!empty($data['product_id']) && !empty($data['user_id']) && !empty($data['rating'])) {
 			$this->db->insert('reviews', $data);
 			//update product rating

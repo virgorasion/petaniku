@@ -118,8 +118,8 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <input type="file" name="bukti">
                             </div>
                             <div class="form-group mt-3">
-                                <!-- <button data-toggle="modal" data-target="#infoPaymentModal" type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button> -->
-                                <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                                <button data-toggle="modal" data-target="#infoPaymentModal" type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                                <!-- <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button> -->
                             </div>
                             <?php echo form_close(); ?>
                         </div>
@@ -141,7 +141,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <th scope="col">Nominal Transfer</th>
                                 <th scope="col"><?php echo trans("status"); ?></th>
                                 <th scope="col"><?php echo trans("date"); ?></th>
-                                <th scope="col"><?php echo trans("options"); ?></th>
+                                <!-- <th scope="col"><?php //echo trans("options"); ?></th> -->
                             </tr>
                             </thead>
                             <tbody>
@@ -159,11 +159,11 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                         } ?>
                                     </td>
                                     <td><?php echo date("Y-m-d / h:i", strtotime($row->created_at)); ?></td>
-                                    <td>
-                                        <?php if($row->bukti == ""): ?>
+                                    <!-- <td>
+                                        <?php /* if($row->bukti == ""): ?>
                                         <button class="btn btn-md btn-custom" data-toggle="modal" data-target="#reportPaymentModal<?=$row->id?>">Upload Bukti</button>
-                                        <?php endif ?>
-                                    </td>
+                                        <?php endif */ ?>
+                                    </td> -->
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -316,6 +316,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
     </div>
 </div>
 
+<?php /*
 <?php foreach($deposit as $row): ?>
 <!-- Modal -->
 <div class="modal fade" id="reportPaymentModal<?=$row->id?>" tabindex="-1" role="dialog" aria-hidden="true">
@@ -354,6 +355,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 	</div>
 </div>
 <?php endforeach ?>
+*/ ?>
 
 <div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -373,7 +375,8 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 				<?php echo $payment_settings->bank_transfer_accounts; ?>				
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>				
+				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>				 -->
+				<button type="button" id="confirm_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
 			</div>
 		</div>
 	</div>
@@ -420,7 +423,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
     $(document).ready(function(){
         $('#jumlah_transfer').html(convertToRupiah(0));
 
-        $("#deposit_post").click(function(){
+        $("#confirm_deposit").click(function(){
             $("#form_validate_payout_1").submit();
         })
     });

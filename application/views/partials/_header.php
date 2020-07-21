@@ -417,7 +417,7 @@ if ($language->id == $site_lang->id):?>
 	</div>
 <?php endif; ?>
 
-<?php if($this->auth_user->role != "vendor"): ?>
+<?php if(@$this->auth_user->role != "vendor"): ?>
 	<!-- Modal -->
 	<div class="modal fade" id="warningVerifAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
