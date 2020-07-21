@@ -37,9 +37,9 @@ class User_model extends CI_Model
 		return false;
 	}
 
-	public function empty_balance($id)
+	public function withdraw_balance($id,$amount)
 	{
-		return $this->db->where('id', $id)->set('balance', 0)->update('users');
+		return $this->db->update('users',['balance'=>0,'wd_balance'=>$amount],['id'=>$id]);
 	}
 	public function registered_in_week()
 	{

@@ -51,7 +51,7 @@ class Balance_admin_controller extends Admin_Core_Controller
         $data['form_action'] = admin_url() . "deposit-requests";
         //get paginated earnings
         $pagination = $this->paginate(admin_url() . 'deposit-requests', $this->earnings_admin_model->get_deposit_requests_count());
-        $data['payout_requests'] = $this->earnings_admin_model->get_paginated_deposit_requests($pagination['per_page'], $pagination['offset']);
+        $data['deposit_request'] = $this->earnings_admin_model->get_paginated_deposit_requests($pagination['per_page'], $pagination['offset']);
         
         $this->load->view('admin/includes/_header', $data);
         $this->load->view('admin/deposit/deposit_requests', $data);

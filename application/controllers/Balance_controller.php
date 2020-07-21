@@ -28,11 +28,18 @@ class Balance_controller extends Home_Core_Controller
         $data['description'] = 'Saldo' . " - " . $this->app_name;
         $data['keywords'] = 'Saldo' . "," . $this->app_name;
         $data["active_tab"] = "earnings";
+        $this->session->set_flashdata("active_tab","earnings");
         $data['user'] = user();
         
         $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_earnings_count($this->user_id), $this->earnings_per_page);
         $data['earnings'] = $this->earnings_model->get_paginated_earnings($this->user_id, $pagination['per_page'], $pagination['offset']);
         
+        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
+        $data['deposit'] = $this->earnings_model->get_paginated_deposits($this->user_id, $pagination['per_page'], $pagination['offset']);
+
+        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_payouts_count($this->user_id), $this->earnings_per_page);
+        $data['payouts'] = $this->earnings_model->get_paginated_payouts($this->user_id, $pagination['per_page'], $pagination['offset']);
+
         $hist = $this->earnings_model->get_history($this->user_id);
         $all = [];
 
@@ -147,6 +154,7 @@ class Balance_controller extends Home_Core_Controller
         $data['description'] = "Deposit - " . $this->app_name;
         $data['keywords'] = "Deposit," . $this->app_name;
         $data["active_tab"] = "deposit";
+        $this->session->set_flashdata("active_tab","deposit");
         $data['user'] = user();
         
         $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
@@ -160,7 +168,7 @@ class Balance_controller extends Home_Core_Controller
     public function deposit_post()
     {
         $this->load->model('upload_model');
-        
+        $this->session->set_flashdata("active_tab","deposit");
         $amount = $this->input->post('amount', true);
         $kode = $this->input->post('kodeunik', true);
         $tf = ($amount) + (int) $kode;
@@ -178,7 +186,7 @@ class Balance_controller extends Home_Core_Controller
         );
         $data["amount"] = price_database_format($data["amount"]);
 
-        $temp_path = $this->upload_model->upload_temp_image('bukti');
+        $temp_path = $this->upload_model->upload_temp_image('file');
 		if (!empty($temp_path)) {
             $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
 			$this->upload_model->delete_temp_image($temp_path);
@@ -196,6 +204,7 @@ class Balance_controller extends Home_Core_Controller
             'payment_status' => "awaiting_payment",
         );
         $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
+        // $price = print_price($tf, 'IDR');
 
         if (!$id_deposit) {
             $this->session->set_flashdata('error', trans("msg_error"));
@@ -203,6 +212,19 @@ class Balance_controller extends Home_Core_Controller
             $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar { print_price($tf, 'IDR') }.Tunggu konfirmasi dari admin terlebih dahulu");            
         }
         redirect($this->agent->referrer());
+    }
+
+    public function upload_bukti_deposit()
+    {
+        $kode_unik['kodeunik'] = $this->input->post("kode_unik");
+        $temp_path = $this->upload_model->upload_temp_image('file');
+		if (!empty($temp_path)) {
+            $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
+			$this->upload_model->delete_temp_image($temp_path);
+            $data['bukti'] = $bukti;
+        }
+
+        return $this->earnings_model->upload_model('deposit',$data,$kode_unik);
     }
 
     /**

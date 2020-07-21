@@ -1694,7 +1694,7 @@ $(document).ready(function () {
 	});
 });
 
-$(document).on("input keyup paste change", ".validate_price .price-input", function () {
+$(document).on("input keyup paste change", ".validate_price .deposit_price .price-input", function () {
 	var val = $(this).val();
 	val = val.replace(',', '.');
 	if ($.isNumeric(val) && val != 0) {
@@ -1716,7 +1716,7 @@ $('input[type=radio][name=product_type]').change(function () {
 });
 
 $(document).ready(function () {
-	$('.validate_price').submit(function (e) {
+	$('.validate_price .deposit_price').submit(function (e) {
 		$('.validate_price .validate-price-input').each(function () {
 			var val = $(this).val();
 			if (val != '') {

@@ -143,7 +143,7 @@ class Earnings_admin_model extends CI_Model
     public function get_payout_requests_count()
     {
         $this->filter_payouts();
-        $this->db->where('payouts.status', 0);
+        // $this->db->where('payouts.status', 0);
         $query = $this->db->get('payouts');
         return $query->num_rows();
     }
@@ -152,8 +152,8 @@ class Earnings_admin_model extends CI_Model
     public function get_paginated_payout_requests($per_page, $offset)
     {
         $this->filter_payouts();
-        $this->db->where('payouts.status', 0);
-        $this->db->order_by('payouts.created_at', 'ASC');
+        // $this->db->where('payouts.status', 0);
+        $this->db->order_by('payouts.created_at', 'DESC');
         $this->db->limit($per_page, $offset);
         $query = $this->db->get('payouts');
         return $query->result();
@@ -274,7 +274,7 @@ class Earnings_admin_model extends CI_Model
         $user_id = clean_number($user_id);
         $user = $this->auth_model->get_user($user_id);
         if (!empty($user)) {
-            if ($user->balance >= $amount) {
+            if ($user->wd_balance >= $amount) {
                 return true;
             }
         }
@@ -302,9 +302,9 @@ class Earnings_admin_model extends CI_Model
         $user_id = clean_number($user_id);
         $user = $this->auth_model->get_user($user_id);
         if (!empty($user)) {
-            $balance = $user->balance - $amount;
+            $balance = $user->wd_balance - $amount;
             $data = array(
-                'balance' => $balance
+                'wd_balance' => $balance
             );
             $this->db->where('id', $user_id);
             return $this->db->update('users', $data);

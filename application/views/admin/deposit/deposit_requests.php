@@ -28,12 +28,12 @@
                             <!-- <th>Detail Bank</th> -->
                             <th>Jumlah Deposit</th>
                             <th><?php echo trans('status'); ?></th>
-                            <!-- <th class="max-width-120"><?php echo trans('options'); ?></th> -->
+                            <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <?php foreach ($payout_requests as $item): ?>
+                        <?php foreach ($deposit_request as $item): ?>
                             <tr>
                                 <td><?php echo $item->created_at; ?></td>
                                 <!-- <td><?php echo $item->id; ?></td> -->
@@ -67,7 +67,7 @@
                                         <label class="label label-warning"><?php echo trans("pending"); ?></label>
                                     <?php } ?>
                                 </td>
-                                <td class="hidden">
+                                <td>
                                     <?php echo form_open_multipart('balance_admin_controller/complete_deposit_request_post'); ?>
                                     <input type="hidden" name="payout_id" value="<?php echo $item->id; ?>">
                                     <input type="hidden" name="user_id" value="<?php echo $item->user_id; ?>">
@@ -80,6 +80,10 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu options-dropdown">
+                                            <li>
+                                                <a href="<?=lang_base_url()?>admin/deposit-details/<?=$item->id?>" class="btn-list-button"><i class="fa fa-info option-icon"></i>Lihat Detail</a>
+                                            </li>
+                                            <?php /*
                                             <?php if ($item->status == 0): ?>
                                             <li>
                                                 <button type="submit" name="option" value="completed" class="btn-list-button">
@@ -90,6 +94,7 @@
                                             <li>
                                                 <a href="javascript:void(0)" onclick="delete_item('balance_admin_controller/delete_deposit_post','<?php echo $item->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
                                             </li>
+                                            */?>
                                         </ul>
                                     </div>
                                     <?php echo form_close(); ?>
@@ -101,7 +106,7 @@
                         </tbody>
                     </table>
 
-                    <?php if (empty($payout_requests)): ?>
+                    <?php if (empty($deposit_request)): ?>
                         <p class="text-center">
                             <?php echo trans("no_records_found"); ?>
                         </p>
@@ -120,7 +125,7 @@
     </div><!-- /.box-body -->
 </div>
 
-<?php foreach ($payout_requests as $item):
+<?php foreach ($deposit_request as $item):
     $payout = $this->earnings_model->get_user_payout_account($item->user_id);
     ?>
     <!-- Modal -->
