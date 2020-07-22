@@ -38,7 +38,7 @@
                             <th>ID Bank</th>
                             <th><?php echo trans('payment_amount'); ?></th>
                             <th><?php echo trans('payment_status'); ?></th>
-                            <!-- <th class="max-width-120"><?php //echo trans('options'); ?></th> -->
+                            <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -107,26 +107,87 @@
                                     <td>
                                     </td>                                
                                 <?php endif; ?>
-                                <td>                                        
+                                <td>
+                                                                     
                                     <?php 
-                                        echo print_price($item->payment_amount, $item->currency); 
+                                        if($item->payment_method == "Deposit") {
+                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                            echo print_price($deposit->amount, $item->currency); 
+                                        } else {
+                                            $order = $this->order_admin_model->get_order($item->order_id);
+                                            echo print_price(($order->price_subtotal + $order->price_shipping), $item->currency); 
+                                        }
                                     ?>
                                 </td>
                                 <td><?php echo trans($item->payment_status); ?></td>
-                                <!-- <td>
+                                <?php if($item->payment_method != "Deposit"):?>
+                                    <td>
+                                        <?php 
+                                        $order = $this->order_admin_model->get_order($item->order_id);
+                                        if(!isset($order)) continue;
+                                        $bank_tf = $this->order_admin_model->get_bank_transfer_by_order_number($order->order_number);  
+                                        if(isset($bank_tf)):                                  
+                                        echo form_open_multipart('order_admin_controller/bank_transfer_options_post'); ?>
+                                        <input type="hidden" name="id" value="<?php echo $bank_tf->id; ?>">
+                                        <div class="dropdown">
+                                            <button class="btn bg-purple dropdown-toggle btn-select-option"
+                                                    type="button"
+                                                    data-toggle="dropdown"><?php echo trans('select_option'); ?>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu options-dropdown">
+                                                <?php if ($bank_tf->status == 'pending'):
+                                                    if (!empty($order)): ?>
+                                                        <li>
+                                                            <a href="javascript:void(0)" onclick="approve_bank_transfer('<?php echo $bank_tf->id; ?>','<?php echo $order->id; ?>','<?php echo trans("msg_accept_bank_transfer"); ?>');"><i class="fa fa-check option-icon"></i><?php echo trans('approve'); ?></a>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <li>
+                                                        <button type="submit" name="option" value="declined" class="btn-list-button">
+                                                            <i class="fa fa-times option-icon"></i><?php echo trans('decline'); ?>
+                                                        </button>
+                                                    </li>
+                                                <?php endif; ?>
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="delete_item('order_admin_controller/delete_bank_transfer_post','<?php echo $bank_tf->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <?php echo form_close(); endif ?>
+                                    </td>
+                                <?php else: ?>
+                                <?php 
+                                    $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                    if(!isset($deposit)) continue;
+                                ?>
+                                <td>
+                                    <?php echo form_open_multipart('balance_admin_controller/complete_deposit_request_post'); ?>
+                                    <input type="hidden" name="payout_id" value="<?php echo $deposit->id; ?>">
+                                    <input type="hidden" name="user_id" value="<?php echo $deposit->user_id; ?>">
+                                    <input type="hidden" name="amount" value="<?php echo $deposit->amount; ?>">
+                                    
                                     <div class="dropdown">
                                         <button class="btn bg-purple dropdown-toggle btn-select-option"
                                                 type="button"
-                                                data-toggle="dropdown"><?php //echo trans('select_option'); ?>
+                                                data-toggle="dropdown"><?php echo trans('select_option'); ?>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu options-dropdown">
+                                            <?php if ($deposit->status == 0): ?>
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_item('order_admin_controller/delete_transaction_post','<?php //echo $item->id; ?>','<?php //echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php //echo trans('delete'); ?></a>
+                                                <button type="submit" name="option" value="completed" class="btn-list-button">
+                                                    <i class="fa fa-check option-icon"></i><?php echo trans('completed'); ?>
+                                                </button>
+                                            </li>
+                                            <?php endif; ?>
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="delete_item('balance_admin_controller/delete_deposit_post','<?php echo $deposit->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
                                             </li>
                                         </ul>
                                     </div>
-                                </td> -->
+                                    <?php echo form_close(); ?>
+                                </td>
+                                <?php endif ?>
                             </tr>
 
                         <?php endforeach; ?>
@@ -178,24 +239,6 @@
                                     <td><?php echo date("Y-m-d / h:i", strtotime($bank_tf->created_at)); ?></td>                                    
                                 </tr>
                                 <tr>
-                                    <td><?php echo trans('user'); ?></td>
-                                    <td>
-                                    <?php if ($bank_tf->user_id == 0): ?>
-                                        <label class="label bg-olive"><?php echo trans("guest"); ?></label>
-                                    <?php else:
-                                        $user = get_user($bank_tf->user_id);
-                                        if (!empty($user)):?>
-                                            <div class="table-orders-user">
-                                                <a href="<?php echo base_url(); ?>profile/<?php echo $user->slug; ?>" class="table-link" target="_blank">
-                                                    <?php echo html_escape($user->username); ?>
-                                                </a>
-                                            </div>
-                                        <?php endif;
-                                    endif;
-                                    ?>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td><?php echo trans('receipt'); ?></td>
                                     <td>
                                         <?php if (!empty($bank_tf->receipt_path)): ?>
@@ -209,54 +252,6 @@
                                     <td><?php echo trans('payment_note'); ?></td>
                                     <td>
                                         <?php echo $bank_tf->payment_note; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><?php echo trans('status'); ?></td>
-                                    <td>
-                                        <?php if ($bank_tf->status == 'pending'): ?>
-                                            <label class="label label-default"><?php echo trans("pending"); ?></label>
-                                        <?php elseif ($bank_tf->status == 'approved'): ?>
-                                            <label class="label label-success"><?php echo trans("approved"); ?></label>
-                                        <?php elseif ($bank_tf->status == 'declined'): ?>
-                                            <label class="label label-danger"><?php echo trans("declined"); ?></label>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><?php echo trans('ip_address'); ?></td>
-                                    <td><?php echo $item->ip_address; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><?php echo trans('options'); ?></td>
-                                    <td>
-                                        <?php echo form_open_multipart('order_admin_controller/bank_transfer_options_post'); ?>
-                                        <input type="hidden" name="id" value="<?php echo $bank_tf->id; ?>">
-                                        <div class="dropdown">
-                                            <button class="btn bg-purple dropdown-toggle btn-select-option"
-                                                    type="button"
-                                                    data-toggle="dropdown"><?php echo trans('select_option'); ?>
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu options-dropdown">
-                                                <?php if ($bank_tf->status == 'pending'):
-                                                    if (!empty($order)): ?>
-                                                        <li>
-                                                            <a href="javascript:void(0)" onclick="approve_bank_transfer('<?php echo $bank_tf->id; ?>','<?php echo $order->id; ?>','<?php echo trans("msg_accept_bank_transfer"); ?>');"><i class="fa fa-check option-icon"></i><?php echo trans('approve'); ?></a>
-                                                        </li>
-                                                    <?php endif; ?>
-                                                    <li>
-                                                        <button type="submit" name="option" value="declined" class="btn-list-button">
-                                                            <i class="fa fa-times option-icon"></i><?php echo trans('decline'); ?>
-                                                        </button>
-                                                    </li>
-                                                <?php endif; ?>
-                                                <li>
-                                                    <a href="javascript:void(0)" onclick="delete_item('order_admin_controller/delete_bank_transfer_post','<?php echo $bank_tf->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <?php echo form_close(); ?>
                                     </td>
                                 </tr>
                             </tbody>
@@ -323,36 +318,6 @@
                                             <img src="<?= base_url('uploads/deposit/'.$deposit->bukti) ?>" alt="" style="max-width: 60px; max-height: 60px;">
                                         </a>
                                     <?php endif; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><?php echo trans('options'); ?></td>
-                                <td>
-                                    <?php echo form_open_multipart('balance_admin_controller/complete_deposit_request_post'); ?>
-                                    <input type="hidden" name="payout_id" value="<?php echo $deposit->id; ?>">
-                                    <input type="hidden" name="user_id" value="<?php echo $deposit->user_id; ?>">
-                                    <input type="hidden" name="amount" value="<?php echo $deposit->amount; ?>">
-                                    
-                                    <div class="dropdown">
-                                        <button class="btn bg-purple dropdown-toggle btn-select-option"
-                                                type="button"
-                                                data-toggle="dropdown"><?php echo trans('select_option'); ?>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu options-dropdown">
-                                            <?php if ($deposit->status == 0): ?>
-                                            <li>
-                                                <button type="submit" name="option" value="completed" class="btn-list-button">
-                                                    <i class="fa fa-check option-icon"></i><?php echo trans('completed'); ?>
-                                                </button>
-                                            </li>
-                                            <?php endif; ?>
-                                            <li>
-                                                <a href="javascript:void(0)" onclick="delete_item('balance_admin_controller/delete_deposit_post','<?php echo $deposit->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <?php echo form_close(); ?>
                                 </td>
                             </tr>
                         </tbody>

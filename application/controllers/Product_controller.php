@@ -713,14 +713,12 @@ class Product_controller extends Home_Core_Controller
 		$data["product"] = $this->product_model->get_product_by_id($product_id);
 		$this->load->model('upload_model');
 
-		$temp_path = $this->upload_model->upload_temp_image('file');
-		if (!empty($temp_path)) {
-            $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
-			$this->upload_model->delete_temp_image($temp_path);
-            $data['foto'] = $bukti;
-        }
-
-		dd($_FILES['file']);
+		// $temp_path = $this->upload_model->upload_temp_image('file');
+		// if (!empty($temp_path)) {
+        //     $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
+		// 	$this->upload_model->delete_temp_image($temp_path);
+        //     $data['foto'] = $bukti;
+        // }
 
 		if (!empty($review)) {
 			echo "voted_error";

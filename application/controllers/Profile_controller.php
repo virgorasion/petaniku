@@ -721,5 +721,31 @@ class Profile_controller extends Home_Core_Controller
         } else {
             $this->session->set_flashdata('error', trans("msg_error"));
         }
-    }
+	}
+	
+	public function send_otp()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => "https://auth.sms.to/oauth/token",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 0,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "POST",
+		CURLOPT_POSTFIELDS =>"{\n\t\"client_id\" : \"234\",\n\t\"secret\": \"Kn5TtQMMGx0BYU3ECctXG6m7l2BKmirq9FZ8YLbi\",\n\t\"expires_in\": 60\n}",
+		CURLOPT_HTTPHEADER => array(
+			"Accept: application/json",
+			"Content-Type: application/json"
+		),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		echo $response;
+	}
 }

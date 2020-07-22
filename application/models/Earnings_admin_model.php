@@ -84,10 +84,15 @@ class Earnings_admin_model extends CI_Model
     {
         $id = clean_number($id);
         $this->db->where('id', $id);
-        $query = $this->db->get('deposit');
-        $row = $query->row();
+        $deposit = $this->db->get('deposit');
+        $row = $deposit->row();
+        $this->db->where("payment_id",$id);
+        $transaction = $this->db->get("transactions");
+        $trx = $transaction->row();
 
-        if (!empty($row)) {
+        if (!empty($row) && !empty($trx)) {
+            $this->db->where("payment_id",$id);
+            $this->db->delete("transactions");
             $this->db->where('id', $id);
             return $this->db->delete('deposit');
         } else {

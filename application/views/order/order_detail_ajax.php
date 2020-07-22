@@ -38,7 +38,15 @@
                     </div>
                     <div class="col-sm-6 col-md-4 mb-3">
                         <p class="text-gray small mb-1"><?php echo trans("payment_status"); ?></p>
-                        <h6 class="m-0"><?php echo trans($order->payment_status); ?></h6><br>
+                        <?php if($order->payment_status == "awaiting_payment"):?>
+                        <h6 class="m-0"><?php echo trans("awaiting_payment"); ?></h6><br>
+                        <?php elseif($order->payment_status == "awaiting_verification"):?>
+                        <h6 class="m-0"><?php echo trans("awaiting_verification"); ?></h6><br>
+                        <?php elseif($order->payment_status == "cancelled"): ?>
+                        <h6 class="m-0"><?php echo trans("cancelled"); ?></h6><br>
+                        <?php else: ?>
+                        <h6 class="m-0"><?php echo trans("payment_received"); ?></h6><br>
+                        <?php endif ?>
 
                         <?php if ($order->payment_method == "Bank Transfer" && $order->payment_status == "awaiting_verification" || $order->payment_status == "awaiting_payment"):
                         

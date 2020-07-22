@@ -291,7 +291,6 @@ class Order_controller extends Home_Core_Controller
 	 */
 	public function approve_order_product_post()
 	{
-		$order_id = $this->input->post('order_product_id', true);
 		$order_product_id = $this->input->post('order_product_id', true);
 		if ($this->order_model->approve_order_product($order_product_id)) {
 			//order product

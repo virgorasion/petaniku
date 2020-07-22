@@ -119,7 +119,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                             </div>
                             <div class="form-group mt-3">
                                 <button data-toggle="modal" data-target="#infoPaymentModal" type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
-                                <!-- <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button> -->
+                                <!-- <button type="submit" class="btn btn-md btn-custom"><?php //echo trans("submit"); ?></button> -->
                             </div>
                             <?php echo form_close(); ?>
                         </div>
@@ -141,7 +141,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <th scope="col">Nominal Transfer</th>
                                 <th scope="col"><?php echo trans("status"); ?></th>
                                 <th scope="col"><?php echo trans("date"); ?></th>
-                                <!-- <th scope="col"><?php //echo trans("options"); ?></th> -->
+                                <th scope="col"><?php echo trans("options"); ?></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -159,11 +159,11 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                         } ?>
                                     </td>
                                     <td><?php echo date("Y-m-d / h:i", strtotime($row->created_at)); ?></td>
-                                    <!-- <td>
-                                        <?php /* if($row->bukti == ""): ?>
+                                    <td>
+                                        <?php if($row->bukti == ""): ?>
                                         <button class="btn btn-md btn-custom" data-toggle="modal" data-target="#reportPaymentModal<?=$row->id?>">Upload Bukti</button>
-                                        <?php endif */ ?>
-                                    </td> -->
+                                        <?php endif ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -241,7 +241,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
-                                <a href="<?= base_url('balances/set-payout-account') ?>" class="btn btn-md btn-custom">
+                                <a href="#" class="btn btn-md btn-custom" data-toggle="modal" data-target="#akunPayout">
                                     <i class="icon-plus"></i> Tambah akun Pencairan Uang
                                 </a>
                             </div>
@@ -316,7 +316,6 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
     </div>
 </div>
 
-<?php /*
 <?php foreach($deposit as $row): ?>
 <!-- Modal -->
 <div class="modal fade" id="reportPaymentModal<?=$row->id?>" tabindex="-1" role="dialog" aria-hidden="true">
@@ -331,6 +330,10 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 				</button>
 			</div>
 			<div class="modal-body">
+                <div class="form-group">
+					<label><?php echo trans("payment_note"); ?></label>
+					<textarea name="note" class="form-control form-textarea" maxlength="499"></textarea>
+				</div>
 				<div class="form-group">
 					<label><?php echo trans("receipt"); ?>
 						<small>(.png, .jpg, .jpeg)</small>
@@ -343,19 +346,17 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 						<span class='badge badge-info' id="upload-file-info"></span>
 					</p>
 				</div>
-                <input type="hidden" name="user_id" value="<?=$row->user_id?>">
-                <input type="hidden" name="kode_unik" value="<?=$row->kodeunik?>">
+                <input type="hidden" name="id_deposit" value="<?=$row->id?>">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
-				<button type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
 			</div>
 			<?php echo form_close(); ?><!-- form end -->
 		</div>
 	</div>
 </div>
 <?php endforeach ?>
-*/ ?>
 
 <div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -375,46 +376,58 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 				<?php echo $payment_settings->bank_transfer_accounts; ?>				
 			</div>
 			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>				 -->
+				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>				 -->
 				<button type="button" id="confirm_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="insertPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="akunPayout" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">
 			<!-- form start -->
-			<?php echo form_open_multipart('balance_controller/upload_bukti_deposit',['id'=>'deposit_payment_report']); ?>
 			<div class="modal-header">
-				<h5 class="modal-title"><?php echo trans("report_bank_transfer"); ?></h5>
+				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true"><i class="icon-close"></i> </span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="form-group">
-					<label><?php echo trans("receipt"); ?>
-						<small>(.png, .jpg, .jpeg)</small>
-					</label>
-					<p>
-						<a class='btn btn-md btn-secondary btn-file-upload'>
-							<?php echo trans('select_image'); ?>
-							<input type="file" name="file" size="40" accept=".png, .jpg, .jpeg" onchange="$('#upload-file-info').html($(this).val());">
-						</a><br>
-						<span class='badge badge-info' id="upload-file-info"></span>
-					</p>
-				</div>
-                <input type="hidden" name="user_id" value="<?=user()->id?>">
-                <input type="hidden" name="kode_unik" value="<?=$uniq?>">
-			</div>
+            <?php echo form_open('earnings_controller/set_iban_payout_account_post', ['id' => 'form_validate_payout_2']); ?>
+                <div class="form-group">
+                    <label><?php echo trans("full_name"); ?>*</label>
+                    <input type="text" name="iban_full_name" class="form-control form-input" value="<?php echo html_escape($user_payout->iban_full_name); ?>" required>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6 m-b-sm-15">
+                            <label><?php echo trans("country"); ?>*</label>
+                            <div class="selectdiv">
+                                <select name="iban_country_id" class="form-control" required>
+                                    <option value="" selected><?php echo trans("select_country"); ?></option>
+                                    <?php foreach ($countries as $item): ?>
+                                        <option value="<?php echo $item->id; ?>" <?php echo ($user_payout->iban_country_id == $item->id) ? 'selected' : ''; ?>><?php echo html_escape($item->name); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label><?php echo trans("bank_name"); ?>*</label>
+                            <input type="text" name="iban_bank_name" class="form-control form-input" value="<?php echo html_escape($user_payout->iban_bank_name); ?>" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><?php echo trans("bank_number"); ?>*</label>
+                    <input type="text" name="iban_number" class="form-control form-input" value="<?php echo html_escape($user_payout->iban_number); ?>" required>
+                </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
-				<button type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
-			</div>
-			<?php echo form_close(); ?><!-- form end -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-md btn-custom"><?php echo trans("save_changes"); ?></button>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
 		</div>
 	</div>
 </div>
@@ -425,7 +438,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
         $("#confirm_deposit").click(function(){
             $("#form_validate_payout_1").submit();
-        })
+        });
     });
 
     function changeSaldo(that)

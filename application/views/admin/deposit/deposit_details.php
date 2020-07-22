@@ -93,6 +93,18 @@
                                     class="font-right"><?php echo $deposit->created_at; ?>&nbsp;(<?php echo time_ago($deposit->created_at); ?>)</strong>
                             </div>
                         </div>
+                        <div class="row row-details">
+                            <div class="col-xs-12 col-sm-4 col-right">
+                                <strong> Bukti Transfer</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <?php if (!empty($deposit->bukti)): ?>
+                                    <a class="magnific-image-popup" href="<?= base_url('uploads/deposit/'.$deposit->bukti) ?>">
+                                        <img src="<?= base_url('uploads/deposit/'.$deposit->bukti) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <h4 class="sec-title"><?php echo trans("buyer"); ?></h4>
