@@ -566,15 +566,27 @@ const select = dom => document.querySelector(dom)
 
 let report = [
     {
-        label: "User",
+        label: "Pending Product",
         data: [],
         borderColor: '#e74c3c',
         fill: false,
     },
     {
-        label: "Seller",
-        data: [10, 5, 4, 28, 20, 14, 8],
+        label: "Payout",
+        data: [],
         borderColor: '#2ecc71',
+        fill: false,
+    },
+    {
+        label: "Transaction",
+        data: [],
+        borderColor: '#3498db',
+        fill: false,
+    },
+    {
+        label: "Shop",
+        data: [],
+        borderColor: '#fcd840',
         fill: false,
     },
 ]
@@ -604,22 +616,49 @@ const generateChart = () => {
     })
 }
 generateChart()
+const testo = () => {
+    let path = "<?= base_url(); ?>Admin_controller/get_dashboard_summary"
+    let req = fetch(path, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            test: "haha"
+        })
+    })
+    .then(res => res.text())
+    .then(res => {
+        console.log(res)
+    })
+}
+testo()
 const fetchSummary = () => {
     reportChart.data.datasets[0]['data'] = []
     let path = "<?= base_url(); ?>Admin_controller/get_dashboard_summary"
     let req = request(path)
     .then(res => {
-        let users = res.datas.users
-        for (var key in users) {
-            report[0].data.push(users[key].length)
-            // console.log(key+" "+users[key].length)
+        let pendingProduct = res.pending_product
+        for (var key in pendingProduct) {
+            report[0].data = []
+            report[0].data.push(pendingProduct[key].length)
         }
+        console.log(report)
+        // let users = res
+        // let i = 0
+        // for (var key in users) {
+        //     console.log(users)
+        //     // report[i++].data.push(users[key].length)
+        //     // console.log(key+" "+users[key].length)
+        //     // console.log(report)
+        // }
         reportChart.update()
     })
 }
-setInterval(() => {
-    fetchSummary()
-}, 1000);
+fetchSummary()
+// setInterval(() => {
+//     fetchSummary()
+// }, 1000);
 document.addEventListener('keydown', e => {
     if (e.key == "g") {
         generateChart()

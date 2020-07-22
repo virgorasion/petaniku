@@ -11,6 +11,11 @@ class Product_controller extends Home_Core_Controller
 		$this->product_per_page = 18;
 	}
 
+	public function response($data) {
+		$this->output->set_content_type('application/json');
+		$this->output->setoutput(json_encode($data));
+	}
+
 	/**
 	 * Start Selling
 	 */
@@ -690,6 +695,12 @@ class Product_controller extends Home_Core_Controller
 	//make review
 	public function make_review()
 	{
+		$data = [
+			// 'file' => $this->input->post('file')
+			'file' => 'haha'
+		];
+		echo $data;
+		return $this->response($data);
 		if (!$this->auth_check) {
 			exit();
 		}

@@ -1631,13 +1631,9 @@ class Admin_controller extends Admin_Core_Controller
 	}
 	public function get_dashboard_summary()
 	{
-		$user = $this->user_model->registered_in_week();
-		// dd($user);
+		// $datas = $this->user_model->registered_in_week();
 		return $this->response([
-			// 'status' => 200,
-			'datas' => [
-				'users' => $user
-			]
+			'test' => 'hihi'
 		]);
 	}
 }
