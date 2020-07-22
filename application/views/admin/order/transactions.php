@@ -49,18 +49,14 @@
                                 <!-- <td><?php //echo $item->id; ?></td> -->
                                 <td class="order-number-table">
                                     <?php
-
-                                    if($item->payment_method == "Deposit") {
-                                        $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
-                                    } else {
-                                        $order = $this->order_admin_model->get_order($item->order_id);
-                                    }
-                                    if (!empty($order)):
-                                        ?>
-                                        Pesanan (# <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->order_id); ?>"><?= $order->order_number ?>)</a>
-                                    <?php else: ?>
-                                      Deposit (# <a href="<?php echo admin_url(); ?>deposit-details/<?php echo html_escape($item->order_id); ?>"><?= $deposit->id ?>)</a>
-                                    <?php endif; ?>
+                                        if($item->payment_method == "Deposit") {
+                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                            echo 'Deposit (# <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">'. $deposit->id .')</a>';
+                                        } else {
+                                            $order = $this->order_admin_model->get_order($item->order_id);
+                                            echo 'Pesanan (# <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">'. $order->order_number .')</a>';
+                                        }
+                                    ?>
                                 </td>
                                 <td>
                                     <?php

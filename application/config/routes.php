@@ -112,10 +112,11 @@ $route['category/(:any)'] = 'product_controller/category/$1';
 $route['category/(:any)/(:any)'] = 'product_controller/subcategory/$1/$2';
 $route['category/(:any)/(:any)/(:any)'] = 'product_controller/third_category/$1/$2/$3';
 
-$route['messages'] = 'message_controller/messages';
-$route['messages/conversation/(:num)'] = 'message_controller/conversation/$1';
-$route['messages/list_message/(:num)'] = 'message_controller/getListMessage/$1';
-$route['messages/count_unread_message'] = 'message_controller/count_unread_message/';
+$route['inbox'] = 'message_controller/messages';
+$route['inbox/(:any)'] = 'message_controller/conversation/$1';
+$route['inbox/messages/(:any)'] = 'message_controller/getListMessage/$1';
+$route['inbox/unread_message'] = 'message_controller/count_unread_message';
+$route['inbox/send_message'] = 'message_controller/send_message';
 /*paypal routes*/
 $route['execute-paypal-payment'] = 'product_controller/execute_paypal_payment';
 
@@ -270,7 +271,7 @@ $route[$r_admin . '/update-city/(:num)'] = 'admin_controller/update_city/$1';
 $route[$r_admin . '/members'] = 'admin_controller/members';
 $route[$r_admin . '/vendors'] = 'admin_controller/vendors';
 $route[$r_admin . '/administrators'] = 'admin_controller/administrators';
-$route[$r_admin . '/shop-opening-requests'] = 'admin_controller/shop_opening_requests';
+$route[$r_admin . '/verification_account'] = 'admin_controller/shop_opening_requests';
 $route[$r_admin . '/add-administrator'] = 'admin_controller/add_administrator';
 
 $route[$r_admin . '/cache-system'] = 'admin_controller/cache_system';

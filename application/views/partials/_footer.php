@@ -215,14 +215,14 @@ $this->session->unset_userdata('mds_send_email_data'); ?>
 <script>
     var base_url = '<?php echo base_url(); ?>';var lang_base_url = '<?php echo lang_base_url(); ?>';var thousands_separator = '<?php echo $this->thousands_separator; ?>';var lang_folder = '<?php echo $this->selected_lang->folder_name; ?>';var fb_app_id = '<?php echo $this->general_settings->facebook_app_id; ?>';var csfr_token_name = '<?php echo $this->security->get_csrf_token_name(); ?>';var csfr_cookie_name = '<?php echo $this->config->item('csrf_cookie_name'); ?>';var is_recaptcha_enabled = false;var txt_processing = '<?php echo trans("processing"); ?>';var sweetalert_ok = '<?php echo trans("ok"); ?>';var sweetalert_cancel = '<?php echo trans("cancel"); ?>';<?php if ($recaptcha_status == true): ?>is_recaptcha_enabled = true;<?php endif; ?>
 	$("form").submit(function(){$("input[name='"+csfr_token_name+"']").val($.cookie(csfr_cookie_name))});$(document).ready(function(){$("#main-slider").owlCarousel({autoplay:true,loop:$(".owl-carousel > .item").length<=2?false:true,lazyLoad:true,lazyLoadEager: true,slideSpeed:3000,paginationSpeed:1000,items:1,dots:true,nav:true,navText:["<i class='icon-arrow-slider-left random-arrow-prev' aria-hidden='true'></i>","<i class='icon-arrow-slider-right random-arrow-next' aria-hidden='true'></i>"],itemsDesktop:false,itemsDesktopSmall:false,itemsTablet:false,itemsMobile:false,});$("#product-slider").owlCarousel({items:1,autoplay:false,nav:true,loop:$(".owl-carousel > .item").length<=2?false:true,navText:["<i class='icon-arrow-slider-left random-arrow-prev' aria-hidden='true'></i>","<i class='icon-arrow-slider-right random-arrow-next' aria-hidden='true'></i>"],dotsContainer:".dots-container",});$("#blog-slider").owlCarousel({autoplay:true,loop:$(".owl-carousel > .item").length<=2?false:true,margin:20,nav:true,lazyLoad:true,navText:["<i class='icon-arrow-slider-left random-arrow-prev' aria-hidden='true'></i>","<i class='icon-arrow-slider-right random-arrow-next' aria-hidden='true'></i>"],responsive:{0:{items:1},600:{items:2},1000:{items:3}}});$(document).on("click",".rating-stars .label-star",function(){$("#user_rating").val($(this).attr("data-star"))});$(document).on("click",".btn-open-mobile-nav",function(){document.getElementById("navMobile").style.width="100%";$("html").addClass("disable-body-scroll");$("body").addClass("disable-body-scroll")});$(document).on("click",".btn-close-mobile-nav",function(){document.getElementById("navMobile").style.width="0";$("html").removeClass("disable-body-scroll");$("body").removeClass("disable-body-scroll")});$(document).on("click",".close-mobile-nav",function(){document.getElementById("navMobile").style.width="0"});$("#loginModal").on("hidden.bs.modal",function(){if($("body").hasClass("disable-body-scroll")){$("html").removeClass("disable-body-scroll");$("body").removeClass("disable-body-scroll")}})});$(function(){$(".search-results-location").niceScroll({cursorcolor:"#c2c2c2"});$(".slider-custom-scrollbar").niceScroll({cursorcolor:"transparent",cursorborder:"0"});$(".filter-custom-scrollbar").niceScroll({cursorcolor:"#c2c2c2",autohidemode:false});$(".messages-sidebar").niceScroll({cursorcolor:"#c2c2c2",autohidemode:false})});if($(".message-custom-scrollbar").length>0){$(".message-custom-scrollbar").niceScroll({cursorcolor:"#c2c2c2",autohidemode:false});$(".message-custom-scrollbar").scrollTop($(".message-custom-scrollbar").get(0).scrollHeight,-1)}$(document).ready(function(a){a(".image-popup").magnificPopup({type:"image",titleSrc:function(b){return b.el.attr("title")+"<small></small>"},image:{verticalFit:true,},gallery:{enabled:true,navigateByImgClick:true,preload:[0,1]},removalDelay:100,fixedContentPos:true,})});$(".mega-menu .nav-item").hover(function(){var a=$(this).attr("data-category-id");$("#mega_menu_content_"+a).show();$(".large-menu-item").removeClass("active");$(".large-menu-item-first").addClass("active");$(".large-menu-content-first").addClass("active")},function(){var a=$(this).attr("data-category-id");$("#mega_menu_content_"+a).hide()});$(".mega-menu .dropdown-menu").hover(function(){$(this).show()},function(){});$(".large-menu-item").hover(function(){var a=$(this).attr("data-subcategory-id");$(".large-menu-item").removeClass("active");$(this).addClass("active");$(".large-menu-content").removeClass("active");$("#large_menu_content_"+a).addClass("active")},function(){});$(window).scroll(function(){if($(this).scrollTop()>100){$(".scrollup").fadeIn()}else{$(".scrollup").fadeOut()}});$(".scrollup").click(function(){$("html, body").animate({scrollTop:0},700);return false});$(function(){$(".search-select a").click(function(){$(".search-select .btn").text($(this).text());$(".search-select .btn").val($(this).text());$(".search_type_input").val($(this).attr("data-value"))})});$(document).on("click",".quantity-select-product .dropdown-menu .dropdown-item",function(){$(".quantity-select-product .btn span").text($(this).text());$("input[name='product_quantity']").val($(this).text())});function set_default_location(b){var a={location_id:b};a[csfr_token_name]=$.cookie(csfr_cookie_name);$.ajax({type:"POST",url:base_url+"home_controller/set_default_location",data:a,success:function(c){location.reload()}})}$(document).on("click","#show_phone_number",function(){$(this).hide();$("#phone_number").show()});$(document).ready(function(){$("#form_login").submit(function(a){var b=$(this);if(b[0].checkValidity()===false){a.preventDefault();a.stopPropagation()}else{a.preventDefault();var c=b.find("input, select, button, textarea");var d=b.serializeArray();d.push({name:csfr_token_name,value:$.cookie(csfr_cookie_name)});$.ajax({url:base_url+"auth_controller/login_post",type:"post",data:d,success:function(f){var e=JSON.parse(f);if(e.result==1){location.reload()}else{if(e.result==0){document.getElementById("result-login").innerHTML=e.error_message}}}})}b[0].classList.add("was-validated")})});function send_activation_email(b,c){$("#result-login").empty();$(".spinner-activation-login").show();var a={id:b,token:c,type:"login"};a[csfr_token_name]=$.cookie(csfr_cookie_name);$("#submit_review").prop("disabled",true);$.ajax({type:"POST",url:base_url+"auth_controller/send_activation_email_post",data:a,success:function(e){var d=JSON.parse(e);if(d.result==1){$(".spinner-activation-login").hide();document.getElementById("result-login").innerHTML=d.success_message}else{location.reload()}}})}function send_activation_email_register(b,c){$("#result-register").empty();$(".spinner-activation-register").show();var a={id:b,token:c,type:"register"};a[csfr_token_name]=$.cookie(csfr_cookie_name);$("#submit_review").prop("disabled",true);$.ajax({type:"POST",url:base_url+"auth_controller/send_activation_email_post",data:a,success:function(e){var d=JSON.parse(e);if(d.result==1){$(".spinner-activation-register").hide();document.getElementById("result-register").innerHTML=d.success_message}else{location.reload()}}})}
-	$(document).on('click', '#submit_review', function () {
+$(document).on('click', '#submit_review', function () {
 	var formData = new FormData();
 	var user_rating = $.trim($('#user_rating').val());
 	var user_review = $.trim($('#user_review').val());
 	var product_id = $.trim($('#review_product_id').val());
-	// var file = $('#file_review')[0].files[0];
+	var file = $('#file_review').prop('files')[0];
 	var limit = parseInt($("#product_review_limit").val());
-	// formData.append("file",file);
+	formData.append("file",file);
 	formData.append("review",user_review);
 	formData.append("rating",user_rating);
 	formData.append("product_id",product_id);
@@ -239,17 +239,18 @@ $this->session->unset_userdata('mds_send_email_data'); ?>
 		"rating": user_rating,
 		"product_id": product_id,
 		"limit": limit,
-		// "file": file,
+		"file": file,
 		"lang_folder": lang_folder
 	};
 	data[csfr_token_name] = $.cookie(csfr_cookie_name);
 	$('#submit_review').prop("disabled", true);
 	$.ajax({
+		url: base_url + "home_controller/make_review",
 		type: "POST",
 		enctype: "multipart/form-data",
-		// processData: false,
-		// contentType: false,
-		url: base_url + "product_controller/make_review",
+		processData: false,
+		contentType: false,
+		async: false,
 		data: data,
 		success: function (response) {
 			$('#submit_review').prop("disabled", false);
@@ -259,6 +260,7 @@ $this->session->unset_userdata('mds_send_email_data'); ?>
 				$('.error-own-product').show();
 			} else {
 				document.getElementById("review-result").innerHTML = response;
+				console.log(response);
 			}
 		}
 	});
