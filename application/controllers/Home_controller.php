@@ -8,7 +8,7 @@ class Home_controller extends Home_Core_Controller
 		parent::__construct();
 		$this->comment_limit = 6;
 		$this->blog_paginate_per_page = 12;
-		$this->product_paginate_per_page = 18;
+		$this->product_paginate_per_page = 8;
 		$this->promoted_products_limit = $this->general_settings->index_promoted_products_count;
 
 		// die(json_encode($_SESSION));
@@ -186,6 +186,7 @@ class Home_controller extends Home_Core_Controller
 		//get paginated posts
 		$link = lang_base_url() . 'products';
 		$pagination = $this->paginate($link, $this->product_model->get_paginated_filtered_products_count(null), $this->product_paginate_per_page);
+		// dd($pagination);
 		$data['products'] = $this->product_model->get_paginated_filtered_products(null, $pagination['per_page'], $pagination['offset']);
 		$data["categories"] = $this->category_model->get_parent_categories();
 

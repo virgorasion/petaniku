@@ -126,29 +126,11 @@
                         <span><?php //echo trans("navigation"); ?></span>
                     </a>
                 -->
-                <li class="header text-uppercase">Modul Produk</li>                
+                <li class="header text-uppercase">Modul Produk</li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-shopping-cart"></i>
-                        <span><?php echo trans("orders"); ?></span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>orders"> <?php echo trans("orders"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>transactions"> <?php echo trans("transactions"); ?></a></li>
-                        <!-- <li><a href="<?php echo admin_url(); ?>order-bank-transfers"> <?php echo trans("bank_transfer_notifications"); ?></a></li> -->
-                    </ul>
-                </li>
-                <!-- <li>
-                    <a href="<?php //echo admin_url(); ?>digital-sales">
-                        <i class="fa fa-shopping-bag"></i>
-                        <span><?php // trans("digital_sales"); ?></span>
-                    </a>
-                </li> -->
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-shopping-basket angle-left" aria-hidden="true"></i>
-                        <span><?php echo trans("products"); ?></span>
+                        <i class="fa fa-shopping-cart angle-left" aria-hidden="true"></i>
+                        <span><?php echo trans("product"); ?></span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
@@ -162,7 +144,29 @@
                         */ ?>
                     </ul>
                 </li>
+                <li><a href="<?php echo admin_url(); ?>orders"><i class="fa fa-shopping-basket"></i> <?php echo trans("order"); ?></a></li>
+                <li><a href="<?php echo admin_url(); ?>deposit-requests"><i class="fa fa-folder-open" aria-hidden="true"></i> Deposit</a></li>
+                <li><a href="<?php echo admin_url(); ?>transactions"><i class="fa fa-credit-card" aria-hidden="true"></i> <?php echo trans("transactions"); ?></a></li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        <span><?php echo trans("payouts"); ?></span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <!-- <li><a href="<?php //echo admin_url(); ?>add-payout"> <?php //echo trans("add_payout"); ?></a></li> -->
+                        <li><a href="<?php echo admin_url(); ?>payout-requests"> <?php echo trans("payout_requests"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>completed-payouts"> <?php echo trans("completed_payouts"); ?></a></li>
+                        <!-- <li><a href="<?php //echo admin_url(); ?>payout-settings"> <?php //echo trans("payout_settings"); ?></a></li> -->
+                    </ul>
+                </li>
                 <?php /*
+                <li>
+                    <a href="<?php echo admin_url(); ?>digital-sales">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span><?php trans("digital_sales"); ?></span>
+                    </a>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dollar" aria-hidden="true"></i>
@@ -180,11 +184,9 @@
 						<i class="fa fa-tag"></i> <span><?php echo trans("quote_requests"); ?></span>
                     </a>
                 </li>
-                */?>
                 <li>
                     <a href="<?php echo admin_url(); ?>categories"><i class="fa fa-folder-open"></i> <?php echo trans("categories"); ?></a>
                 </li>
-                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-plus-square-o"></i>
@@ -196,8 +198,6 @@
                         <li><a href="<?php echo admin_url(); ?>custom-fields"> <?php echo trans("custom_fields"); ?></a></li>
                     </ul>
                 </li>
-                */ ?>
-                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-money" aria-hidden="true"></i>
@@ -209,22 +209,6 @@
                         <li><a href="<?php echo admin_url(); ?>seller-balances"> <?php echo trans("seller_balances"); ?></a></li>
                     </ul>
                 </li>
-                */ ?>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-credit-card" aria-hidden="true"></i>
-                        <span><?php echo trans("payouts"); ?></span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <!-- <li><a href="<?php //echo admin_url(); ?>add-payout"> <?php //echo trans("add_payout"); ?></a></li> -->
-                        <li><a href="<?php echo admin_url(); ?>payout-requests"> <?php echo trans("payout_requests"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>completed-payouts"> <?php echo trans("completed_payouts"); ?></a></li>
-                        <!-- <li><a href="<?php //echo admin_url(); ?>payout-settings"> <?php //echo trans("payout_settings"); ?></a></li> -->
-                    </ul>
-                </li>
-                <li><a href="<?php echo admin_url(); ?>deposit-requests"><i class="fa fa-money" aria-hidden="true"></i> Request Deposit</a></li>
-                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <span>Deposit</span>
@@ -235,7 +219,6 @@
                         <li><a href="<?php echo admin_url(); ?>completed-deposit"> Deposit yang selesai</a></li>
                     </ul>
                 </li>
-                /* ?>
                 <li class="header text-uppercase">Modul Website</li>                                
                 <li class="treeview">
                     <a href="#">
@@ -296,23 +279,23 @@
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-users"></i>
-                        <span><?php echo trans("users"); ?></span>
+                        <span><?php echo trans("user"); ?></span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
                         <?php /*
                         <li><a href="<?php echo admin_url(); ?>add-administrator"> <?php echo trans("add_administrator"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>administrators"> <?php echo trans("administrators"); ?></a></li>
-                        */?>
                         <li><a href="<?php echo admin_url(); ?>vendors"> <?php echo trans("vendors"); ?></a></li>
+                        */?>
                         <li><a href="<?php echo admin_url(); ?>members"> <?php echo trans("members"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>shop-opening-requests"> <?php echo trans("shop_opening_requests"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>verification_account"> <?php echo trans("account_verif"); ?></a></li>
                     </ul>
                 </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-star"></i>
-                        <span><?php echo trans("reviews"); ?></span>
+                        <span><?php echo trans("blog"); ?></span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
@@ -331,6 +314,7 @@
                         <li><a href="<?php echo admin_url(); ?>blog-comments"> <?php echo trans("blog_comments"); ?></a></li>
                     </ul>
                 </li>
+                <li><a href="<?php echo admin_url(); ?>pages"><i class="fa fa-file" aria-hidden="true"></i> <?php echo trans("pages"); ?></a></li>
                 <?php /*
                 <li class="header text-uppercase">Modul Lainnya</li>
                 <li>

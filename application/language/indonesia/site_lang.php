@@ -3,6 +3,7 @@
 //custom
 $lang['shipping_seller_note'] = "Catatan Pengiriman Penjual";
 $lang['verified'] = "Terverifikasi";
+$lang['account_verif'] = "Verifikasi Akun";
 // ========================
 $lang["active"] = "Aktif";
 $lang["add_category"] = "Tambah Kategori";

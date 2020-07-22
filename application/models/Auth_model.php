@@ -528,6 +528,7 @@ class Auth_model extends CI_Model
 	public function get_user_by_email($email)
 	{
 		$this->db->where('email', $email);
+		$this->db->where("role","admin");
 		$query = $this->db->get('users');
 		return $query->row();
 	}
@@ -537,6 +538,7 @@ class Auth_model extends CI_Model
 	{
 		$username = remove_special_characters($username);
 		$this->db->where('username', $username);
+		$this->db->where('role', 'admin');
 		$query = $this->db->get('users');
 		return $query->row();
 	}

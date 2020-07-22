@@ -270,7 +270,7 @@ $route[$r_admin . '/update-city/(:num)'] = 'admin_controller/update_city/$1';
 $route[$r_admin . '/members'] = 'admin_controller/members';
 $route[$r_admin . '/vendors'] = 'admin_controller/vendors';
 $route[$r_admin . '/administrators'] = 'admin_controller/administrators';
-$route[$r_admin . '/shop-opening-requests'] = 'admin_controller/shop_opening_requests';
+$route[$r_admin . '/verification_account'] = 'admin_controller/shop_opening_requests';
 $route[$r_admin . '/add-administrator'] = 'admin_controller/add_administrator';
 
 $route[$r_admin . '/cache-system'] = 'admin_controller/cache_system';
