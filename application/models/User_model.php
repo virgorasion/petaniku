@@ -54,7 +54,8 @@ class User_model extends CI_Model
 		}
 		return $dates;
 	}
-	public function registered_in_week() {
+	public function dashboard_summary()
+	{
 		$end_date = date('Y-m-d H:i:s');
 		$start_date = date('Y-m-d H:i:s', strtotime('-7 days'));
 
