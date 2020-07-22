@@ -2047,6 +2047,9 @@ if (!function_exists('cek_status_order')) {
 		if($order->payment_status == "awaiting_payment") {
 			return trans("awaiting_payment");
 		}
+		if($order->payment_status == "awaiting_verification") {
+			return trans("awaiting_verification");
+		}
 		if($order->payment_status == "payment_received") {
 			return trans("payment_received");
 		}

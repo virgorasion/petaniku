@@ -97,6 +97,7 @@ class Order_admin_model extends CI_Model
             );
             if ($all_complated == true) {
                 $data["status"] = 1;
+                $data["payment_status"] = "completed";
             }
             $this->db->where('id', $order_id);
             $this->db->update('orders', $data);
@@ -107,20 +108,33 @@ class Order_admin_model extends CI_Model
     public function update_payment_status_if_all_received($order_id)
     {
         $order_id = clean_number($order_id);
-        $all_received = true;
+        $payment_status = "";
         $order_products = $this->get_order_products($order_id);
         if (!empty($order_products)) {
             foreach ($order_products as $order_product) {
-                if ($order_product->order_status == "awaiting_payment" || $order_product->order_status == "cancelled") {
-                    $all_received = false;
+                if ($order_product->order_status == "awaiting_payment") {
+                    $payment_status = "awaiting_payment";
+                }elseif ($order_product->order_status == "shipped"){
+                    $payment_status = "shipped";
+                }elseif($order_product->order_status == "cancelled"){
+                    $payment_status = "cancelled";
                 }
             }
-            $data = array(
-                'payment_status' => 'awaiting_payment',
-                'updated_at' => date('Y-m-d H:i:s'),
-            );
-            if ($all_received == true) {
-                $data["payment_status"] = 'payment_received';
+            if ($payment_status == "awaiting_payment") {
+                $data = array(
+                    'payment_status' => $payment_status,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
+            }elseif($payment_status == "shipped"){
+                $data = array(
+                    'payment_status' => $payment_status,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
+            }elseif($payment_status == "cancelled"){
+                $data = array(
+                    'payment_status' => $payment_status,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
             }
             $this->db->where('id', $order_id);
             $this->db->update('orders', $data);

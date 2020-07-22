@@ -40,6 +40,8 @@ class Balance_controller extends Home_Core_Controller
         $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_payouts_count($this->user_id), $this->earnings_per_page);
         $data['payouts'] = $this->earnings_model->get_paginated_payouts($this->user_id, $pagination['per_page'], $pagination['offset']);
 
+        $data['user_payout'] = $this->earnings_model->get_user_payout_account($data['user']->id);
+
         $hist = $this->earnings_model->get_history($this->user_id);
         $all = [];
 
@@ -186,12 +188,6 @@ class Balance_controller extends Home_Core_Controller
         );
         $data["amount"] = price_database_format($data["amount"]);
 
-        $temp_path = $this->upload_model->upload_temp_image('file');
-		if (!empty($temp_path)) {
-            $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
-			$this->upload_model->delete_temp_image($temp_path);
-            $data['bukti'] = $bukti;
-        }
 
         $id_deposit = $this->earnings_model->deposit_money($data);
 
@@ -203,6 +199,7 @@ class Balance_controller extends Home_Core_Controller
             'payment_amount' => price_database_format($tf),
             'payment_status' => "awaiting_payment",
         );
+
         $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
         $price = "Rp".number_format($tf,0,',','.');
 
@@ -216,15 +213,24 @@ class Balance_controller extends Home_Core_Controller
 
     public function upload_bukti_deposit()
     {
-        $kode_unik['kodeunik'] = $this->input->post("kode_unik");
+        $this->load->model('upload_model');
+        $id['id'] = $this->input->post("id_deposit",true);
+        $data['note'] = $this->input->post("note",true);
         $temp_path = $this->upload_model->upload_temp_image('file');
 		if (!empty($temp_path)) {
             $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
 			$this->upload_model->delete_temp_image($temp_path);
             $data['bukti'] = $bukti;
         }
-
-        return $this->earnings_model->upload_model('deposit',$data,$kode_unik);
+        if($temp_path != null){
+            $this->earnings_model->update_data("transactions",['payment_status'=>'awaiting_verification'],['payment_id'=>$id['id']]);
+            $this->session->set_flashdata('success', "Bukti pembayaran berhasil dikirim. Tunggu konfirmasi dari admin terlebih dahulu");
+        }else{
+            $this->session->set_flashdata('error', "Silahkan Kirim Bukti Pembayaran");
+        }
+        // Upload Bukti Transfer
+        $this->earnings_model->update_data('deposit',$data,$id);
+        redirect($this->agent->referrer());
     }
 
     /**

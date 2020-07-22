@@ -145,11 +145,6 @@
                                 <br>
                                 <br>
                                 <input type="checkbox" name="newsletter" id="newsletter" value="1" <?=($user->getNewsletter == "1")? "checked": "";?>> <?php echo trans('newsletter'); ?>
-                                <?php if($user->role != "vendor"): ?>
-                                <br>
-                                <br>
-                                <a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-sm btn-primary text-light">Verifikasi Akun</a>
-                                <?php endif ?>
                             </p>
                         </div>
                     </div>
@@ -161,9 +156,13 @@
                                     <input type="text" name="username" class="form-control form-input" value="<?php echo $user->username; ?>" placeholder="Username" readonly>
 
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="control-label">Nama Lengkap</label>
-                                    <input type="text" name="name" class="form-control form-input" value="<?php echo $user->full_name; ?>" placeholder="Nama Lengkap" readonly>
+                                <div class="col-12 col-md-6 m-b-sm-15">
+                                    <label class="control-label"><?php echo trans("full_name"); ?></label>
+                                    <?php if($user->full_name_status == 1): ?>
+                                    <input id="full_name" type="text" name="full_name" class="form-control form-input" value="<?php echo $user->full_name; ?>" placeholder="<?php echo trans("full_name"); ?>" required readonly>
+                                    <?php else: ?>
+                                        <p>Nama belum terverifikasi.<br><a href="" class="text-warning" data-toggle="modal" data-target="#verifikasiFoto">Verifikasi Sekarang</a></p>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
@@ -178,10 +177,11 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label class="control-label"><?php echo trans("phone_number"); ?></label>
-                                    <span style="float:right">
-                                        <a href="javascript:void(0)" onclick="changeHP()">Ubah</a>
-                                    </span>
+                                    <?php if($user->phone_status): ?>
                                     <input id="profile_hp" type="text" name="shipping_phone_number" class="form-control form-input" value="<?php echo $user->phone_number; ?>" placeholder="<?php echo trans("phone_number"); ?>" required readonly>
+                                    <?php else: ?>
+                                        <p>Nomor telp belum terverifikasi.<br><a href="" class="text-warning" data-toggle="modal" data-target="#verifikasiTelp">Verifikasi Sekarang</a></p>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div> 
@@ -218,6 +218,62 @@
                     </div>
                 </div>
                 
+                <!-- Verifikasi Nama Lengkap & Foto KTP -->
+                <div class="modal" id="verifikasiFoto" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Verifikasi Nama Lengkap & Foto KTP</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                              <label for="full_name"><?= trans("full_name")?></label>
+                              <input type="text" name="full_name" id="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Foto KTP</label>
+                                <input type="file" name="foto_ktp" class="form-control form-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Foto Selfie dengan KTP</label>
+                                <input type="file" name="foto_selfi" class="form-control form-input">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Verifikasi</button>
+                            <button type="button" class="btn btn-secondary" id="btnVerifFoto">Kembali</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verifikasi Nomer Telp & Kode OTP -->
+                <div class="modal" id="verifikasiTelp" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Verifikasi Nomer Telp</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="shipping_phone_number"><?= trans("phone_number")?></label>
+                                <input type="number" name="shipping_phone_number" id="shipping_phone_number" class="form-control" placeholder="<?= trans('phone_number')?>" aria-describedby="">
+                            </div>
+                            <button id="send_otp" class="btn btn-primary" type="submit">Kirim OTP</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="btnVerifFoto">Kembali</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
 
 				<?php echo form_close(); ?>
 			</div>
@@ -226,6 +282,9 @@
 </div>
 
 <script>
+    $("#btnVerifFoto").click(function(){
+        $("#verifikasiFoto").modal("hide");
+    })
     function changeEmail() {
         var prev = $('#profile_email'),
             ro   = prev.prop('readonly');
@@ -233,6 +292,11 @@
     }
     function changeHP() {
         var prev = $('#profile_hp'),
+            ro   = prev.prop('readonly');
+        prev.prop('readonly', !ro).focus();
+    }
+    function changeFullName() {
+        var prev = $('#full_name'),
             ro   = prev.prop('readonly');
         prev.prop('readonly', !ro).focus();
     }

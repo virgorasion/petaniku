@@ -102,9 +102,9 @@ $active_classes = 'fade active show';
                         <th scope="col"><?php echo trans("order"); ?></th>
                         <th scope="col"><?php echo trans("buyer"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
-                        <th scope="col"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
-                        <th scope="col" class="hidden"><?php echo trans("status"); ?></th>
+                        <!-- <th scope="col"><?php //echo trans("date"); ?></th> -->
+                        <th scope="col"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
                     </tr>
                 </thead>
@@ -141,7 +141,7 @@ $active_classes = 'fade active show';
                                         $label_classes = 'badge-status-default';
                                         $label_text = trans($order->payment_status);
 
-                                        if (in_array($order->payment_status, ['payment_received'])) {
+                                        if (in_array($order->payment_status, ['payment_received','completed'])) {
                                             $label_classes = 'badge-status-success';
                                         }
                                         ?>

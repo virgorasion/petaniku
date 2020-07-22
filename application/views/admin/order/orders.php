@@ -68,7 +68,7 @@
                                     endif;
                                     ?>
                                 </td>
-                                <td><strong><?php echo print_price($item->price_total, $item->price_currency); ?></strong>
+                                <td><strong><?php echo print_price(($item->price_subtotal + $item->price_shipping), $item->price_currency); ?></strong>
                                 </td>
                                 <!-- <td><?php //echo $item->price_currency; ?></td> -->
                                 <td>

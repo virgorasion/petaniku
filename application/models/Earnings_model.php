@@ -268,8 +268,8 @@ class Earnings_model extends CI_Model
         return  $insert_id;
     }
 
-    public function upload_bukti($table,$data,$id)
+    public function update_data($table,$data,$id)
     {
-        return $this->db->upload($table,$data,$id);
+        return $this->db->update($table,$data,$id);
     }
 }
