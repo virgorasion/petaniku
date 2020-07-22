@@ -102,9 +102,11 @@
                 </div>
             </div>
             <div class="box-body">
+                <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <canvas class="w-100" id="report"></canvas>
                 </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </div>
@@ -134,18 +136,14 @@
                             <th><?php echo trans("details"); ?></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="latestOrders">
 
                         <?php foreach ($latest_orders as $item): ?>
                             <tr>
                                 <td>#<?php echo $item->order_number; ?></td>
-                                <td><?php echo print_price($item->price_total, $item->price_currency); ?></td>
+                                <td><?= print_price(($item->price_subtotal + $item->price_shipping), $item->price_currency) ?></td>
                                 <td>
-                                    <?php if ($item->status == 1):
-                                        echo trans("completed");
-                                    else:
-                                        echo trans("order_processing");
-                                    endif; ?>
+                                    <?= trans($item->payment_status) ?>
                                 </td>
                                 <td><?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td style="width: 10%">
@@ -199,13 +197,28 @@
                         <?php foreach ($latest_transactions as $item): ?>
                             <tr>
                                 <td style="width: 10%"><?php echo html_escape($item->id); ?></td>
-                                <td style="white-space: nowrap">#<?php
-                                    $order = $this->order_admin_model->get_order($item->order_id);
-                                    if (!empty($order)):
-                                        echo $order->order_number;
-                                    endif; ?>
+                                <td style="white-space: nowrap">#
+                                    <?php
+                                        if($item->payment_method == "Deposit") {
+                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                            echo 'Deposit (# <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">'. $deposit->id .')</a>';
+                                        } else {
+                                            $order = $this->order_admin_model->get_order($item->order_id);
+                                            echo 'Pesanan (# <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">'. $order->order_number .')</a>';
+                                        }
+                                    ?>
                                 </td>
-                                <td><?php echo print_preformatted_price($item->payment_amount, $item->currency); ?></td>
+                                <td>
+                                    <?php
+                                        if($item->payment_method == "Deposit") {
+                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                            echo print_price($deposit->amount, $item->currency); 
+                                        } else {
+                                            $order = $this->order_admin_model->get_order($item->order_id);
+                                            echo print_price(($order->price_subtotal + $order->price_shipping), $item->currency); 
+                                        }
+                                    ?>
+                                </td>
                                 <td>
                                     <?php
                                     if ($item->payment_method == "Bank Transfer") {
@@ -566,15 +579,27 @@ const select = dom => document.querySelector(dom)
 
 let report = [
     {
-        label: "User",
+        label: "Produk Tertunda",
         data: [],
         borderColor: '#e74c3c',
         fill: false,
     },
     {
-        label: "Seller",
-        data: [10, 5, 4, 28, 20, 14, 8],
+        label: "Payout",
+        data: [],
         borderColor: '#2ecc71',
+        fill: false,
+    },
+    {
+        label: "Transaksi",
+        data: [],
+        borderColor: '#3498db',
+        fill: false,
+    },
+    {
+        label: "Permintaan Pembukaan Toko",
+        data: [],
+        borderColor: '#fcd840',
         fill: false,
     },
 ]
@@ -586,6 +611,20 @@ const request = (url, data) => {
         }
     })
     .then(res => res.json())
+}
+const createEl = props => {
+    let el = document.createElement(props.el)
+    if (props.attribute !== undefined) {
+        props.attribute.forEach(res => {
+            el.setAttribute(res[0], res[1])
+        })
+    }
+    if (props.html !== undefined) {
+        let val = document.createElement('span')
+        val.innerHTML = props.html
+        el.appendChild(val)
+    }
+    document.querySelector(props.createTo).appendChild(el)
 }
 let reportChart
 const generateChart = () => {
@@ -609,10 +648,29 @@ const fetchSummary = () => {
     let path = "<?= base_url(); ?>Admin_controller/get_dashboard_summary"
     let req = request(path)
     .then(res => {
-        let users = res.datas.users
-        for (var key in users) {
-            report[0].data.push(users[key].length)
-            // console.log(key+" "+users[key].length)
+        report[0].data = []
+        report[1].data = []
+        report[2].data = []
+        report[3].data = []
+
+        let pendingProduct = res.pending_product
+        for (var key in pendingProduct) {
+            report[0].data.push(pendingProduct[key].length)
+        }
+
+        let payouts = res.payouts
+        for (var key in payouts) {
+            report[1].data.push(payouts[key].length)
+        }
+
+        let transactions = res.transactions
+        for (var key in transactions) {
+            report[2].data.push(transactions[key].length)
+        }
+
+        let shops = res.shops
+        for (var key in shops) {
+            report[3].data.push(shops[key].length)
         }
         reportChart.update()
     })
@@ -620,10 +678,31 @@ const fetchSummary = () => {
 setInterval(() => {
     fetchSummary()
 }, 1000);
-document.addEventListener('keydown', e => {
-    if (e.key == "g") {
-        generateChart()
-    }
-})
+
+const getDashboardData = () => {
+    let path = "<?= base_url(); ?>Admin_controller/get_dashboard_data"
+    let req = request(path)
+    .then(res => {
+        // select("#latestOrders").innerHTML = ""
+        let latestOrders = res.latest_orders
+        latestOrders.forEach(order => {
+            let status = order.status == 1 ? "Sudah selesai" : "Sedang diproses"
+            createEl({
+                el: 'tr',
+                html: `<tr>
+    <td style="width: 100px !important;">#${order.order_number}</td>
+    <td>${res.price_total}</td>
+    <td>${status}</td>
+    <td><?php echo date("Y-m-d / h:i", strtotime(${res.created_at})); ?></td>
+    <td style="width: 10%">
+        <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape(${res.id}); ?>" class="btn btn-xs btn-info"><?php echo trans('details'); ?></a>
+    </td>
+</tr>`,
+                createTo: '#latestOrders'
+            })
+        })
+    })
+}
+// getDashboardData()
 </script>
 

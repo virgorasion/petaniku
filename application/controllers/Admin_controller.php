@@ -1631,12 +1631,14 @@ class Admin_controller extends Admin_Core_Controller
 	}
 	public function get_dashboard_summary()
 	{
-		$user = $this->user_model->registered_in_week();
-		return $this->response([
-			// 'status' => 200,
-			'datas' => [
-				'users' => $user
-			]
-		]);
+		$dashboardSummary = $this->user_model->dashboard_summary();
+		return $this->response($dashboardSummary);
+	}
+	public function get_dashboard_data()
+	{
+		$data['latest_orders'] = $this->order_admin_model->get_orders_limited(15);
+		// $data['latest_pending_products'] = $this->product_admin_model->get_latest_pending_products(15);
+		// $data['latest_products'] = $this->product_admin_model->get_latest_products(15);
+		return $this->response($data);
 	}
 }
