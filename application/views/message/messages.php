@@ -33,7 +33,7 @@
                                 $user = get_user($user_id);
                                 if (!empty($user)):?>
                                     <div class="conversation-item <?php echo ($item->id == $conversation->id) ? 'active-conversation-item' : ''; ?>">
-                                        <a href="<?php echo lang_base_url(); ?>messages/conversation/<?php echo $item->id; ?>" class="conversation-item-link">
+                                        <a href="<?php echo lang_base_url(); ?>inbox/<?php echo $item->id; ?>" class="conversation-item-link">
                                             <div class="middle">
                                                 <img src="<?php echo get_user_avatar($user); ?>" alt="<?php echo html_escape($user->username); ?>">
                                             </div>
@@ -61,7 +61,7 @@
                                 $user = get_user($user_id);
                                 if (!empty($user)):?>
                                     <div class="conversation-item <?php echo ($item->id == $conversation->id) ? 'active-conversation-item' : ''; ?>">
-                                        <a href="<?php echo lang_base_url(); ?>messages/conversation/<?php echo $item->id; ?>" class="conversation-item-link">
+                                        <a href="<?php echo lang_base_url(); ?>inbox/<?php echo $user->id; ?>" class="conversation-item-link">
                                             <div class="middle">
                                                 <img src="<?php echo get_user_avatar($user); ?>" alt="<?php echo html_escape($user->username); ?>">
                                             </div>
@@ -112,7 +112,7 @@
 
                         <div class="message-reply">
                             <!-- form start -->
-                            <?php echo form_open('message_controller/send_message', ['id' => 'form_validate']); ?>
+                            <?php echo form_open('inbox/send_message', ['id' => 'form_validate']); ?>
                             <input type="hidden" name="conversation_id" value="<?php echo $conversation->id; ?>">
                             <input type="hidden" name="sender_id" value="<?php echo $this->auth_user->id; ?>">
                             <?php if ($this->auth_user->id == $conversation->sender_id): ?>
@@ -152,7 +152,7 @@
 
             $.ajax({
                 type: "POST",
-                url: base_url + "message_controller/send_message",
+                url: base_url + "inbox/send_message",
                 data: serializedData,
                 success: function (response) {
                     $('.form-textarea').val('')
@@ -168,7 +168,7 @@
         data[csfr_token_name] = $.cookie(csfr_cookie_name);
         $.ajax({
 			type: "POST",
-			url: base_url + "messages/count_unread_message",
+			url: base_url + "inbox/unread_message",
 			data: data,
             dataType: 'json',
 			success: function (response) {
@@ -184,7 +184,7 @@
         data[csfr_token_name] = $.cookie(csfr_cookie_name);
         $.ajax({
 			type: "POST",
-			url: base_url + "messages/list_message/<?= $conversation->id ?>",
+			url: base_url + "inbox/messages/<?= $conversation->id ?>",
 			data: data,
 			success: function (response) {
                 $('.messages-list').html(response);				
@@ -194,5 +194,5 @@
 
     setInterval(function(){
         cek_pesan();
-    }, 4000);
+    }, 2000);
 </script>

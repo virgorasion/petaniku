@@ -256,7 +256,7 @@ if ($language->id == $site_lang->id):?>
 													<?php endif; ?>
 												<?php endif; ?>
                                                 <li>
-													<a target="blank" href="<?php echo lang_base_url(); ?>messages">
+													<a target="blank" href="<?php echo lang_base_url(); ?>inbox">
 														<i class="icon-mail"></i>
 														<?php echo trans("messages"); ?>
 														<?php if ($unread_message_count > 0): ?>
@@ -382,6 +382,7 @@ if ($language->id == $site_lang->id):?>
 					<h4 class="title"><?php echo trans("login"); ?></h4>
 					<!-- form start -->
 					<form id="form_login" novalidate="novalidate">
+						<input type="hidden" name="role_login" value="user">
 						<div class="social-login-cnt">
 							<?php $this->load->view("partials/_social_login", ["or_text" => trans("login_with_email")]); ?>
 						</div>

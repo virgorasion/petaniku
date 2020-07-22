@@ -41,7 +41,7 @@
 
         <!-- form start -->
         <?php echo form_open('common_controller/admin_login_post'); ?>
-
+        <input type="hidden" name="role_login" value="admin">
         <div class="form-group has-feedback">
             <input type="email" name="email" class="form-control form-input"
                    placeholder="<?php echo trans("email"); ?>"

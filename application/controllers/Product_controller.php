@@ -687,42 +687,6 @@ class Product_controller extends Home_Core_Controller
 		}
 	}
 
-	//make review
-	public function make_review()
-	{
-		if (!$this->auth_check) {
-			exit();
-		}
-		if ($this->general_settings->product_reviews != 1) {
-			exit();
-		}
-		$limit = $this->input->post('limit', true);
-		$product_id = $this->input->post('product_id', true);
-		$review = $this->review_model->get_review($product_id, user()->id);
-		$data["product"] = $this->product_model->get_product_by_id($product_id);
-		$this->load->model('upload_model');
-
-		// $temp_path = $this->upload_model->upload_temp_image('file');
-		// if (!empty($temp_path)) {
-        //     $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
-		// 	$this->upload_model->delete_temp_image($temp_path);
-        //     $data['foto'] = $bukti;
-        // }
-
-		if (!empty($review)) {
-			echo "voted_error";
-		} elseif ($data["product"]->user_id == user()->id) {
-			echo "error_own_product";
-		} else {
-			$this->review_model->add_review();
-			$data["reviews"] = $this->review_model->get_limited_reviews($product_id, $limit);
-			$data['review_count'] = $this->review_model->get_review_count($data["product"]->id);
-			$data['review_limit'] = $limit;
-			$data["product"] = $this->product_model->get_product_by_id($product_id);
-			$this->load->view('product/details/_make_review', $data);
-		}
-	}
-
 	public function loadmore_homepage()
 	{
 		$perpage = $this->general_settings->index_latest_products_count;

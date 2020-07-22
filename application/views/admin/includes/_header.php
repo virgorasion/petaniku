@@ -147,6 +147,8 @@
                 <li><a href="<?php echo admin_url(); ?>orders"><i class="fa fa-shopping-basket"></i> <?php echo trans("order"); ?></a></li>
                 <li><a href="<?php echo admin_url(); ?>deposit-requests"><i class="fa fa-folder-open" aria-hidden="true"></i> Deposit</a></li>
                 <li><a href="<?php echo admin_url(); ?>transactions"><i class="fa fa-credit-card" aria-hidden="true"></i> <?php echo trans("transactions"); ?></a></li>
+                <li><a href="<?php echo admin_url(); ?>payout-requests"><i class="fa fa-money" aria-hidden="true"></i> <?php echo trans("withdraw_money"); ?></a></li>
+                <?php /*
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-money" aria-hidden="true"></i>
@@ -160,7 +162,6 @@
                         <!-- <li><a href="<?php //echo admin_url(); ?>payout-settings"> <?php //echo trans("payout_settings"); ?></a></li> -->
                     </ul>
                 </li>
-                <?php /*
                 <li>
                     <a href="<?php echo admin_url(); ?>digital-sales">
                         <i class="fa fa-shopping-bag"></i>

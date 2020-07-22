@@ -21,7 +21,6 @@ class Auth_model extends CI_Model
 
 		$data = $this->input_values();
 		$user = $this->get_user_by_email($data['email']);
-
 		if(empty($user)){
 			$user = $this->get_user_by_username($data['email']);			
 		}
@@ -528,7 +527,9 @@ class Auth_model extends CI_Model
 	public function get_user_by_email($email)
 	{
 		$this->db->where('email', $email);
-		$this->db->where("role","admin");
+		if($this->input->post("role_login") != "user"){
+			$this->db->where("role","admin");
+		}
 		$query = $this->db->get('users');
 		return $query->row();
 	}
@@ -538,7 +539,9 @@ class Auth_model extends CI_Model
 	{
 		$username = remove_special_characters($username);
 		$this->db->where('username', $username);
-		$this->db->where('role', 'admin');
+		if($this->input->post("role_login") != "user"){
+			$this->db->where('role', 'admin');
+		}
 		$query = $this->db->get('users');
 		return $query->row();
 	}
@@ -587,15 +590,21 @@ class Auth_model extends CI_Model
 	public function get_members()
 	{
 		$this->db->where('role', "member");
+		$this->db->or_where('role', "vendor");
 		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');
 		return $query->result();
 	}
 
 	//get vendors
-	public function get_vendors()
+	public function get_verification_members()
 	{
-		$this->db->where('role', "vendor");
+		$this->db->or_where("full_name_status",0);
+		$this->db->or_where("phone_status",0);
+		$this->db->or_where("email_status",0);
+		$this->db->or_where('role', "member");
+		$this->db->or_where('role', "vendor");
+		$this->db->where_not_in('role','admin');
 		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');
 		return $query->result();
