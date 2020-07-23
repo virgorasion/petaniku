@@ -255,20 +255,24 @@
         {
             origins: [asal],
             destinations: [tujuan],
-            travelMode: 'DRIVING'
+            travelMode: 'WALKING'
         }, callback);
     }
 
+    function toKm (m) {
+      return m / 1000;
+    }
     function callback(response, status) {
         var distance = 0;
         var asal = 0;
         var tujuan = 0;
+        console.log(response)
         if(response.rows[0].elements[0].distance == undefined) {
             tujuan = response.destinationAddresses[0].split(',')
             asal = response.originAddresses[0].split(',')
             distance = getDistance(asal, tujuan)
         } else {
-            distance = parseFloat(response.rows[0].elements[0].distance.text);
+            distance = toKm(response.rows[0].elements[0].distance.value);
         }
         getClicked(distance);
     }
