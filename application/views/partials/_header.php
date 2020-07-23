@@ -433,7 +433,7 @@ if ($language->id == $site_lang->id):?>
 			<h6>Untuk memulai menjual di Petaniku, identitas profil anda wajib terverifikasi. Lengkapi pofil dengan klik "EDIT" pada profil atau tekan tombol Lengkapi Profil</h6>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" data-toggle="modal" data-target="#editProfilModal" class="btn btn-primary">Lengkapi Profil</button>
+			<a href="<?= lang_base_url().'profile/'.@$this->auth_user->username ?>"><button type="button" data-toggle="modal" data-target="#editProfilModal" class="btn btn-primary">Lengkapi Profil</button></a>
 			<button type="button" class="btn btn-secondary text-light" data-dismiss="modal">Batalkan</button>
 		  </div>
 		</div>

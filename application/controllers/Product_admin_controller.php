@@ -237,6 +237,27 @@ class Product_admin_controller extends Admin_Core_Controller
     }
 
     /**
+     * decline Product
+     */
+    public function decline_product()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->product_admin_model->decline_product($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_declined"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+
+        //reset cache
+        reset_cache_data_on_change();
+
+        $redirect_url = $this->input->post('redirect_url', true);
+        if (!empty($redirect_url)) {
+            redirect($redirect_url);
+        }
+    }
+
+    /**
      * Restore Product
      */
     public function restore_product()

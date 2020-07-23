@@ -16,7 +16,7 @@ class Product_admin_model extends CI_Model
 	public function get_latest_products($limit)
 	{
 		$limit = clean_number($limit);
-		$this->db->where('status', 1);
+		$this->db->where('status', 0);
 		$this->db->where('products.is_draft', 0);
 		$this->db->where('products.is_deleted', 0);
 		$this->db->order_by('products.updated_at', 'DESC');
@@ -312,6 +312,23 @@ class Product_admin_model extends CI_Model
 		if (!empty($product)) {
 			$data = array(
 				'status' => 1,
+			);
+			$this->db->where('id', $id);
+			return $this->db->update('products', $data);
+		}
+
+		return false;
+	}
+	
+	//decline product
+	public function decline_product($id)
+	{
+		$id = clean_number($id);
+		$product = $this->get_product($id);
+		if (!empty($product)) {
+			$data = array(
+				'status' => 1,
+				'is_draft'=> 1
 			);
 			$this->db->where('id', $id);
 			return $this->db->update('products', $data);

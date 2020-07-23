@@ -106,13 +106,7 @@
                                 <td>
                                                                      
                                     <?php 
-                                        if($item->payment_method == "Deposit") {
-                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
-                                            echo print_price($deposit->amount, $item->currency); 
-                                        } else {
-                                            $order = $this->order_admin_model->get_order($item->order_id);
-                                            echo print_price(($order->price_subtotal + $order->price_shipping), $item->currency); 
-                                        }
+                                        echo print_price($item->payment_amount, $item->currency); 
                                     ?>
                                 </td>
                                 <td><?php echo trans($item->payment_status); ?></td>
@@ -151,11 +145,9 @@
                                         </div>
                                         <?php echo form_close(); endif ?>
                                     </td>
-                                <?php else: ?>
-                                <?php 
+                                <?php else:
                                     $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
-                                    if(!isset($deposit)) continue;
-                                ?>
+                                    if(!isset($deposit)) continue; ?>
                                 <td>
                                     <?php echo form_open_multipart('balance_admin_controller/complete_deposit_request_post'); ?>
                                     <input type="hidden" name="payout_id" value="<?php echo $deposit->id; ?>">

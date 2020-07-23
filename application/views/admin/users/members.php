@@ -50,7 +50,7 @@
                                     (<?= html_escape($user->full_name)?>)
                                 </td>
                                 <td><?= print_price($user->balance, 'IDR') ?></td>
-                                <td><?php echo html_escape($user->about_me); ?></td>
+                                <td><?php echo character_limiter($user->about_me); ?></td>
                                 <td>
                                     <?php echo html_escape($user->email);
                                     if ($user->email_status == 1): ?>

@@ -143,6 +143,7 @@ class Balance_controller extends Home_Core_Controller
             array_multisort(array_column($all, 'timestamp'), SORT_DESC, $all);
         }
 
+        // dd($hist);
         $data['hist'] = $all;
 
         $this->load->view('partials/_header', $data);

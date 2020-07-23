@@ -287,7 +287,6 @@ class Home_controller extends Home_Core_Controller
 					redirect(lang_base_url());
 				}
 			}
-			// dd($this->input->post());
 
 			$data["category"] = $this->category_model->get_category_joined($data["product"]->category_id);
 

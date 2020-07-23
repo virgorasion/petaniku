@@ -440,11 +440,15 @@ class Auth_model extends CI_Model
 				$data = array(
 					'role' => 'vendor',
 					'is_active_shop_request' => 0,
+					'full_name_status' => 1,
+					'seller_status' => 1,
 				);
 			} else {
 				//decline request
 				$data = array(
-					'is_active_shop_request' => 2,
+					'is_active_shop_request' => 1,
+					'seller_status' => 0,
+					'full_name_status' => 0,
 				);
 			}
 
@@ -599,11 +603,7 @@ class Auth_model extends CI_Model
 	//get vendors
 	public function get_verification_members()
 	{
-		$this->db->or_where("full_name_status",0);
-		$this->db->or_where("phone_status",0);
-		$this->db->or_where("email_status",0);
-		$this->db->or_where('role', "member");
-		$this->db->or_where('role', "vendor");
+		$this->db->where("full_name_status",0);
 		$this->db->where_not_in('role','admin');
 		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');

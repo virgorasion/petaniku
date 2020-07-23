@@ -211,12 +211,14 @@ class Order_admin_model extends CI_Model
     }
 
     //get orders limited
-    public function get_orders_limited($limit)
+    public function seller_registration($limit)
     {
         $limit = clean_number($limit);
-        $this->db->order_by('orders.created_at', 'DESC');
+        $this->db->where_not_in("role","admin");
+        $this->db->where("seller_status",0);
+        $this->db->order_by('created_at', 'DESC');
         $this->db->limit($limit);
-        $query = $this->db->get('orders');
+        $query = $this->db->get('users');
         return $query->result();
     }
 

@@ -28,8 +28,10 @@ class Admin_controller extends Admin_Core_Controller
         $data['transactions_count'] = $this->transaction_model->get_transactions_count();
         $data['payout_requests_count'] = $this->earnings_admin_model->get_payout_requests_count();
 		$data['shop_req_count'] = count($this->auth_model->get_shop_opening_requests());
-
-		$data['latest_orders'] = $this->order_admin_model->get_orders_limited(15);
+		
+		$data['latest_payout'] = $this->earnings_admin_model->get_latest_payout_requests(15);
+		// dd($data['latest_payout']);
+		$data['seller_registrations'] = $this->order_admin_model->seller_registration(15);
 		$data['latest_pending_products'] = $this->product_admin_model->get_latest_pending_products(15);
 		$data['latest_products'] = $this->product_admin_model->get_latest_products(15);
 		

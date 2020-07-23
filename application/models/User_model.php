@@ -41,6 +41,7 @@ class User_model extends CI_Model
 	{
 		return $this->db->update('users',['balance'=>0,'wd_balance'=>$amount],['id'=>$id]);
 	}
+	
 	public function generatingDates($start_date, $end_date) {
 		// generating dates in a week
 		$dates = [];

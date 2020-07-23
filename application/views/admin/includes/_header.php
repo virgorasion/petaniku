@@ -303,7 +303,8 @@
                     <ul class="treeview-menu">
                         <li><a href="<?php echo admin_url(); ?>blog-posts"> <?php echo trans("posts"); ?></a></li>
                         <!-- <li><a href="<?php //echo admin_url(); ?>product-reviews"> <?php //echo trans("product_reviews"); ?></a></li> -->
-                        <li><a href="<?php echo admin_url(); ?>product-comments"> <?php echo trans("product_comments"); ?></a></li>
+                        <!-- <li><a href="<?php //echo admin_url(); ?>product-comments"> <?php //echo trans("product_comments"); ?></a></li> -->
+                        <li><a href="<?php echo admin_url(); ?>blog-comments"> <?php echo trans("blog_comments"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>blog-categories"> <?php echo trans("categories"); ?></a></li>
 
                         <!-- <li><a href="<?php //echo admin_url(); ?>user-reviews"> <?php //echo trans("user_reviews"); ?></a></li> -->
