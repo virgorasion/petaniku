@@ -160,8 +160,8 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                     </td>
                                     <td><?php echo date("Y-m-d / h:i", strtotime($row->created_at)); ?></td>
                                     <td>
-                                        <?php if($row->bukti == ""): ?>
-                                        <button class="btn btn-md btn-custom" data-toggle="modal" data-target="#reportPaymentModal<?=$row->id?>">Upload Bukti</button>
+                                        <?php if($row->status == 0): ?>
+                                        <button class="btn btn-md btn-custom" data-toggle="modal" data-target="#infoPaymentModal<?= $row->id ?>">Konfirmasi Pembayaran</button>
                                         <?php endif ?>
                                     </td>
                                 </tr>
@@ -240,7 +240,9 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 </div>
                             </div>
                             <div class="form-group">
+                                <?php if($user_payout->iban_full_name != "" && $user_payout->iban_country_id != "" && $user_payout->iban_bank_name != "" && $user_payout->iban_number != ""): ?>
                                 <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                                <?php endif ?>
                                 <a href="#" class="btn btn-md btn-custom" data-toggle="modal" data-target="#akunPayout">
                                     <i class="icon-plus"></i> Tambah akun Pencairan Uang
                                 </a>
@@ -317,42 +319,27 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 </div>
 
 <?php foreach($deposit as $row): ?>
-<!-- Modal -->
-<div class="modal fade" id="reportPaymentModal<?=$row->id?>" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="infoPaymentModal<?=$row->id?>" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">
 			<!-- form start -->
-			<?php echo form_open_multipart('balance_controller/upload_bukti_deposit',['id'=>'deposit_payment_report']); ?>
 			<div class="modal-header">
-				<h5 class="modal-title"><?php echo trans("report_bank_transfer"); ?></h5>
+				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true"><i class="icon-close"></i> </span>
 				</button>
 			</div>
 			<div class="modal-body">
-                <div class="form-group">
-					<label><?php echo trans("payment_note"); ?></label>
-					<textarea name="note" class="form-control form-textarea" maxlength="499"></textarea>
-				</div>
-				<div class="form-group">
-					<label><?php echo trans("receipt"); ?>
-						<small>(.png, .jpg, .jpeg)</small>
-					</label>
-					<p>
-						<a class='btn btn-md btn-secondary btn-file-upload'>
-							<?php echo trans('select_image'); ?>
-							<input type="file" name="file" size="40" accept=".png, .jpg, .jpeg" onchange="$('#upload-file-info').html($(this).val());">
-						</a><br>
-						<span class='badge badge-info' id="upload-file-info"></span>
-					</p>
-				</div>
-                <input type="hidden" name="id_deposit" value="<?=$row->id?>">
+				<br><br>
+				<h4 class=" text-center">
+				Silahkan melakukan transfer sebesar <br> <strong><?= "Rp".number_format($row->transfer/100,0,",",".") ?></strong>					
+				</h4><br><br>
+				<?php echo $payment_settings->bank_transfer_accounts; ?>				
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
-				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>				 -->
+				<button type="button" id="confirm_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
 			</div>
-			<?php echo form_close(); ?><!-- form end -->
 		</div>
 	</div>
 </div>

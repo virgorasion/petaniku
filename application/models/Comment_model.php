@@ -47,9 +47,9 @@ class Comment_model extends CI_Model
     public function get_latest_comments($limit)
     {
         $limit = clean_number($limit);
-        $this->db->order_by('comments.created_at', 'DESC');
+        $this->db->order_by('blog_comments.created_at', 'DESC');
         $this->db->limit($limit);
-        $query = $this->db->get('comments');
+        $query = $this->db->get('blog_comments');
         return $query->result();
     }
 

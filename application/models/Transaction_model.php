@@ -53,6 +53,7 @@ class Transaction_model extends CI_Model
     {
         $limit = clean_number($limit);
         $this->db->order_by('transactions.created_at', 'DESC');
+        $this->db->where("payment_status","awaiting_verification");
         $this->db->limit($limit);
         $query = $this->db->get('transactions');
         return $query->result();

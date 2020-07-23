@@ -1,29 +1,44 @@
-<?php class Reminders extends CI_Controller{ 
-    public function __construct() 
-    { 
-        parent::__construct();
-    }
-    public function index()
+<?php
+class Cron_job extends CI_Controller
+{
+    public function __construct()
     {
-        if(!$this->input->is_cli_request())
+        parent::__construct();
+        $this->load->library('ftp');
+        $this->load->model('cron_model');
+        ini_set('memory_limit', '3000M');
+        set_time_limit(0); 
+    }
+
+    function index()
+    {
+        if ($this->input->is_cli_request())
         {
-            echo "This script can only be accessed via the command line" . PHP_EOL;
-            return;
+            $this->check_transactions();
+            // $this->check_orders();
         }
-        $timestamp = strtotime("+1 days");
-        $appointments = $this->Appointment_model->get_days_appointments($timestamp);
-        if(!empty($appointments))
+    }
+
+    public function check_transactions()
+    {
+        $ftpServer = "server";
+        $ftpUser = "username";
+        $ftpPassword = "password";
+
+        $ftp_server = $ftpServer;
+        $ftp_conn = ftp_connect($ftp_server);
+        $ftp_login = ftp_login($ftp_conn, $ftpUser, $ftpPassword ); 
+
+        if(!$ftp_conn) 
+            die("A connection to $ftpServer couldn't be established"); 
+        else if(!$ftp_login) 
+            die("Your login credentials were rejected"); 
+        else
         {
-            foreach($appointments as $appointment)
-            {
-                $this->email->set_newline("\r\n");
-                $this->email->to($appointment->email);
-                $this->email->from("youremail@example.com");
-                $this->email->subject("Appointment Reminder");
-                $this->email->message("You have an appointment tomorrow");
-                $this->email->send();
-                $this->Appointment_model->mark_reminded($appointment->id);
-            }
+           $get_transactions = $this->cron_model->get_transactions();
+        //    foreach($get_transactions as $data){
+        //        $check = 
+        //    }
         }
     }
 }

@@ -153,6 +153,17 @@ class Earnings_admin_model extends CI_Model
         return $query->num_rows();
     }
 
+    //get payout requests count
+    public function get_latest_payout_requests($limit)
+    {
+        $this->filter_payouts();
+        $this->db->where('payouts.status', 0);
+        $this->db->limit($limit);
+        $this->db->order_by('payouts.created_at', 'DESC');
+        $query = $this->db->get('payouts');
+        return $query->result();
+    }
+
     //get paginated payout requests
     public function get_paginated_payout_requests($per_page, $offset)
     {

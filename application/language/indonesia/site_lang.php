@@ -209,6 +209,7 @@ $lang["msg_page_deleted"] = "Halaman berhasil dihapus!";
 $lang["msg_post_added"] = "Halaman berhasil ditambahkan!";
 $lang["msg_post_deleted"] = "Posting berhasil dihapus!";
 $lang["msg_product_approved"] = "Produk berhasil disetujui!";
+$lang["msg_product_decline"] = "Produk berhasil ditolak!";
 $lang["msg_product_deleted"] = "Produk berhasil dihapus!";
 $lang["msg_change_password_success"] = "Kata sandi Anda berhasil diubah!";
 $lang["msg_change_password_error"] = "Terjadi masalah saat mengubah kata sandi Anda!";

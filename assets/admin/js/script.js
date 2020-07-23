@@ -269,6 +269,22 @@ function approve_product(id) {
 	});
 };
 
+//decline product
+function decline_product(id) {
+	var data = {
+		'id': id,
+	};
+	data[csfr_token_name] = $.cookie(csfr_cookie_name);
+	$.ajax({
+		type: "POST",
+		url: base_url + "product_admin_controller/decline_product",
+		data: data,
+		success: function (response) {
+			location.reload();
+		}
+	});
+};
+
 //restore product
 function restore_product(id) {
 	var data = {
