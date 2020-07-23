@@ -51,7 +51,9 @@
 									</a>
 								</td>
 								<td>
-									<?php if ($item->visibility == 1 && $item->is_draft == 1): ?>
+									<?php if ($item->status != 1): ?>
+                                    <label class="label label-warning">Dalam Moderasi</label>
+									<?php elseif ($item->visibility == 1 && $item->is_draft == 1): ?>
                                     <label class="label label-warning"><?php echo trans("draft"); ?></label>
                                     <?php elseif($item->visibility == 1): ?>
                                     <label class="label label-success"><?php echo trans("published"); ?></label>

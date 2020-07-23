@@ -135,7 +135,10 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="<?php echo admin_url(); ?>products"> <?php echo trans("products"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>pending-products"> <?php echo trans("pending_products"); ?></a></li>
+                        <!-- <li><a href="<?php //echo admin_url(); ?>pending-products"> <?php //echo trans("pending_products"); ?></a></li> -->
+                        <li><a href="<?php echo admin_url(); ?>categories"> <?php echo trans("categories"); ?></a></li>
+
+
                         <?php /*
                         <li><a href="<?php echo admin_url(); ?>hidden-products"> <?php echo trans("hidden_products"); ?></a></li>
                         <li><a href="<?php echo admin_url(); ?>sold-products"> <?php echo trans("sold_products"); ?></a></li>
