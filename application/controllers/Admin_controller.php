@@ -912,7 +912,7 @@ class Admin_controller extends Admin_Core_Controller
 	{
 		$data['title'] = trans("shop_opening_requests");
 
-		$data['requests'] = $this->auth_model->get_shop_opening_requests();
+		$data['requests'] = $this->auth_model->get_verification_members();
 
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('admin/users/shop_opening_requests');

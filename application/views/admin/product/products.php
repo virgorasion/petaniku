@@ -51,7 +51,9 @@
 									</a>
 								</td>
 								<td>
-									<?php if ($item->visibility == 1 && $item->is_draft == 1): ?>
+									<?php if ($item->status != 1): ?>
+                                    <label class="label label-warning">Dalam Moderasi</label>
+									<?php elseif ($item->visibility == 1 && $item->is_draft == 1): ?>
                                     <label class="label label-warning"><?php echo trans("draft"); ?></label>
                                     <?php elseif($item->visibility == 1): ?>
                                     <label class="label label-success"><?php echo trans("published"); ?></label>
@@ -102,6 +104,11 @@
 													</li>
 												<?php endif; ?>
 											<?php endif; ?> -->
+											<?php if($item->status != 1):?>
+											<li>
+                                                <a href="javascript:void(0)" onclick="approve_product('<?php echo $item->id; ?>');"><i class="fa fa-check option-icon"></i><?php echo trans('approve'); ?></a>
+                                            </li>
+											<?php endif ?>
 											<li>
 												<a href="<?php echo base_url(); ?>sell-now/edit-product/<?php echo html_escape($item->id); ?>" target="_blank"><i class="fa fa-edit option-icon"></i><?php echo trans('edit'); ?></a>
 											</li>
@@ -111,12 +118,12 @@
 											<li>
 												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/delete_product_permanently','<?php echo $item->id; ?>','<?php echo trans("confirm_product_permanent"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete_permanently'); ?></a>
 											</li>
-											<?php if ($item->visibility == 1 && $item->is_draft == 0): ?>
+											<?php if ($item->visibility == 1 && $item->is_draft == 0 && $item->status == 1): ?>
 											<li>
 												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_draft','<?php echo $item->id; ?>','<?php echo trans("set_as_draft"); ?>');"><i class="fa fa-file option-icon"></i><?php echo trans("set_as_draft"); ?></a>
 											</li>
 											<?php endif; ?>
-											<?php if ($item->is_draft == 1): ?>
+											<?php if ($item->is_draft == 1 && $item->status == 1): ?>
 											<li>
 												<a href="javascript:void(0)" onclick="delete_item('product_admin_controller/set_publish','<?php echo $item->id; ?>','<?php echo trans("set_as_publish"); ?>');"><i class="fa fa-check option-icon"></i><?php echo trans("published"); ?></a>
 											</li>

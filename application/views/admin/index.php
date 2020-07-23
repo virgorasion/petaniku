@@ -141,13 +141,9 @@
                         <?php foreach ($latest_orders as $item): ?>
                             <tr>
                                 <td>#<?php echo $item->order_number; ?></td>
-                                <td><?php echo print_price($item->price_total, $item->price_currency); ?></td>
+                                <td><?= print_price(($item->price_subtotal + $item->price_shipping), $item->price_currency) ?></td>
                                 <td>
-                                    <?php if ($item->status == 1):
-                                        echo trans("completed");
-                                    else:
-                                        echo trans("order_processing");
-                                    endif; ?>
+                                    <?= trans($item->payment_status) ?>
                                 </td>
                                 <td><?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td style="width: 10%">
@@ -201,13 +197,28 @@
                         <?php foreach ($latest_transactions as $item): ?>
                             <tr>
                                 <td style="width: 10%"><?php echo html_escape($item->id); ?></td>
-                                <td style="white-space: nowrap">#<?php
-                                    $order = $this->order_admin_model->get_order($item->order_id);
-                                    if (!empty($order)):
-                                        echo $order->order_number;
-                                    endif; ?>
+                                <td style="white-space: nowrap">#
+                                    <?php
+                                        if($item->payment_method == "Deposit") {
+                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                            echo 'Deposit (# <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">'. $deposit->id .')</a>';
+                                        } else {
+                                            $order = $this->order_admin_model->get_order($item->order_id);
+                                            echo 'Pesanan (# <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">'. $order->order_number .')</a>';
+                                        }
+                                    ?>
                                 </td>
-                                <td><?php echo print_preformatted_price($item->payment_amount, $item->currency); ?></td>
+                                <td>
+                                    <?php
+                                        if($item->payment_method == "Deposit") {
+                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
+                                            echo print_price($deposit->amount, $item->currency); 
+                                        } else {
+                                            $order = $this->order_admin_model->get_order($item->order_id);
+                                            echo print_price(($order->price_subtotal + $order->price_shipping), $item->currency); 
+                                        }
+                                    ?>
+                                </td>
                                 <td>
                                     <?php
                                     if ($item->payment_method == "Bank Transfer") {
