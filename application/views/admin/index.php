@@ -261,7 +261,7 @@
                             <th><?php echo trans("details"); ?></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="latestProducts">
 
                         <?php foreach ($latest_products as $item): ?>
                             <tr>
@@ -313,7 +313,7 @@
                             <th><?php echo trans("details"); ?></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="latestPendingProducts">
 
                         <?php foreach ($latest_pending_products as $item): ?>
                             <tr>
@@ -609,9 +609,9 @@ const createEl = props => {
         })
     }
     if (props.html !== undefined) {
-        let val = document.createElement('span')
-        val.innerHTML = props.html
-        el.appendChild(val)
+        // let val = document.createElement('span')
+        el.innerHTML = props.html
+        // el.appendChild(val)
     }
     document.querySelector(props.createTo).appendChild(el)
 }
@@ -668,30 +668,72 @@ setInterval(() => {
     fetchSummary()
 }, 1000);
 
+const formatDate = fullDate => {
+    let date = fullDate.split(" ")[0]
+    let time = fullDate.split(" ")[1]
+    let t = time.split(":")
+    let timeShown = t[0]+":"+t[1]
+    return date + " / " + timeShown
+}
 const getDashboardData = () => {
     let path = "<?= base_url(); ?>Admin_controller/get_dashboard_data"
     let req = request(path)
     .then(res => {
-        // select("#latestOrders").innerHTML = ""
+        select("#latestOrders").innerHTML = ""
+        select("#latestPendingProducts").innerHTML = ""
+        select("#latestProducts").innerHTML = ""
+        
         let latestOrders = res.latest_orders
         latestOrders.forEach(order => {
             let status = order.status == 1 ? "Sudah selesai" : "Sedang diproses"
+            let date = new Date(order.created_at)
+
             createEl({
                 el: 'tr',
-                html: `<tr>
-    <td style="width: 100px !important;">#${order.order_number}</td>
-    <td>${res.price_total}</td>
-    <td>${status}</td>
-    <td><?php echo date("Y-m-d / h:i", strtotime(${res.created_at})); ?></td>
-    <td style="width: 10%">
-        <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape(${res.id}); ?>" class="btn btn-xs btn-info"><?php echo trans('details'); ?></a>
-    </td>
-</tr>`,
+                html: `<td style="width: 100px !important;">#${order.order_number}</td>
+<td>${order.price_total}</td>
+<td>${status}</td>
+<td>${formatDate(order.created_at)}</td>
+<td style="width: 10%">
+    <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape('`+order.id+`'); ?>" class="btn btn-xs btn-info"><?php echo trans('details'); ?></a>
+</td>`,
                 createTo: '#latestOrders'
+            })
+        })
+
+        let latestPendingProducts = res.latest_pending_products
+        latestPendingProducts.forEach(item => {
+            createEl({
+                el: 'tr',
+                html: `<td style="width: 10%">${item.id}</td>
+<td class="index-td-product">
+    <img src="<?php echo get_product_image('`+item.id+`', 'image_small'); ?>" data-src="" alt="" class="lazyload img-responsive post-image"/>
+    ${item.title}
+</td>
+<td style="width: 10%;vertical-align: center !important;">
+    <a href="<?php echo admin_url(); ?>product-details/<?php echo html_escape('`+item.id+`'); ?>" class="btn btn-xs btn-info"><?php echo trans('details'); ?></a>
+</td>`,
+                createTo: '#latestPendingProducts'
+            })
+        })
+
+        let latestProducts = res.latest_products
+        latestProducts.forEach(item => {
+            createEl({
+                el: 'tr',
+                html: `<td style="width: 10%"><?php echo html_escape('`+item.id+`'); ?></td>
+<td class="index-td-product">
+    <img src="<?php echo get_product_image(`+item.id+`, 'image_small'); ?>" data-src="" alt="" class="lazyload img-responsive post-image"/>
+    <?php echo html_escape('`+item.title+`'); ?>
+</td>
+<td style="width: 10%">
+    <a href="<?php echo admin_url(); ?>product-details/<?php echo html_escape($item->id); ?>" class="btn btn-xs btn-info"><?php echo trans('details'); ?></a>
+</td>`,
+                createTo: '#latestProducts'
             })
         })
     })
 }
-// getDashboardData()
+getDashboardData()
 </script>
 
