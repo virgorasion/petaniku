@@ -251,8 +251,6 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="<?php echo admin_url(); ?>blog-add-post"> <?php echo trans("add_post"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>blog-posts"> <?php echo trans("posts"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>blog-categories"> <?php echo trans("categories"); ?></a></li>
                     </ul>
                 </li>
                 <li>
@@ -300,22 +298,27 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>product-reviews"> <?php echo trans("product_reviews"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>blog-posts"> <?php echo trans("posts"); ?></a></li>
+                        <!-- <li><a href="<?php //echo admin_url(); ?>product-reviews"> <?php //echo trans("product_reviews"); ?></a></li> -->
+                        <li><a href="<?php echo admin_url(); ?>product-comments"> <?php echo trans("product_comments"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>blog-categories"> <?php echo trans("categories"); ?></a></li>
+
                         <!-- <li><a href="<?php //echo admin_url(); ?>user-reviews"> <?php //echo trans("user_reviews"); ?></a></li> -->
                     </ul>
                 </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-comments"></i>
-                        <span><?php echo trans("comments"); ?></span>
+                        <span><?php echo trans("message"); ?></span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="<?php echo admin_url(); ?>product-comments"> <?php echo trans("product_comments"); ?></a></li>
-                        <li><a href="<?php echo admin_url(); ?>blog-comments"> <?php echo trans("blog_comments"); ?></a></li>
+                        <li><a href="<?php echo admin_url(); ?>blog-comments"> <?php echo trans("blog_comments"); ?>(Belum Disa Digunakan)</a></li>
+                        <li><a href="<?php echo admin_url(); ?>blog-comments"> <?php echo trans("blog_comments"); ?>(Belum Disa Digunakan)</a></li>
                     </ul>
                 </li>
                 <li><a href="<?php echo admin_url(); ?>pages"><i class="fa fa-file" aria-hidden="true"></i> <?php echo trans("pages"); ?></a></li>
+                <li><a href="<?php echo admin_url(); ?>slider-items"><i class="fa fa-sliders" aria-hidden="true"></i> <?php echo trans("slider_items"); ?></a></li>
                 <?php /*
                 <li class="header text-uppercase">Modul Lainnya</li>
                 <li>
