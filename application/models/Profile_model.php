@@ -21,6 +21,11 @@ class Profile_model extends CI_Model
         return $this->db->update('users', $data);
     }
 
+    public function verify_ktp_post($data,$id)
+    {
+        $this->db->update("users",$data,$id);
+    }
+
     //update shop settings
     public function update_shop_settings()
     {

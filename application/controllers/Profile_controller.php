@@ -331,23 +331,26 @@ class Profile_controller extends Home_Core_Controller
 
 	public function verify_ktp()
 	{
+        $this->load->model('upload_model');
 		$post = $this->input->post();
-		$temp_ktp = $this->upload_model->upload_temp_image('foto_ktp');
-		$temp_selfi = $this->upload_model->upload_temp_image('foto_selfi');
-        if (!empty($temp_ktp) || !empty($temp_selfi)) {
-            $foto_ktp = $this->upload_model->verify_image_upload($temp_ktp);
-			$this->upload_model->delete_temp_image($temp_ktp);
-            $foto_selfi = $this->upload_model->verify_image_upload($temp_selfi);
-			$this->upload_model->delete_temp_image($temp_selfi);
-			$data['foto_ktp'] = $foto_ktp;
-			$data['foto_selfi'] = $foto_selfi;
-        }
 		$data = [
 			'full_name' => $post['full_name'],
 			'is_active_shop_request' => 1,
 		];
-		dd($data);
-
+		$temp_ktp = $this->upload_model->upload_temp_image('foto_ktp');
+		$temp_selfi = $this->upload_model->upload_temp_image('foto_selfi');
+		$foto_ktp = $this->upload_model->verify_image_upload($temp_ktp,"ktp");
+		$this->upload_model->delete_temp_image($temp_ktp);
+		$foto_selfi = $this->upload_model->verify_image_upload($temp_selfi,"ktp");
+		$this->upload_model->delete_temp_image($temp_selfi);
+		$data['foto_ktp'] = $foto_ktp;
+		$data['foto_selfi'] = $foto_selfi;
+		$id = ['id' => $post['user_id']];
+		if($this->profile_model->verify_ktp_post($data,$id)){
+			$this->session->set_flashdata('success', "Verifikasi data telah dikirim. Silahkan tunggu persetujuan admin");
+		}
+		
+		redirect($this->agent->referrer());
 	}
 
 	/**

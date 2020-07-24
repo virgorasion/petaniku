@@ -445,9 +445,10 @@ class Auth_model extends CI_Model
 			} else {
 				//decline request
 				$data = array(
-					'is_active_shop_request' => 1,
-					'seller_status' => 0,
+					'is_active_shop_request' => 0,
 					'full_name_status' => 0,
+					'foto_ktp' => "decline",
+					'foto_selfi' => "decline",
 				);
 			}
 
@@ -602,7 +603,7 @@ class Auth_model extends CI_Model
 	//get vendors
 	public function get_verification_members()
 	{
-		$this->db->where("full_name_status",0);
+		$this->db->where("is_active_shop_request",1);
 		$this->db->where_not_in('role','admin');
 		$this->db->order_by("created_at","desc");
 		$query = $this->db->get('users');

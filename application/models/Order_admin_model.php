@@ -214,9 +214,9 @@ class Order_admin_model extends CI_Model
     public function seller_registration($limit)
     {
         $limit = clean_number($limit);
-        $this->db->where_not_in("role","admin");
-        $this->db->where("seller_status",0);
-        $this->db->order_by('created_at', 'DESC');
+        $this->db->where("is_active_shop_request",1);
+		$this->db->where_not_in('role','admin');
+		$this->db->order_by("created_at","desc");
         $this->db->limit($limit);
         $query = $this->db->get('users');
         return $query->result();

@@ -137,16 +137,7 @@
                                     <?php echo html_escape($seller->full_name); ?>
                                 </td>
                                 <td width="25%">
-                                    <h6>Foto Ktp</h6>
-                                    <a class="magnific-image-popup" href="<?= get_foto_toko($seller->foto_ktp) ?>">
-                                        <img src="<?= get_foto_toko($seller->foto_ktp) ?>" alt="" style="max-width: 60px; max-height: 60px;">
-                                    </a>
-                                    <br><br>
-
-                                    <h6>Foto Selfi</h6>
-                                    <a class="magnific-image-popup" href="<?= get_foto_toko($seller->foto_selfi) ?>">
-                                        <img src="<?= get_foto_toko($seller->foto_selfi) ?>" alt="" style="max-width: 60px; max-height: 60px;">
-                                    </a>
+                                    <button class="btn btn-sm btn-default btn-block" data-toggle="modal" data-target="#ktpModal<?= $seller->id ?>">Foto KTP & Selfi</button>
                                 </td>
                                 <td>
                                     <?php echo form_open('admin_controller/approve_shop_opening_request'); ?>
@@ -173,6 +164,30 @@
 									<?php echo form_close(); ?>
                                 </td>
                             </tr>
+                            <div class="modal fade" id="ktpModal<?= $seller->id ?>" role="dialog"  style="z-index: 9999 !important;">
+                                <div class="modal-dialog modal-dialog-centered login-modal" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Persyaratan</h5>
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span aria-hidden="true"><i class="icon-close"></i> </span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6>Foto Ktp</h6>
+                                            <a target="_blank" href="<?= base_url('uploads/ktp/'.$seller->foto_ktp) ?>">
+                                                <img src="<?= base_url('uploads/ktp/'.$seller->foto_ktp) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+                                            </a>
+                                            <br><br>
+
+                                            <h6>Foto Selfi</h6>
+                                            <a target="_blank" href="<?= base_url('uploads/ktp/'.$seller->foto_selfi) ?>">
+                                                <img src="<?= base_url('uploads/ktp/'.$seller->foto_selfi) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+                                            </a>
+                                        </div>		
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach; ?>
 
                         </tbody>

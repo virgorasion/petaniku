@@ -126,14 +126,14 @@
 			</div>
 			<div class="modal-body">
 				<h3>Foto Ktp</h3>
-				<a class="magnific-image-popup" href="<?= get_foto_toko($user->foto_ktp) ?>">
-					<img src="<?= get_foto_toko($user->foto_ktp) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+				<a class="magnific-image-popup" href="<?= base_url('uploads/ktp/'.$user->foto_ktp) ?>">
+					<img src="<?= base_url('uploads/ktp/'.$user->foto_ktp) ?>" alt="" style="max-width: 60px; max-height: 60px;">
 				</a>
 				<br><br>
 
 				<h3>Foto Selfi</h3>
-				<a class="magnific-image-popup" href="<?= get_foto_toko($user->foto_selfi) ?>">
-					<img src="<?= get_foto_toko($user->foto_selfi) ?>" alt="" style="max-width: 60px; max-height: 60px;">
+				<a class="magnific-image-popup" href="<?= base_url('uploads/ktp/'.$user->foto_selfi) ?>">
+					<img src="<?= base_url('uploads/ktp/'.$user->foto_selfi) ?>" alt="" style="max-width: 60px; max-height: 60px;">
 				</a>
 			</div>		
 		</div>

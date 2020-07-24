@@ -161,7 +161,13 @@
                                     <?php if($user->full_name_status == 1): ?>
                                     <input id="full_name" type="text" name="full_name" class="form-control form-input" value="<?php echo $user->full_name; ?>" placeholder="<?php echo trans("full_name"); ?>" required readonly>
                                     <?php else: ?>
+                                        <?php if($user->foto_ktp == "" && $user->foto_selfi == ""): ?>
                                         <p>Nama belum terverifikasi.<br><a href="" class="text-warning" data-toggle="modal" data-target="#verifikasiFoto">Verifikasi Sekarang</a></p>
+                                        <?php elseif($user->foto_ktp == "decline" && $user->foto_selfi == "decline"): ?>
+                                        <p>Nama belum terverifikasi.<br><a href="" class="text-warning" data-toggle="modal" data-target="#verifikasiFoto">Verifikasi Sekarang</a><p style="color:red">(Verifikasi Ditolak)</p></p>
+                                        <?php else: ?>
+                                        <p>Nama belum terverifikasi.<br><p class="text-success">(Menunggu Persetujuan Admin)</p></p>
+                                        <?php endif ?>
                                     <?php endif ?>
                                 </div>
                             </div>
@@ -220,76 +226,74 @@
                         <br>
                     </div>
                 </div>
-                
-                <!-- Verifikasi Nama Lengkap & Foto KTP -->
-                <div class="modal" id="verifikasiFoto" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Verifikasi Nama Lengkap & Foto KTP</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                        <?= form_open_multipart("profile_controller/verify_ktp",['id'=>'verify_ktp']); ?>
-                            <div class="form-group">
-                              <label for="full_name"><?= trans("full_name")?></label>
-                              <input type="text" name="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Foto KTP</label>
-                                <input type="file" name="foto_ktp" class="form-control form-input">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label">Foto Selfie dengan KTP</label>
-                                <input type="file" name="foto_selfi" class="form-control form-input">
-                            </div>
-                        </div>
-                        <input type="hidden" name="user_id" value="<?= $user->id ?>">
-                        <div class="modal-footer">
-                            <button type="button" onclick="verify_ktp()" class="btn btn-primary">Verifikasi</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                        </div>
-                        <?= form_close() ?>
-                    </div>
-                </div>
-
-                <?php /*
-                <!-- Verifikasi Nomer Telp & Kode OTP -->
-                <div class="modal" id="verifikasiTelp" tabindex="1" role="dialog" style="z-index:99999 !important">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Verifikasi Nomer Telp</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="shipping_phone_number"><?= trans("phone_number")?></label>
-                                <input type="number" name="shipping_phone_number" id="shipping_phone_number" class="form-control" placeholder="<?= trans('phone_number')?>" aria-describedby="">
-                            </div>
-                            <button id="send_otp" class="btn btn-primary" type="button">Kirim OTP</button>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                */ ?>
+                <?= form_close(); ?>
 			</div>
 		</div>
 	</div>
 </div>
 
+ <!-- Verifikasi Nama Lengkap & Foto KTP -->
+ <div class="modal" id="verifikasiFoto" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Verifikasi Nama Lengkap & Foto KTP</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <?= form_open_multipart("profile_controller/verify_ktp",['id'=>'verify_ktp']); ?>
+            <div class="form-group">
+                <label for="full_name"><?= trans("full_name")?></label>
+                <input type="text" name="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Foto KTP</label>
+                <input type="file" name="foto_ktp" class="form-control form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Foto Selfie dengan KTP</label>
+                <input type="file" name="foto_selfi" class="form-control form-input" required>
+            </div>
+        </div>
+        <input type="hidden" name="user_id" value="<?= $user->id ?>">
+        <div class="modal-footer">
+            <button type="submit" id="btnVerify" class="btn btn-primary">Verifikasi</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+        </div>
+        <?= form_close() ?>
+    </div>
+</div>
+
+<?php /*
+<!-- Verifikasi Nomer Telp & Kode OTP -->
+<div class="modal" id="verifikasiTelp" tabindex="1" role="dialog" style="z-index:99999 !important">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Verifikasi Nomer Telp</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="shipping_phone_number"><?= trans("phone_number")?></label>
+                <input type="number" name="shipping_phone_number" id="shipping_phone_number" class="form-control" placeholder="<?= trans('phone_number')?>" aria-describedby="">
+            </div>
+            <button id="send_otp" class="btn btn-primary" type="button">Kirim OTP</button>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+        </div>
+        </div>
+    </div>
+</div>
+*/ ?>
+
 <script>
-    function verify_ktp() {
-        document.getElementById("verify_ktp").submit();
-    }
     function changeEmail() {
         var prev = $('#profile_email'),
             ro   = prev.prop('readonly');
