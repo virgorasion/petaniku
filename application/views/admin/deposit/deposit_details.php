@@ -74,16 +74,6 @@
                                 <strong class="font-right"><?php echo trans($transaksi->payment_status); ?></strong>
                             </div>
                         </div>
-
-                        <div class="row row-details">
-                            <div class="col-xs-12 col-sm-4 col-right">
-                                <strong> <?php echo trans("updated"); ?></strong>
-                            </div>
-                            <div class="col-sm-8">
-                                <strong
-                                    class="font-right"><?php echo $deposit->updated_at; ?>&nbsp;(<?php echo time_ago($deposit->updated_at); ?>)</strong>
-                            </div>
-                        </div>
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> <?php echo trans("date"); ?></strong>
@@ -93,6 +83,7 @@
                                     class="font-right"><?php echo $deposit->created_at; ?>&nbsp;(<?php echo time_ago($deposit->created_at); ?>)</strong>
                             </div>
                         </div>
+                        <?php /*
                         <div class="row row-details">
                             <div class="col-xs-12 col-sm-4 col-right">
                                 <strong> Bukti Transfer</strong>
@@ -105,6 +96,7 @@
                                 <?php endif; ?>
                             </div>
                         </div>
+                        */ ?>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <h4 class="sec-title"><?php echo trans("buyer"); ?></h4>

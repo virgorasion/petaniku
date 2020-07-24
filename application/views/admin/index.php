@@ -818,6 +818,7 @@
                                 ?>
                                 </td>
                             </tr>
+                            <?php /*
                             <tr>
                                 <td><?php echo trans('receipt'); ?></td>
                                 <td>
@@ -828,6 +829,7 @@
                                     <?php endif; ?>
                                 </td>
                             </tr>
+                            */ ?>
                         </tbody>
                     </table>
                 </div>

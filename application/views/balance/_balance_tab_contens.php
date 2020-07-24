@@ -161,7 +161,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                     <td><?php echo date("Y-m-d / h:i", strtotime($row->created_at)); ?></td>
                                     <td>
                                         <?php if($row->status == 0): ?>
-                                        <button class="btn btn-md btn-custom" data-toggle="modal" data-target="#infoPaymentModal<?= $row->id ?>">Konfirmasi Pembayaran</button>
+                                        <button class="btn btn-md btn-custom" data-toggle="modal" data-target="#infoPaymentModal<?= $row->id ?>">Informasi Transfer</button>
                                         <?php endif ?>
                                     </td>
                                 </tr>
@@ -338,7 +338,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>				 -->
-				<button type="button" id="confirm_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
+				<button type="button" class="btn btn-sm btn-danger color-white m-l-15" data-dismiss="modal">Tutup</button>				
 			</div>
 		</div>
 	</div>

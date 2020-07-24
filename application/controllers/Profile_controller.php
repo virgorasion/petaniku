@@ -332,17 +332,21 @@ class Profile_controller extends Home_Core_Controller
 	public function verify_ktp()
 	{
 		$post = $this->input->post();
-		$temp_path = $this->upload_model->upload_temp_image('file');
-        if (!empty($temp_path)) {
-            //delete old avatar
-            delete_file_from_server(user()->avatar);
-            $data["avatar"] = $this->upload_model->avatar_upload($temp_path);
-            $this->upload_model->delete_temp_image($temp_path);
+		$temp_ktp = $this->upload_model->upload_temp_image('foto_ktp');
+		$temp_selfi = $this->upload_model->upload_temp_image('foto_selfi');
+        if (!empty($temp_ktp) || !empty($temp_selfi)) {
+            $foto_ktp = $this->upload_model->verify_image_upload($temp_ktp);
+			$this->upload_model->delete_temp_image($temp_ktp);
+            $foto_selfi = $this->upload_model->verify_image_upload($temp_selfi);
+			$this->upload_model->delete_temp_image($temp_selfi);
+			$data['foto_ktp'] = $foto_ktp;
+			$data['foto_selfi'] = $foto_selfi;
         }
 		$data = [
 			'full_name' => $post['full_name'],
 			'is_active_shop_request' => 1,
 		];
+		dd($data);
 
 	}
 
@@ -351,6 +355,7 @@ class Profile_controller extends Home_Core_Controller
 	 */
 	public function update_profile_post()
 	{
+		// dd($this->input->post());
 		$user_id = user()->id;
 		//check user
 		if (!auth_check()) {
@@ -361,15 +366,15 @@ class Profile_controller extends Home_Core_Controller
 		$checkPhone = ($get_user->phone_number == $this->input->post('shipping_phone_number'));
 		$action = $this->input->post('submit', true);
 
-		// if (!$checkEmail) {
-		// 	//send activation email
-		// 	$this->load->model("email_model");
-		// 	$this->email_model->send_email_activation($user_id);
-		// 	$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
-		// 	$data['email_status'] = 0;
-		// 	$data['is_active_shop_request'] = 1;
-		// 	// redirect($this->agent->referrer());
-		// }
+		if (!$checkEmail) {
+			//send activation email
+			$this->load->model("email_model");
+			$this->email_model->send_email_activation($user_id);
+			$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
+			$data['email_status'] = 0;
+			$data['is_active_shop_request'] = 1;
+			// redirect($this->agent->referrer());
+		}
 
 		// if(!preg_match('/^[a-z0-9.]+$/i', $this->input->post('username', true))) {
 		// 	$this->session->set_flashdata('errors', "Error! Karakter pada username hanya boleh menggunakan alphabet, angka, atau titik");
@@ -391,6 +396,8 @@ class Profile_controller extends Home_Core_Controller
 				'shop_name' => $this->input->post('name', true),
 				'about_me' => $this->input->post('about_me', true),
 				// 'firstName' => $this->input->post('name', true),
+				'email' => $this->input->post('email', true),
+				'phone_number' => $this->input->post('shipping_phone_number', true),
 				'shipping_first_name' => $this->input->post('name', true),
 				'shipping_email' => $this->input->post('email', true),
 				'send_email_new_message' => $this->input->post('send_email_new_message', true)

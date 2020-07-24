@@ -177,7 +177,10 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label class="control-label"><?php echo trans("phone_number"); ?></label>
-                                    <?php if($user->phone_status): ?>
+                                    <?php if(!$user->phone_status): ?>
+                                    <span style="float:right">
+                                        <a href="javascript:void(0)" onclick="changeHP()">Ubah</a>
+                                    </span>
                                     <input id="profile_hp" type="text" name="shipping_phone_number" class="form-control form-input" value="<?php echo $user->phone_number; ?>" placeholder="<?php echo trans("phone_number"); ?>" required readonly>
                                     <?php else: ?>
                                         <p>Nomor telp belum terverifikasi.<br><a href="" class="text-warning" data-toggle="modal" data-target="#verifikasiTelp">Verifikasi Sekarang</a></p>
@@ -229,7 +232,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                        <?= form_open_multipart("profile_controller/verify_ktp"); ?>
+                        <?= form_open_multipart("profile_controller/verify_ktp",['id'=>'verify_ktp']); ?>
                             <div class="form-group">
                               <label for="full_name"><?= trans("full_name")?></label>
                               <input type="text" name="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
@@ -246,15 +249,16 @@
                         </div>
                         <input type="hidden" name="user_id" value="<?= $user->id ?>">
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Verifikasi</button>
+                            <button type="button" onclick="verify_ktp()" class="btn btn-primary">Verifikasi</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
                         </div>
                         <?= form_close() ?>
                     </div>
                 </div>
 
+                <?php /*
                 <!-- Verifikasi Nomer Telp & Kode OTP -->
-                <div class="modal" id="verifikasiTelp" tabindex="-1" role="dialog">
+                <div class="modal" id="verifikasiTelp" tabindex="1" role="dialog" style="z-index:99999 !important">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -268,7 +272,7 @@
                                 <label for="shipping_phone_number"><?= trans("phone_number")?></label>
                                 <input type="number" name="shipping_phone_number" id="shipping_phone_number" class="form-control" placeholder="<?= trans('phone_number')?>" aria-describedby="">
                             </div>
-                            <button id="send_otp" class="btn btn-primary" type="submit">Kirim OTP</button>
+                            <button id="send_otp" class="btn btn-primary" type="button">Kirim OTP</button>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -276,14 +280,16 @@
                         </div>
                     </div>
                 </div>
-
-				<?php echo form_close(); ?>
+                */ ?>
 			</div>
 		</div>
 	</div>
 </div>
 
 <script>
+    function verify_ktp() {
+        document.querySelector("verify_ktp").onSubmit();
+    }
     function changeEmail() {
         var prev = $('#profile_email'),
             ro   = prev.prop('readonly');

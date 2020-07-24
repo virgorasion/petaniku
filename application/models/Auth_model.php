@@ -441,7 +441,6 @@ class Auth_model extends CI_Model
 					'role' => 'vendor',
 					'is_active_shop_request' => 0,
 					'full_name_status' => 1,
-					'seller_status' => 1,
 				);
 			} else {
 				//decline request

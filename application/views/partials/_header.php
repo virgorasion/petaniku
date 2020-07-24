@@ -399,11 +399,11 @@ if ($language->id == $site_lang->id):?>
 						<div class="form-group">
 							<input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("password"); ?>" minlength="4" required>
 						</div>
-						<?php if ($recaptcha_status): ?>
+						<?php /* if ($recaptcha_status): ?>
 							<div class="recaptcha-cnt">
 								<?php generate_recaptcha(); ?>
 							</div>
-						<?php endif; ?>
+						<?php endif;*/ ?>
 						<div class="form-group text-right">
 							<a href="<?php echo lang_base_url(); ?>forgot-password" class="link-forgot-password"><?php echo trans("forgot_password"); ?></a>
 						</div>						

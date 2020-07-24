@@ -250,8 +250,8 @@ function bank_transfer_setting()
 function setting_recaptcha()
 {
 	$ci =& get_instance();
-	$config['recaptcha_site_key'] = "6LelRaQZAAAAAK9tAF_6q4JWIJNoaYogWXhShwM3";
-	$config['recaptcha_secret_key'] = "6LelRaQZAAAAAOEFu96cN1Ie3iVm0zIy7LAbFXBr";
+	$config['recaptcha_site_key'] = "";
+	$config['recaptcha_secret_key'] = "";
 	$config['recaptcha_lang'] = "en";
 	$ci->settings_model->update_recaptcha_settings($config);
 

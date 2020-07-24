@@ -57,11 +57,13 @@ $active_classes = 'fade active show';
                                     </td>
                                     <td><?php echo date("Y-m-d / h:i", strtotime($sale->created_at)); ?></td>
                                     <td>
-                                        <!-- <a href="<?php echo lang_base_url(); ?>sale/<?php echo $sale->order_number; ?>"
-                                            class="btn btn-sm btn-table-info"><?php echo trans("details"); ?></a> -->
+                                        <a href="<?php echo lang_base_url(); ?>sale/<?php echo $sale->order_number; ?>"
+                                            class="btn btn-sm btn-table-info"><?php echo trans("details"); ?></a>
+                                        <?php /*
                                         <a href="<?php echo lang_base_url(); ?>sale/<?php echo html_escape($sale->order_number); ?>"
                                         class="btn btn-primary order-detail-btn" data-id="<?php echo $sale->order_number; ?>"
                                         data-title="#<?php echo $sale->order_number; ?>"><?php echo trans('details'); ?></a>
+                                        */ ?>
                                     </td>
                                 </tr>
                                 <?php

@@ -13,18 +13,18 @@ class Admin_controller extends Admin_Core_Controller
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		// payout_settings();
-		// email_option();
-		// email_option();
-		// cache_system();
-		// seo_tools();
-		// preferences();
-		// settings();
-		// general_settings();
-		// maintenance();
-		// bank_transfer_setting();
-		// setting_recaptcha();
-		// maintenance_mode();
+		payout_settings();
+		email_option();
+		email_option();
+		cache_system();
+		seo_tools();
+		preferences();
+		settings();
+		general_settings();
+		maintenance();
+		bank_transfer_setting();
+		setting_recaptcha();
+		maintenance_mode();
 	}
 
 	public function index()

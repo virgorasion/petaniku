@@ -244,16 +244,6 @@ class Order_controller extends Home_Core_Controller
 		}
 		$data["order_products"] = $this->order_model->get_order_products($data["order"]->id);
 
-		if (isset($_GET['is_ajax']) && $_GET['is_ajax'] === 'yes') {
-			$result = [
-				'status' => 'success',
-				'html' => $this->load->view('sale/sale_detail_ajax', $data, true),
-			];
-
-			echo json_encode($result);
-			exit;
-		}
-
 		$this->load->view('partials/_header', $data);
 		$this->load->view('sale/sale', $data);
 		$this->load->view('partials/_footer');
