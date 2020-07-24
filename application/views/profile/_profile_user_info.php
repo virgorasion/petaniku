@@ -288,7 +288,7 @@
 
 <script>
     function verify_ktp() {
-        document.querySelector("verify_ktp").onSubmit();
+        document.getElementById("verify_ktp").submit();
     }
     function changeEmail() {
         var prev = $('#profile_email'),
