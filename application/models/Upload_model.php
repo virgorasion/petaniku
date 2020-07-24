@@ -39,8 +39,7 @@ class Upload_model extends CI_Model
 			try {
 				$image = new ImageResize($path);
 				$image->quality_jpg = 85;
-				$image->resizeToWidth(1920);
-				$new_name = 'img_1920x_' . generate_unique_id() . '.jpg';
+				$new_name = 'img_x500_' . generate_unique_id() . '.jpg';
 				$new_path = 'uploads/' . $folder . '/' . $new_name;
 				$image->save(FCPATH . $new_path, IMAGETYPE_JPEG);
 				return $new_name;
