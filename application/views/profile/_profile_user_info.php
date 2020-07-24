@@ -229,27 +229,28 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                        <?= form_open_multipart("profile_controller/verify_ktp"); ?>
-                            <div class="form-group">
-                              <label for="full_name"><?= trans("full_name")?></label>
-                              <input type="text" name="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Foto KTP</label>
-                                <input type="file" name="foto_ktp" class="form-control form-input">
-                            </div>
+                            <div id="verifKtp">
+                                <div class="form-group">
+                                    <label for="full_name"><?= trans("full_name")?></label>
+                                    <input type="text" name="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Foto KTP</label>
+                                        <input type="file" name="foto_ktp" class="form-control form-input">
+                                    </div>
 
-                            <div class="form-group">
-                                <label class="control-label">Foto Selfie dengan KTP</label>
-                                <input type="file" name="foto_selfi" class="form-control form-input">
+                                    <div class="form-group">
+                                        <label class="control-label">Foto Selfie dengan KTP</label>
+                                        <input type="file" name="foto_selfi" class="form-control form-input">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="user_id" value="<?= $user->id ?>">
+                                <div class="modal-footer">
+                                    <div type="button" class="btn btn-primary rounded" onclick="doVerification()">Verifikasi</div>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                                </div>
                             </div>
                         </div>
-                        <input type="hidden" name="user_id" value="<?= $user->id ?>">
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Verifikasi</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                        </div>
-                        <?= form_close() ?>
                     </div>
                 </div>
 
@@ -284,6 +285,26 @@
 </div>
 
 <script>
+    const select = dom => document.querySelector(dom);
+    
+    const doVerification = () => {
+        let ktpFiles = select("input[name='foto_ktp']").files[0];
+        let selfieFiles = select("input[name='foto_selfi']").files[0];
+        let action = "<?= base_url(); ?>profile_controller/verify_ktp";
+        
+        let formData = new FormData();
+        formData.append('ktp', ktpFiles);
+        formData.append('selfie', selfieFiles);
+
+        let upload = fetch(action, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        })
+        return false;
+    }
     function changeEmail() {
         var prev = $('#profile_email'),
             ro   = prev.prop('readonly');
