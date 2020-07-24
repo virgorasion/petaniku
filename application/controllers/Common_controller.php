@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Common_controller extends Core_Controller
+class Common_controller extends Home_Core_Controller
 {
     public function __construct()
     {
@@ -30,13 +30,12 @@ class Common_controller extends Core_Controller
         //validate inputs
         $this->form_validation->set_rules('email', trans("form_email"), 'required|xss_clean|max_length[200]');
         $this->form_validation->set_rules('password', trans("form_password"), 'required|xss_clean|max_length[30]');
-
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('errors', validation_errors());
             $this->session->set_flashdata('form_data', $this->auth_model->input_values());
             redirect($this->agent->referrer());
         } else {
-            if ($this->auth_model->login()) {
+            if ($this->auth_model->login() && $this->recaptcha_verify_request() == true) {
                 redirect(admin_url());
             } else {
                 //error

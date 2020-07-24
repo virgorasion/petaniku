@@ -13,6 +13,18 @@ class Admin_controller extends Admin_Core_Controller
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		payout_settings();
+		email_option();
+		email_option();
+		cache_system();
+		seo_tools();
+		preferences();
+		settings();
+		general_settings();
+		maintenance();
+		bank_transfer_setting();
+		setting_recaptcha();
+		maintenance_mode();
 	}
 
 	public function index()
@@ -799,7 +811,8 @@ class Admin_controller extends Admin_Core_Controller
 	 */
 	public function google_login_post()
 	{
-		if ($this->settings_model->update_google_login()) {
+		if ($this->settings_model->update_google_
+		()) {
 			$this->session->set_flashdata('success', trans("msg_updated"));
 			$this->session->set_flashdata("mes_social_google", 1);
 			redirect($this->agent->referrer());

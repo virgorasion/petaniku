@@ -251,13 +251,7 @@
                                 <?php endif; ?>
                                 <td>
                                     <?php
-                                        if($item->payment_method == "Deposit") {
-                                            $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
-                                            echo print_price($deposit->amount, $item->currency); 
-                                        } else {
-                                            $order = $this->order_admin_model->get_order($item->order_id);
-                                            echo print_price(($order->price_subtotal + $order->price_shipping), $item->currency); 
-                                        }
+                                        echo print_price($item->payment_amount, $item->currency); 
                                     ?>
                                 </td>
                                 <?php if($item->payment_method != "Deposit"):?>

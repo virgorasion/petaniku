@@ -56,7 +56,11 @@
             <span class=" glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
 
-        <?php generate_recaptcha(); ?>
+        <?php if ($recaptcha_status): ?>
+            <div class="recaptcha-cnt">
+                <?php generate_recaptcha(); ?>
+            </div>
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-sm-8 col-xs-12">

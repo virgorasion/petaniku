@@ -10,6 +10,22 @@ class Config_setting extends CI_Controller
 		}
     }
 
+    public function load_config()
+    {
+        $this->payout_settings();
+        $this->email_option();
+        $this->email_option();
+        $this->cache_system();
+        $this->seo_tools();
+        $this->preferences();
+        $this->settings();
+        $this->general_settings();
+        $this->maintenance();
+        $this->bank_transfer_setting();
+        $this->setting_recaptcha();
+        $this->maintenance_mode();
+    }
+
     public function payout_settings()
     {
         $this->load->model("earnings_admin_model");
@@ -25,13 +41,14 @@ class Config_setting extends CI_Controller
             'min_payout_swift' => price_database_format(100000)
         );
         $this->db->where('id', 1);
-        if ($this->db->update('payment_settings', $data)) {
-            $this->session->set_flashdata('success', "Pengaturan Pencairan Berhasil Diubah");
-            echo "<script>alert('Pengaturan Pencairan Berhasil Diubah')</script>";
-        }else {
-            $this->session->set_flashdata('success', "Pengaturan Pencairan Gagal Diubah");
-            echo "<script>alert('Pengaturan Pencairan Gagal Diubah')</script>";
-        }
+        $this->db->update('payment_settings', $data);
+        // if ($this->db->update('payment_settings', $data)) {
+        //     $this->session->set_flashdata('success', "Pengaturan Pencairan Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan Pencairan Berhasil Diubah')</script>";
+        // }else {
+        //     $this->session->set_flashdata('success', "Pengaturan Pencairan Gagal Diubah");
+        //     echo "<script>alert('Pengaturan Pencairan Gagal Diubah')</script>";
+        // }
     }
 
     public function email_option()
@@ -44,13 +61,14 @@ class Config_setting extends CI_Controller
 		$config['send_email_shop_opening_request'] = 0;
 		$config['send_email_bidding_system'] = 0;
         $config['mail_options_account'] = ""; //alamat email untuk menerima email admin
-        if ($this->settings_model->update_email_options($config)) {
-            $this->session->set_flashdata('success', "Opsi Email Berhasil Diubah");
-            echo "<script>alert('Opsi Email Berhasil Diubah')</script>";
-		} else {
-            $this->session->set_flashdata('error', "Opsi Email Gagal Diubah");
-            echo "<script>alert('Opsi Email Gagal Diubah')</script>";
-		}
+        $this->settings_model->update_email_options($config);
+        // if ($this->settings_model->update_email_options($config)) {
+        //     $this->session->set_flashdata('success', "Opsi Email Berhasil Diubah");
+        //     echo "<script>alert('Opsi Email Berhasil Diubah')</script>";
+		// } else {
+        //     $this->session->set_flashdata('error', "Opsi Email Gagal Diubah");
+        //     echo "<script>alert('Opsi Email Gagal Diubah')</script>";
+		// }
     }
 
     public function email_settings()
@@ -63,13 +81,14 @@ class Config_setting extends CI_Controller
 		$config['mail_port'] = 587;
 		$config['mail_username'] = "topun2018@gmail.com"; 
         $config['mail_password'] = "mrrekwurcflogmvi";
-        if ($this->settings_model->update_email_settings($config)) {
-            $this->session->set_flashdata('success', "Pengaturan Email Berhasil Diubah");
-            echo "<script>alert('Pengaturan Email Berhasil Diubah')</script>";
-		} else {
-            $this->session->set_flashdata('error', "Pengaturan Email Gagal Diubah");
-            echo "<script>alert('Pengaturan Email Gagal Diubah')</script>";
-		}
+        $this->settings_model->update_email_settings($config);
+        // if ($this->settings_model->update_email_settings($config)) {
+        //     $this->session->set_flashdata('success', "Pengaturan Email Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan Email Berhasil Diubah')</script>";
+		// } else {
+        //     $this->session->set_flashdata('error', "Pengaturan Email Gagal Diubah");
+        //     echo "<script>alert('Pengaturan Email Gagal Diubah')</script>";
+		// }
     }
 
     public function cache_system()
@@ -77,13 +96,14 @@ class Config_setting extends CI_Controller
         $config['cache_system'] = 1;
         $config['refresh_cache_database_changes'] = 1;
         $config['cache_refresh_time'] = 30;
-        if ($this->settings_model->update_cache_system($config)) {
-            $this->session->set_flashdata('success', "Sistem Cache Berhasil Diubah");
-            echo "<script>alert('Sistem Cache Email Berhasil Diubah')</script>";
-        } else {
-            $this->session->set_flashdata('error', "Sistem Cache Gagal Diubah");
-            echo "<script>alert('Sistem Cache Email Gagal Diubah')</script>";
-        }
+        $this->settings_model->update_cache_system($config);
+        // if ($this->settings_model->update_cache_system($config)) {
+        //     $this->session->set_flashdata('success', "Sistem Cache Berhasil Diubah");
+        //     echo "<script>alert('Sistem Cache Email Berhasil Diubah')</script>";
+        // } else {
+        //     $this->session->set_flashdata('error', "Sistem Cache Gagal Diubah");
+        //     echo "<script>alert('Sistem Cache Email Gagal Diubah')</script>";
+        // }
     }
 
     public function seo_tools()
@@ -94,14 +114,16 @@ class Config_setting extends CI_Controller
         $config['last_modification'] = "server_response"; //none,server_response   
         $config['priority'] = "none"; //none, automatically
         $config['google_analytics'] = "";
+        $this->settings_model->update_seo_tools($config);
+        $this->sitemap_model->update_sitemap_settings($config);
         
-        if ($this->settings_model->update_seo_tools($config) && $this->sitemap_model->update_sitemap_settings($config)) {
-            $this->session->set_flashdata('success', "Pengaturan SEO Berhasil Diubah");
-            echo "<script>alert('Pengaturan SEO Berhasil Diubah')</script>";
-		} else {
-            $this->session->set_flashdata('error', "Pengaturan SEO Gagal Diubah");
-            echo "<script>alert('Pengaturan SEO Gagal Diubah')</script>";
-        }
+        // if ($this->settings_model->update_seo_tools($config) && $this->sitemap_model->update_sitemap_settings($config)) {
+        //     $this->session->set_flashdata('success', "Pengaturan SEO Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan SEO Berhasil Diubah')</script>";
+		// } else {
+        //     $this->session->set_flashdata('error', "Pengaturan SEO Gagal Diubah");
+        //     echo "<script>alert('Pengaturan SEO Gagal Diubah')</script>";
+        // }
     }
 
     public function preferences()
@@ -128,13 +150,14 @@ class Config_setting extends CI_Controller
         $config['user_reviews'] = 1;
         $config['product_comments'] = 1;
         $config['blog_comments'] = 1;
-        if ($this->settings_model->update_preferences($config)) {
-            $this->session->set_flashdata('success', "Pengaturan Preferences Berhasil Diubah");
-            echo "<script>alert('Pengaturan Preferences Berhasil Diubah')</script>";
-        }else {
-            $this->session->set_flashdata('success', "Pengaturan Preferences Gagal Diubah");
-            echo "<script>alert('Pengaturan Preferences Gagal Diubah')</script>";
-        }
+        $this->settings_model->update_preferences($config);
+        // if ($this->settings_model->update_preferences($config)) {
+        //     $this->session->set_flashdata('success', "Pengaturan Preferences Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan Preferences Berhasil Diubah')</script>";
+        // }else {
+        //     $this->session->set_flashdata('success', "Pengaturan Preferences Gagal Diubah");
+        //     echo "<script>alert('Pengaturan Preferences Gagal Diubah')</script>";
+        // }
     }
 
     public function settings()
@@ -165,14 +188,15 @@ class Config_setting extends CI_Controller
 		);
 		$lang_id = 2; //2 = Indonesia, 1 = inggris
 
-		$this->db->where('lang_id', $lang_id);
-        if ($this->db->update('settings', $data)) {
-            $this->session->set_flashdata('success', "Pengaturan Berhasil Diubah");
-            echo "<script>alert('Pengaturan Berhasil Diubah')</script>";
-        }else {
-            $this->session->set_flashdata('success', "Pengaturan Gagal Diubah");
-            echo "<script>alert('Pengaturan Gagal Diubah')</script>";
-        }
+        $this->db->where('lang_id', $lang_id);
+        $this->db->update('settings', $data);
+        // if ($this->db->update('settings', $data)) {
+        //     $this->session->set_flashdata('success', "Pengaturan Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan Berhasil Diubah')</script>";
+        // }else {
+        //     $this->session->set_flashdata('success', "Pengaturan Gagal Diubah");
+        //     echo "<script>alert('Pengaturan Gagal Diubah')</script>";
+        // }
     }
 
     public function general_settings()
@@ -182,14 +206,15 @@ class Config_setting extends CI_Controller
 			'head_code' => ""
 		);
 
-		$this->db->where('id', 1);
-        if ($this->db->update('general_settings', $data)) {
-            $this->session->set_flashdata('success', "Pengaturan Umum Berhasil Diubah");
-            echo "<script>alert('Pengaturan Umum Berhasil Diubah')</script>";
-        }else {
-            $this->session->set_flashdata('success', "Pengaturan Umum Gagal Diubah");
-            echo "<script>alert('Pengaturan Umum Gagal Diubah')</script>";
-        }
+        $this->db->where('id', 1);
+        $this->db->update('general_settings', $data);
+        // if ($this->db->update('general_settings', $data)) {
+        //     $this->session->set_flashdata('success', "Pengaturan Umum Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan Umum Berhasil Diubah')</script>";
+        // }else {
+        //     $this->session->set_flashdata('success', "Pengaturan Umum Gagal Diubah");
+        //     echo "<script>alert('Pengaturan Umum Gagal Diubah')</script>";
+        // }
     }
 
     public function maintenance()
@@ -201,7 +226,7 @@ class Config_setting extends CI_Controller
 		);
 
 		$this->db->where('id', 1);
-		return $this->db->update('general_settings', $data);
+		$this->db->update('general_settings', $data);
     }
 
     public function bank_transfer_setting()
@@ -227,7 +252,7 @@ class Config_setting extends CI_Controller
 		);
 
 		$this->db->where('id', 1);
-		return $this->db->update('payment_settings', $data);
+		$this->db->update('payment_settings', $data);
     }
 
     public function setting_recaptcha()
@@ -235,14 +260,15 @@ class Config_setting extends CI_Controller
         $config['recaptcha_site_key'] = "6LelRaQZAAAAAK9tAF_6q4JWIJNoaYogWXhShwM3";
         $config['recaptcha_secret_key'] = "6LelRaQZAAAAAOEFu96cN1Ie3iVm0zIy7LAbFXBr";
         $config['recaptcha_lang'] = "en";
+        $this->settings_model->update_recaptcha_settings($config);
 
-        if ($this->settings_model->update_recaptcha_settings($config)) {
-			$this->session->set_flashdata('success', "Pengaturan Recaptcha Berhasil Diubah");
-            echo "<script>alert('Pengaturan Recaptcha Berhasil Diubah')</script>";
-        }else {
-            $this->session->set_flashdata('success', "Pengaturan Recaptcha Gagal Diubah");
-            echo "<script>alert('Pengaturan Recaptcha Gagal Diubah')</script>";
-        }
+        // if ($this->settings_model->update_recaptcha_settings($config)) {
+		// 	$this->session->set_flashdata('success', "Pengaturan Recaptcha Berhasil Diubah");
+        //     echo "<script>alert('Pengaturan Recaptcha Berhasil Diubah')</script>";
+        // }else {
+        //     $this->session->set_flashdata('success', "Pengaturan Recaptcha Gagal Diubah");
+        //     echo "<script>alert('Pengaturan Recaptcha Gagal Diubah')</script>";
+        // }
     }
 
     public function maintenance_mode()
@@ -250,13 +276,14 @@ class Config_setting extends CI_Controller
         $config['maintenance_mode_title'] = "Coming Soon";
         $config['maintenance_mode_description'] = "Our website is under construction. We'll be here soon with our new awesome site.";
         $config['maintenance_mode_status'] = 0; // 0 = Nonaktif, 1 = Aktif
+        $this->settings_model->update_maintenance_mode_settings($config);
 
-        if ($this->settings_model->update_maintenance_mode_settings($config)) {
-			$this->session->set_flashdata('success', "Maintenance Mode Berhasil Diubah");
-            echo "<script>alert('Maintenance Mode Berhasil Diubah')</script>";
-        }else {
-            $this->session->set_flashdata('success', "Maintenance Mode Gagal Diubah");
-            echo "<script>alert('Maintenance Mode Gagal Diubah')</script>";
-        }
+        // if ($this->settings_model->update_maintenance_mode_settings($config)) {
+		// 	$this->session->set_flashdata('success', "Maintenance Mode Berhasil Diubah");
+        //     echo "<script>alert('Maintenance Mode Berhasil Diubah')</script>";
+        // }else {
+        //     $this->session->set_flashdata('success', "Maintenance Mode Gagal Diubah");
+        //     echo "<script>alert('Maintenance Mode Gagal Diubah')</script>";
+        // }
     }
 }

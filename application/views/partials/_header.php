@@ -280,7 +280,7 @@ if ($language->id == $site_lang->id):?>
 										</li>
 
 										<?php if (is_multi_vendor_active()): ?>
-											<?php if($this->auth_user->role != "vendor"): ?>
+											<?php if($this->auth_user->role != "vendor" && @$this->auth_user->role!="admin"): ?>
 												<li class="nav-item"><a href="#" data-toggle="modal" data-target="#warningVerifAccount" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
 											<?php else: ?>
 												<li class="nav-item"><a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
@@ -399,9 +399,11 @@ if ($language->id == $site_lang->id):?>
 						<div class="form-group">
 							<input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("password"); ?>" minlength="4" required>
 						</div>
-						<div class="form-group">
-							<?php generate_recaptcha(); ?>
-						</div>
+						<?php if ($recaptcha_status): ?>
+							<div class="recaptcha-cnt">
+								<?php generate_recaptcha(); ?>
+							</div>
+						<?php endif; ?>
 						<div class="form-group text-right">
 							<a href="<?php echo lang_base_url(); ?>forgot-password" class="link-forgot-password"><?php echo trans("forgot_password"); ?></a>
 						</div>						
@@ -418,7 +420,7 @@ if ($language->id == $site_lang->id):?>
 	</div>
 <?php endif; ?>
 
-<?php if(@$this->auth_user->role != "vendor"): ?>
+<?php if(@$this->auth_user->role != "vendor" && @$this->auth_user->role != "admin"): ?>
 	<!-- Modal -->
 	<div class="modal fade" id="warningVerifAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">

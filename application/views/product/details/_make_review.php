@@ -22,10 +22,10 @@
                 <textarea name="review" id="user_review" class="form-control form-input form-textarea" placeholder="<?php echo trans("write_review"); ?>" required></textarea>
             </div>
             <button type="submit" id="submit_review" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
-            <a class='btn btn-md btn-custom btn-file-upload'>
-                <?php echo trans('select_image'); ?>
+            <!-- <a class='btn btn-md btn-custom btn-file-upload'>
+                <?php //echo trans('select_image'); ?>
                 <input type="file" name="file" id="file_review" size="40" accept=".png, .jpg, .jpeg" onchange="$('#upload-file-info').html($(this).val());">
-            </a>
+            </a> -->
             <span class='badge badge-info' id="upload-file-info"></span>
         </div>
     </div>

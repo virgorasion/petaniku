@@ -364,7 +364,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>				 -->
-				<button type="button" id="confirm_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
+				<button type="button" onclick="approve_deposit('Anda yakin akan mengisi saldo sebesar ')" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
 			</div>
 		</div>
 	</div>
@@ -422,12 +422,24 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 <script>
     $(document).ready(function(){
         $('#jumlah_transfer').html(convertToRupiah(0));
-
-        $("#confirm_deposit").click(function(){
-            $("#form_validate_payout_1").submit();
-        });
     });
-
+    
+    //approve order product
+    function approve_deposit(message) {
+        var kode_unik = <?= $uniq ?>;
+        var total = parseInt($("#product_price_input_deposit").val()) + kode_unik;
+        swal({
+            text: message + convertToRupiah(total) + " ?",
+            icon: "warning",
+            buttons: true,
+            buttons: [sweetalert_cancel, sweetalert_ok],
+            dangerMode: true,
+        }).then(function (approve) {
+            if (approve) {
+                $("#form_validate_payout_1").submit();
+            }
+        });
+    };
     function changeSaldo(that)
     {
         var kode_unik = <?= $uniq ?>;

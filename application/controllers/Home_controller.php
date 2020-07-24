@@ -394,7 +394,6 @@ class Home_controller extends Home_Core_Controller
 	//make review
 	public function make_review()
 	{
-		dd($this->input->post());
 		if (!$this->auth_check) {
 			exit();
 		}
@@ -405,8 +404,8 @@ class Home_controller extends Home_Core_Controller
 		$product_id = $this->input->post('product_id', true);
 		$review = $this->review_model->get_review($product_id, user()->id);
 		$data["product"] = $this->product_model->get_product_by_id($product_id);
-		$this->load->model('upload_model');
-
+		
+		// $this->load->model('upload_model');
 		// $temp_path = $this->upload_model->upload_temp_image('file');
 		// if (!empty($temp_path)) {
 		//     $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
