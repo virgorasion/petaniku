@@ -329,6 +329,23 @@ class Profile_controller extends Home_Core_Controller
 		$this->load->view('partials/_footer');
 	}
 
+	public function verify_ktp()
+	{
+		$post = $this->input->post();
+		$temp_path = $this->upload_model->upload_temp_image('file');
+        if (!empty($temp_path)) {
+            //delete old avatar
+            delete_file_from_server(user()->avatar);
+            $data["avatar"] = $this->upload_model->avatar_upload($temp_path);
+            $this->upload_model->delete_temp_image($temp_path);
+        }
+		$data = [
+			'full_name' => $post['full_name'],
+			'is_active_shop_request' => 1,
+		];
+
+	}
+
 	/**
 	 * Update Profile Post
 	 */
@@ -368,7 +385,7 @@ class Profile_controller extends Home_Core_Controller
 		} else {
 
 			$data = array(
-				'username' => $this->input->post('username', true),
+				// 'username' => $this->input->post('username', true),
 				// 'slug' => str_slug($this->input->post('slug', true)),
 				'getNewsletter' => ($this->input->post("newsletter",true) == 1)? "1" : "0",
 				'shop_name' => $this->input->post('name', true),
@@ -379,20 +396,20 @@ class Profile_controller extends Home_Core_Controller
 				'send_email_new_message' => $this->input->post('send_email_new_message', true)
 			);
 			
-			if(!$checkEmail && !$checkPhone){
-				$data['email_status'] = 0;
-				$data['email'] = $this->input->post('email', true);
-				$data['phone_number'] = $this->input->post('shipping_phone_number', true);
-				$data['is_active_shop_request'] = 1;
-			} elseif (!$checkPhone) {
-				$data['phone_statusr'] = 0;
-				$data['phone_number'] = $this->input->post('shipping_phone_number', true);
-				$data['is_active_shop_request'] = 1;
-			} elseif(!$checkEmail){
-				$data['email_status'] = 0;
-				$data['email'] = $this->input->post('email', true);
-				$data['is_active_shop_request'] = 1;
-			}
+			// if(!$checkEmail && !$checkPhone){
+			// 	$data['email_status'] = 0;
+			// 	$data['email'] = $this->input->post('email', true);
+			// 	$data['phone_number'] = $this->input->post('shipping_phone_number', true);
+			// 	$data['is_active_shop_request'] = 1;
+			// } elseif (!$checkPhone) {
+			// 	$data['phone_statusr'] = 0;
+			// 	$data['phone_number'] = $this->input->post('shipping_phone_number', true);
+			// 	$data['is_active_shop_request'] = 1;
+			// } elseif(!$checkEmail){
+			// 	$data['email_status'] = 0;
+			// 	$data['email'] = $this->input->post('email', true);
+			// 	$data['is_active_shop_request'] = 1;
+			// }
 
 			//is email unique
 			if (!$this->auth_model->is_unique_email($data["email"], $user_id)) {

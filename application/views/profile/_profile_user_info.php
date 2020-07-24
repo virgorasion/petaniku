@@ -229,9 +229,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                        <?= form_open_multipart("profile_controller/verify_ktp"); ?>
                             <div class="form-group">
                               <label for="full_name"><?= trans("full_name")?></label>
-                              <input type="text" name="full_name" id="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
+                              <input type="text" name="full_name" class="form-control" placeholder="<?= trans('full_name')?>" aria-describedby="">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Foto KTP</label>
@@ -243,11 +244,12 @@
                                 <input type="file" name="foto_selfi" class="form-control form-input">
                             </div>
                         </div>
+                        <input type="hidden" name="user_id" value="<?= $user->id ?>">
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Verifikasi</button>
-                            <button type="button" class="btn btn-secondary" id="btnVerifFoto">Kembali</button>
+                            <button type="submit" class="btn btn-primary">Verifikasi</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
                         </div>
-                        </div>
+                        <?= form_close() ?>
                     </div>
                 </div>
 
@@ -269,7 +271,7 @@
                             <button id="send_otp" class="btn btn-primary" type="submit">Kirim OTP</button>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="btnVerifFoto">Kembali</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
                         </div>
                         </div>
                     </div>
@@ -282,9 +284,6 @@
 </div>
 
 <script>
-    $("#btnVerifFoto").click(function(){
-        $("#verifikasiFoto").modal("hide");
-    })
     function changeEmail() {
         var prev = $('#profile_email'),
             ro   = prev.prop('readonly');
