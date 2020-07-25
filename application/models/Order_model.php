@@ -51,7 +51,7 @@ class Order_model extends CI_Model
 			);
 
 			$cart_items = $this->cart_model->get_sess_cart_items();
-			$product = get_available_product($cart_item->product_id);
+			$product = get_available_product($cart_items[0]->product_id);
 			$data['seller_id'] = $product->user_id;
 
 			//if cart does not have physical product

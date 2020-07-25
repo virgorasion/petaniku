@@ -145,6 +145,7 @@ class Order_controller extends Home_Core_Controller
 	public function bank_transfer_payment_report_post()
 	{
 		$this->order_model->add_bank_transfer_payment_report();
+		$this->session->set_flashdata("confirm_bank_transfer","done");
 		redirect($this->agent->referrer());
 	}
 

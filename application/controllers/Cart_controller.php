@@ -186,6 +186,7 @@ class Cart_controller extends Home_Core_Controller
 		}
 
 		$data['cart_total'] = $this->cart_model->get_sess_cart_total();
+		$this->session->unset_userdata("check_cart_order");
 
 		$this->load->view('partials/_header', $data);
 		$this->load->view('cart/shipping', $data);
@@ -310,7 +311,6 @@ class Cart_controller extends Home_Core_Controller
 	{
 		$this->cart_model->set_sess_cart_payment_method();
 		$mds_payment_type = $this->input->post('mds_payment_type', true);
-
 		if($_POST['payment_option'] == 'saldo') {
 			$cart = $this->cart_model->get_sess_cart_total();
 			$total = $cart->total;
@@ -321,7 +321,6 @@ class Cart_controller extends Home_Core_Controller
 				redirect($this->agent->referrer());
 				return;
 			}
-
 			if (@$_SESSION['check_cart_order']['cart_id'] != $this->cart_model->get_sess_cart_items()[0]->cart_item_id && @$_SESSION['check_cart_order']['payment_option'] != $this->cart_model->get_sess_cart_payment_method()->payment_option) {
 				// add to tabel transaksi
 				$cart_total = $this->cart_model->get_sess_cart_total();		
@@ -359,7 +358,7 @@ class Cart_controller extends Home_Core_Controller
 				$this->db->update("orders",['payment_method'=>"Bank Transfer"],['id'=>@$_SESSION['order_id']]);
 			}
 		}elseif($_POST['payment_option'] == "bank_transfer") {
-			if (@$_SESSION['check_cart_order']['cart_id'] != $this->cart_model->get_sess_cart_items()[0]->cart_item_id && @$_SESSION['check_cart_order']['payment_option'] != $this->cart_model->get_sess_cart_payment_method()->payment_option) {
+			if (@$_SESSION['check_cart_order']['cart_id'] != $this->cart_model->get_sess_cart_items()[0]->cart_item_id && @$_SESSION['check_cart_order']['payment_option'] != $this->cart_model->get_sess_cart_payment_method()->payment_option) {				
 				// add to tabel transaksi
 				$cart_total = $this->cart_model->get_sess_cart_total();				
 				$payment_id = $this->input->post('payment_id', true);
@@ -371,6 +370,7 @@ class Cart_controller extends Home_Core_Controller
 					'payment_status' => "awaiting_payment",
 				);
 				$order_id = $this->order_model->add_order($data_transaction);
+				// dd($this->cart_model->get_sess_cart_items())
 				// $order_id = $this->order_model->add_order_offline_payment("Bank Transfer");
 				$this->session->set_userdata("order_id",$order_id);
 				$order = $this->order_model->get_order($order_id);
@@ -749,7 +749,6 @@ class Cart_controller extends Home_Core_Controller
 	public function bank_transfer_payment_post()
 	{
 		$mds_payment_type = $this->input->post('mds_payment_type', true);
-
 		// if ($mds_payment_type == 'promote') {
 		// 	$promoted_plan = $this->session->userdata('modesy_selected_promoted_plan');
 		// 	if (!empty($promoted_plan)) {
