@@ -6,7 +6,7 @@
         foreach ($half_width_product_variations as $paket): ?>
         
         <?php if($paket->visible): ?>
-    	<?php echo form_open(lang_base_url() . 'add-to-cart', ['id' => 'form_add_cart' . $input_form_suffix]); ?>        
+    	<?php echo form_open(lang_base_url() . 'add-to-cart', ['id' => 'form_add_cart_paket' . $input_form_suffix]); ?>        
         <div>
             <div>
                 <h4><?= $paket->label ?></h4><br>

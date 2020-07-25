@@ -26,6 +26,15 @@
                     </a>
                 <?php endif; ?>
                 */ ?>
+                <?php if ($product->is_draft == 0): ?>
+                <a href="javascript:void(0)" onclick="ajax_post('profile_controller/set_draft','<?php echo $product->id; ?>')" class="dropdown-item">
+                    <i class="icon-file-archive"></i>&nbsp;<?php echo trans("set_as_draft"); ?>
+                </a>
+                <?php else: ?>
+                <a href="javascript:void(0)" onclick="ajax_post('profile_controller/set_publish','<?php echo $product->id; ?>')" class="dropdown-item">
+                    <i class="icon-check"></i>&nbsp;<?php echo trans("published"); ?>
+                </a>
+                <?php endif ?>
                 <a href="<?php echo lang_base_url() . "sell-now/edit-product/" . $product->id; ?>" class="dropdown-item">
                     <i class="icon-edit"></i>&nbsp;<?php echo trans("edit"); ?>
                 </a>
@@ -75,11 +84,16 @@
     </div>
     <div class="row-custom item-details card-body">
         <h2 class="product-title">
+            <?php if($product->is_draft == 0): ?>
             <a href="<?php echo generate_product_url($product); ?>"><?php echo html_escape($product->title); ?></a>
+            <?php else: ?>
+            <a href="<?php echo lang_base_url() . "sell-now/edit-product/" . $product->id; ?>"><?php echo html_escape($product->title); ?></a>
+            <?php endif ?>
         </h2>
         <div class="clearfix"></div>
         
-        <!-- <p class="product-user text-truncate">
+        <?php /*
+        <p class="product-user text-truncate">
 			<a href="<?php echo lang_base_url() . "profile" . '/' . html_escape($product->user_slug); ?>">
 				<?php echo get_shop_name_product($product); ?>
 			</a>
@@ -93,7 +107,8 @@
 				<span class="item-comments"><i class="icon-comment"></i>&nbsp;<?php echo get_product_comment_count($product->id); ?></span>
 			<?php endif; ?>
 			<span class="item-favorites"><i class="icon-heart-o"></i>&nbsp;<?php echo get_product_favorited_count($product->id); ?></span>
-		</div> -->
+        </div>
+        */ ?>
         <!-- <br><br><br> -->
         <table class="table table-product-card" style="margin:0">
             <tr>
@@ -129,13 +144,17 @@
                 <td>Status:</td>
                 <td class="text-right">
                     <?php
-                    if ($product->is_draft): // Draft
-                        ?>
-                            Draft
-                        <?php
-                    elseif (!$product->status): // Dalam Moderasi
+                    if (!$product->status): // Draft
                         ?>
                             Dalam Moderasi
+                        <?php
+                    elseif (!$product->is_draft && $product->visibility): // Dalam Moderasi
+                        ?>
+                            Publish
+                        <?php
+                    elseif ($product->is_draft): // Dalam Moderasi
+                        ?>
+                            Draft
                         <?php
                     endif; ?>
                 </td>

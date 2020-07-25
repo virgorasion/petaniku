@@ -36,6 +36,7 @@ class Order_model extends CI_Model
 			$data = array(
 				'order_number' => uniqid(),
 				'buyer_id' => 0,
+				'seller_id' => 0,
 				'buyer_type' => "guest",
 				'price_subtotal' => $cart_total->subtotal,
 				'price_shipping' => $cart_total->shipping_cost,
@@ -48,6 +49,10 @@ class Order_model extends CI_Model
 				'updated_at' => date('Y-m-d H:i:s'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
+
+			$cart_items = $this->cart_model->get_sess_cart_items();
+			$product = get_available_product($cart_items[0]->product_id);
+			$data['seller_id'] = $product->user_id;
 
 			//if cart does not have physical product
 			if ($this->cart_model->check_cart_has_physical_product() != true) {
@@ -83,8 +88,12 @@ class Order_model extends CI_Model
 				$this->load->model('bidding_model');
 				$this->bidding_model->set_bidding_quotes_as_completed_after_purchase();
 
-				//clear cart
-				$this->cart_model->clear_cart();
+				//make session cart_item_id & payment_method
+				$data_check = [
+					'cart_id' => $this->cart_model->get_sess_cart_items()[0]->cart_item_id,
+					'payment_option' => $this->cart_model->get_sess_cart_payment_method()->payment_option
+				];
+				$this->session->set_userdata("check_cart_order",$data_check);
 
 				return $order_id;
 			}
@@ -497,6 +506,14 @@ class Order_model extends CI_Model
 		return $query->result();
 	}
 
+	// get Product Variation
+	public function get_product_variation($product_id)
+	{
+		$product_id = clean_number($product_id);
+		$this->db->where("product_id", $product_id);
+		return $this->db->get("product_variations")->result();
+	}
+
 	//get seller order products
 	public function get_seller_order_products($order_id, $seller_id)
 	{
@@ -543,7 +560,7 @@ class Order_model extends CI_Model
 		if (!empty($order_product)) {
 			if ($order_product->seller_id == user()->id) {
 				$data = array(
-					'order_status' => $this->input->post('order_status', true),
+					'order_status' => $this->input->post('status', true),
 					'is_approved' => 0,
 					'updated_at' => date('Y-m-d H:i:s'),
 				);
@@ -593,6 +610,7 @@ class Order_model extends CI_Model
 	//add bank transfer payment report
 	public function add_bank_transfer_payment_report()
 	{
+
 		$data = array(
 			'order_number' => $this->input->post('order_number', true),
 			'payment_note' => $this->input->post('payment_note', true),
@@ -617,8 +635,34 @@ class Order_model extends CI_Model
 		if (!empty($file_path)) {
 			$data["receipt_path"] = $file_path;
 		}
+		$this->db->insert('bank_transfers', $data);
+		$get_order_id = $this->db->select("orders.id")->from("orders")->join("bank_transfers","bank_transfers.order_number = orders.order_number")->where("bank_transfers.order_number", $this->input->post('order_number', true))->get()->result();
+		$this->db->set("payment_status", "awaiting_verification");
+		$this->db->where("id", $get_order_id[0]->id);
+		$this->db->update("orders");
+		$this->db->set("payment_status","awaiting_verification");
+		$this->db->where("order_id", $get_order_id[0]->id);
+		return $this->db->update("transactions");
+	}
 
-		return $this->db->insert('bank_transfers', $data);
+	//add shipping note
+	public function add_shipping_note()
+	{
+		$data = array(
+			'shipping_note' => $this->input->post('shipping_note', true),
+			'receipt_path' => "",
+			'updated_at' => date('Y-m-d H:i:s')
+		);
+		if (auth_check()) {
+			$data["buyer_id"] = $this->input->post("buyer_id",true);
+			$data["buyer_type"] = "registered";
+		}
+		$this->load->model('upload_model');
+		$file_path = $this->upload_model->receipt_upload('file');
+		if (!empty($file_path)) {
+			$data["receipt_path"] = $file_path;
+		}
+		return $this->db->update('orders', $data,['id'=>$this->input->post("order_id")]);
 	}
 
 	//get sales count
@@ -629,7 +673,8 @@ class Order_model extends CI_Model
 		$this->db->select('orders.id');
 		$this->db->group_by('orders.id');
 		$this->db->where('order_products.seller_id', $user_id);
-		$this->db->where('order_products.order_status !=', 'completed');
+		$this->db->where('order_products.is_approved', '0');
+		$this->db->where('orders.payment_status', 'payment_received');
 		$query = $this->db->get('orders');
 		return $query->num_rows();
 	}
@@ -642,7 +687,8 @@ class Order_model extends CI_Model
 		$this->db->select('orders.id');
 		$this->db->group_by('orders.id');
 		$this->db->where('order_products.seller_id', $user_id);
-		$this->db->where('order_products.order_status !=', 'completed');
+		$this->db->where('order_products.is_approved', '0');
+		$this->db->where('orders.payment_status', 'payment_received');
 		$this->db->order_by('orders.created_at', 'DESC');
 		$this->db->limit($per_page, $offset);
 		$query = $this->db->get('orders');
@@ -787,4 +833,30 @@ class Order_model extends CI_Model
 		}
 	}
 
+	// cancel order Product
+	public function request_cancel_order($order_number, $note_cancel)
+	{
+		$order_number = $this->input->post('order_number', true);
+		$data = array(
+			'request_cancel' => 1,
+			'note_cancel' => $this->input->post('note_cancel', true),
+			'updated_at' => date('Y-m-d H:i:s')
+		);
+		if (auth_check()) {
+			$data["buyer_id"] = user()->id;
+			$data["buyer_type"] = "registered";
+		}
+		return $this->db->update("orders", $data, ['order_number' => $order_number]);
+
+	}
+
+	public function cancel_order($order_id)
+	{
+		$this->db->where("id",$order_id);
+		$this->db->set(['status_cancel'=>1,'request_cancel'=>1]);
+		$this->db->update("orders");
+		$this->db->where("order_id",$order_id);
+		$this->db->set(['order_status'=>'cancelled']);
+		return $this->db->update("order_products");
+	}
 }

@@ -66,7 +66,7 @@
 		<?php endif; ?>
 		<p class="line-seperator"></p>
 		<p>
-			<strong><?php echo trans("total"); ?><span class="float-right total_pd"><?php echo print_price($cart_total->total, $this->payment_settings->default_product_currency); ?></span></strong>
+			<strong><?php echo trans("total"); ?><span class="float-right total_pd"><?php echo print_price(($cart_total->subtotal + $cart_total->shipping_cost), $this->payment_settings->default_product_currency); ?></span></strong>
 		</p>
 
 	</div>

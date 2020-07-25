@@ -120,6 +120,7 @@ class Order_controller extends Home_Core_Controller
 		}
 		$data["order_products"] = $this->order_model->get_order_products($data["order"]->id);
 		$data["order_shipping"] = $this->order_model->get_order_shipping($data["order"]->id);
+		// $data["order_variation"] = $this->order_model->get_product_variation($data['order_products'][0]->id);
 		
 		$data["last_bank_transfer"] = $this->order_admin_model->get_bank_transfer_by_order_number($data["order"]->order_number);
 
@@ -144,6 +145,15 @@ class Order_controller extends Home_Core_Controller
 	public function bank_transfer_payment_report_post()
 	{
 		$this->order_model->add_bank_transfer_payment_report();
+		$this->session->set_flashdata("confirm_bank_transfer","done");
+		redirect($this->agent->referrer());
+	}
+
+	// Shipping note
+	public function shipping_report_post()
+	{
+		$this->order_model->add_shipping_note();
+		$this->update_order_product_status_post();
 		redirect($this->agent->referrer());
 	}
 
@@ -246,7 +256,7 @@ class Order_controller extends Home_Core_Controller
 	 */
 	public function update_order_product_status_post()
 	{
-		$id = $this->input->post('id', true);
+		$id = $this->input->post('product_id', true);
 		$order_product = $this->order_model->get_order_product($id);
 		if (!empty($order_product)) {
 			if ($this->order_model->update_order_product_status($id)) {
@@ -282,7 +292,6 @@ class Order_controller extends Home_Core_Controller
 	 */
 	public function approve_order_product_post()
 	{
-		$order_id = $this->input->post('order_product_id', true);
 		$order_product_id = $this->input->post('order_product_id', true);
 		if ($this->order_model->approve_order_product($order_product_id)) {
 			//order product
@@ -292,6 +301,23 @@ class Order_controller extends Home_Core_Controller
 			//update order status
 			$this->order_admin_model->update_order_status_if_completed($order_product->order_id);
 		}
+	}
+	
+	/**
+	 * Cancel Order
+	 */
+	public function report_cancel_order()
+	{
+		$order_number = $this->input->post('order_number', true);
+		$note_cancel = $this->input->post('note_cancel', true);
+		$query = $this->order_model->request_cancel_order($order_number,$note_cancel);
+		redirect($this->agent->referrer());
+	}
+
+	public function cancel_order()
+	{
+		$this->order_model->cancel_order($this->input->post("order_id"));
+		redirect($this->agent->referrer());
 	}
 
 }

@@ -14,7 +14,7 @@ $active_classes = 'fade active show';
                     <tr>
                         <th scope="col"><?php echo trans("sale"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
-                        <th scope="col"><?php echo trans("payment"); ?></th>
+                        <th scope="col" class="hidden"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
@@ -30,7 +30,7 @@ $active_classes = 'fade active show';
                                 <tr>
                                     <td>#<?php echo $sale->order_number; ?></td>
                                     <td><?php echo print_price($total, $sale->price_currency); ?></td>
-                                    <td>
+                                    <td class="hidden">
                                         <?php if ($sale->payment_status == 'payment_received'):
                                             echo trans("payment_received");
                                         else:
@@ -41,7 +41,7 @@ $active_classes = 'fade active show';
                                         <strong class="font-600">
                                             <?php
                                             if ($sale->payment_status == 'awaiting_payment'):
-                                                if ($sale->payment_method == 'Cash On Delivery') {
+                                                if ($sale->payment_method == 'Bank Transfer') {
                                                     echo trans("order_processing");
                                                 } else {
                                                     echo trans("awaiting_payment");
@@ -59,6 +59,11 @@ $active_classes = 'fade active show';
                                     <td>
                                         <a href="<?php echo lang_base_url(); ?>sale/<?php echo $sale->order_number; ?>"
                                             class="btn btn-sm btn-table-info"><?php echo trans("details"); ?></a>
+                                        <?php /*
+                                        <a href="<?php echo lang_base_url(); ?>sale/<?php echo html_escape($sale->order_number); ?>"
+                                        class="btn btn-primary order-detail-btn" data-id="<?php echo $sale->order_number; ?>"
+                                        data-title="#<?php echo $sale->order_number; ?>"><?php echo trans('details'); ?></a>
+                                        */ ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -96,7 +101,7 @@ $active_classes = 'fade active show';
                     <tr>
                         <th scope="col"><?php echo trans("sale"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
-                        <th scope="col"><?php echo trans("payment"); ?></th>
+                        <th scope="col" class="hidden"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
@@ -113,7 +118,7 @@ $active_classes = 'fade active show';
                                     <tr>
                                         <td>#<?php echo $sale->order_number; ?></td>
                                         <td><?php echo print_price($total, $sale->price_currency); ?></td>
-                                        <td>
+                                        <td class="hidden">
                                             <?php if ($sale->payment_status == 'payment_received'):
                                                 echo trans("payment_received");
                                             else:
@@ -122,7 +127,8 @@ $active_classes = 'fade active show';
                                         </td>
                                         <td>
                                             <strong class="font-600">
-                                                <?php
+                                            <?= trans("completed") ?>
+                                                <?php /*
                                                 if ($sale->payment_status == 'awaiting_payment'):
                                                     if ($sale->payment_method == 'Cash On Delivery') {
                                                         echo trans("order_processing");
@@ -135,7 +141,7 @@ $active_classes = 'fade active show';
                                                     else:
                                                         echo trans("completed");
                                                     endif;
-                                                endif; ?>
+                                                endif; */ ?>
                                             </strong>
                                         </td>
                                         <td><?php echo date("Y-m-d / h:i", strtotime($sale->created_at)); ?></td>

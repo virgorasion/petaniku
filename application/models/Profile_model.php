@@ -21,6 +21,11 @@ class Profile_model extends CI_Model
         return $this->db->update('users', $data);
     }
 
+    public function verify_ktp_post($data,$id)
+    {
+        $this->db->update("users",$data,$id);
+    }
+
     //update shop settings
     public function update_shop_settings()
     {
@@ -316,4 +321,30 @@ class Profile_model extends CI_Model
         $query = $this->db->get('users');
         return $query->row();
     }
+
+    //Set as Draft
+	public function set_as_draft($product_id)
+	{
+		$product_id = clean_number($product_id);
+        $data = array(
+            'is_draft' => 1,
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        $this->db->where('id', $product_id);
+        return $this->db->update('products', $data);
+	}
+
+	//Set as Published
+	public function set_as_publish($product_id)
+	{
+		$product_id = clean_number($product_id);
+        $data = array(
+            'visibility' => 1,
+            'is_draft' => 0,
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        $this->db->where('id', $product_id);
+        return $this->db->update('products', $data);
+    }
+    
 }

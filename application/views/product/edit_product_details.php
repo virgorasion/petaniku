@@ -28,6 +28,27 @@ if ($product->is_draft == 1) {
 				</nav>
 				<?php if ($product->is_draft == 1): ?>
 					<h1 class="page-title page-title-product"><?php echo trans("sell_now"); ?></h1>
+					<center>
+						<div class="col-md-8">
+							<div class="steps">
+								<div class="step-progress">
+									<div class="step-progress-line" <?= (@$_SESSION['style'] == 2)? 'data-now-value="33"': 'data-now-value="33"' ?> data-number-of-steps="3" <?= (@$_SESSION['style'] == 2)? 'style="width: 66%;"': 'style="width: 100%;"' ?>></div>
+								</div>
+								<div class="step active">
+									<div class="step-icon"><i class="icon-check"></i></div>
+									<p>Buat Produk</p>
+								</div>
+								<div class="step <?= (@$_SESSION['step'] == 2)? 'active' : '' ?>">
+									<div class="step-icon"><i class="icon-check"></i></div>
+									<p>Detail Produk</p>
+								</div>
+								<div class="step">
+									<div class="step-icon"><i class="icon-check"></i></div>
+									<p>Selesai</p>
+								</div>
+							</div>
+						</div>
+					</center>
 				<?php else: ?>
 					<h1 class="page-title page-title-product"><?php echo trans("edit_product"); ?></h1>
 				<?php endif; ?>

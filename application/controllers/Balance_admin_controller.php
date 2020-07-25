@@ -29,13 +29,29 @@ class Balance_admin_controller extends Admin_Core_Controller
         $this->load->view('admin/includes/_footer');
     }
 
+    public function deposit_details($id)
+    {
+        $data['title'] = "Deposit";
+
+        $data['deposit'] = $this->earnings_model->get_deposit_by_id($id);
+        $data['transaksi'] = $this->transaction_model->get_deposit_by_order_id($id);
+        if (empty($data['deposit'])) {
+            show_404();
+            return;
+        }
+
+        $this->load->view('admin/includes/_header', $data);
+        $this->load->view('admin/deposit/deposit_details', $data);
+        $this->load->view('admin/includes/_footer');
+    }
+
     public function deposit_requests()
     {
         $data['title'] = "Deposit Request";
         $data['form_action'] = admin_url() . "deposit-requests";
         //get paginated earnings
         $pagination = $this->paginate(admin_url() . 'deposit-requests', $this->earnings_admin_model->get_deposit_requests_count());
-        $data['payout_requests'] = $this->earnings_admin_model->get_paginated_deposit_requests($pagination['per_page'], $pagination['offset']);
+        $data['deposit_request'] = $this->earnings_admin_model->get_paginated_deposit_requests($pagination['per_page'], $pagination['offset']);
         
         $this->load->view('admin/includes/_header', $data);
         $this->load->view('admin/deposit/deposit_requests', $data);
@@ -53,6 +69,8 @@ class Balance_admin_controller extends Admin_Core_Controller
 
         //check user balance
         if ($this->earnings_admin_model->complete_deposit($payout_id, $user_id, $amount)) {
+            $this->earnings_admin_model->complete_deposit_transaction($payout_id, $user_id, $amount);
+
             $this->session->set_flashdata('success', trans("msg_updated"));
             redirect($this->agent->referrer());
         } else {

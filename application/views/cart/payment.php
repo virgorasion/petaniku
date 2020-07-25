@@ -106,3 +106,65 @@
 	</div>
 </div>
 <!-- Wrapper End-->
+<div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<br><br>
+				<h4 class=" text-center">
+				Silahkan melakukan transfer sebesar <br> <strong><?php echo print_price($order->price_total, $order->price_currency); ?></strong>					
+				</h4><br><br>
+				<?php echo $payment_settings->bank_transfer_accounts; ?>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="reportPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<?php echo form_open_multipart('order_controller/bank_transfer_payment_report_post'); ?>
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("report_bank_transfer"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="order_number" class="form-control form-input" value="<?php echo $_SESSION['order_number']; ?>">
+				<div class="form-group">
+					<label><?php echo trans("payment_note"); ?></label>
+					<textarea name="payment_note" class="form-control form-textarea" maxlength="499"></textarea>
+				</div>
+				<div class="form-group">
+					<label><?php echo trans("receipt"); ?>
+						<small>(.png, .jpg, .jpeg)</small>
+					</label>
+					<p>
+						<a class='btn btn-md btn-secondary btn-file-upload'>
+							<?php echo trans('select_image'); ?>
+							<input type="file" name="file" size="40" accept=".png, .jpg, .jpeg" onchange="$('#upload-file-info').html($(this).val());">
+						</a><br>
+						<span class='badge badge-info' id="upload-file-info"></span>
+					</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
+				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+			</div>
+			<?php echo form_close(); ?><!-- form end -->
+		</div>
+	</div>
+</div>

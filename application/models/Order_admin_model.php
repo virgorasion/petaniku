@@ -27,13 +27,19 @@ class Order_admin_model extends CI_Model
             );
             $this->db->where('id', $order_id);
             $this->db->update('orders', $data_order);
+            // Update Transactions
+            $data_order = array(
+                'payment_status' => "payment_received"
+            );
+            $this->db->where('order_id', $order_id);
+            $this->db->update('transactions', $data_order);
 
             //update order products payment status
             $order_products = $this->get_order_products($order_id);
             if (!empty($order_products)) {
                 foreach ($order_products as $order_product) {
                     $data = array(
-                        'order_status' => "payment_received",
+                        'order_status' => "order_processing",
                         'updated_at' => date('Y-m-d H:i:s'),
                     );
                     if ($order_product->product_type == 'digital') {
@@ -91,6 +97,7 @@ class Order_admin_model extends CI_Model
             );
             if ($all_complated == true) {
                 $data["status"] = 1;
+                $data["payment_status"] = "completed";
             }
             $this->db->where('id', $order_id);
             $this->db->update('orders', $data);
@@ -101,20 +108,33 @@ class Order_admin_model extends CI_Model
     public function update_payment_status_if_all_received($order_id)
     {
         $order_id = clean_number($order_id);
-        $all_received = true;
+        $payment_status = "";
         $order_products = $this->get_order_products($order_id);
         if (!empty($order_products)) {
             foreach ($order_products as $order_product) {
-                if ($order_product->order_status == "awaiting_payment" || $order_product->order_status == "order_processing" || $order_product->order_status == "cancelled") {
-                    $all_received = false;
+                if ($order_product->order_status == "awaiting_payment") {
+                    $payment_status = "awaiting_payment";
+                }elseif ($order_product->order_status == "shipped"){
+                    $payment_status = "shipped";
+                }elseif($order_product->order_status == "cancelled"){
+                    $payment_status = "cancelled";
                 }
             }
-            $data = array(
-                'payment_status' => 'awaiting_payment',
-                'updated_at' => date('Y-m-d H:i:s'),
-            );
-            if ($all_received == true) {
-                $data["payment_status"] = 'payment_received';
+            if ($payment_status == "awaiting_payment") {
+                $data = array(
+                    'payment_status' => $payment_status,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
+            }elseif($payment_status == "shipped"){
+                $data = array(
+                    'payment_status' => $payment_status,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
+            }elseif($payment_status == "cancelled"){
+                $data = array(
+                    'payment_status' => $payment_status,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
             }
             $this->db->where('id', $order_id);
             $this->db->update('orders', $data);
@@ -183,6 +203,14 @@ class Order_admin_model extends CI_Model
         return $query->num_rows();
     }
 
+    //get orders limited
+    // public function get_orders_limited($limit)
+    // {
+    //     $this->db->limit($limit);
+    //     $query = $this->db->get('orders');
+    //     return $query->num_rows();
+    // }
+
     //get all orders count
     public function get_all_orders_count()
     {
@@ -191,12 +219,14 @@ class Order_admin_model extends CI_Model
     }
 
     //get orders limited
-    public function get_orders_limited($limit)
+    public function seller_registration($limit)
     {
         $limit = clean_number($limit);
-        $this->db->order_by('orders.created_at', 'DESC');
+        $this->db->where("is_active_shop_request",1);
+		$this->db->where_not_in('role','admin');
+		$this->db->order_by("created_at","desc");
         $this->db->limit($limit);
-        $query = $this->db->get('orders');
+        $query = $this->db->get('users');
         return $query->result();
     }
 

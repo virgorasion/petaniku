@@ -67,7 +67,7 @@ class Product_model extends Core_Model
 		if (empty($data["country_id"])) {
 			$data["country_id"] = 0;
 		}
-
+		$this->db->update("users",['seller_status'=>1],['id'=>user()->id]);
 		return $this->db->insert('products', $data);
 	}
 
@@ -101,6 +101,7 @@ class Product_model extends Core_Model
 			'km_price' => price_database_format($this->input->post('km_price', true)),
 			'is_draft' => 0,
 			'updated_at' => date('Y-m-d H:i:s'),
+			'status' => 0
 		);
 
 		$data["price"] = price_database_format($data["price"]);
@@ -170,6 +171,7 @@ class Product_model extends Core_Model
 			'listing_type' => $this->input->post('listing_type', true),
 			'description' => $this->input->post('description', false),
 			'updated_at' => date('Y-m-d H:i:s'),
+			'status' => 0
 		);
 		$data["slug"] = str_slug($data["title"]);
 

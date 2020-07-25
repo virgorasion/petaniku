@@ -17,6 +17,7 @@
 				</nav>
 				<?php if ($product->is_draft == 1): ?>
 					<h1 class="page-title page-title-product"><?php echo trans("sell_now"); ?></h1>
+
 				<?php else: ?>
 					<h1 class="page-title page-title-product"><?php echo trans("edit_product"); ?></h1>
 				<?php endif; ?>
@@ -168,7 +169,7 @@
 										</div>
 									</div>
 									<?php if ($product->is_draft != 1): ?>
-										<div class="form-box">
+										<div class="form-box hidden">
 											<div class="form-box-head">
 												<h4 class="title"><?php echo trans('options'); ?></h4>
 											</div>

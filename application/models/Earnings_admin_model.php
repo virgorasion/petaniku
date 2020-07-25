@@ -84,10 +84,15 @@ class Earnings_admin_model extends CI_Model
     {
         $id = clean_number($id);
         $this->db->where('id', $id);
-        $query = $this->db->get('deposit');
-        $row = $query->row();
+        $deposit = $this->db->get('deposit');
+        $row = $deposit->row();
+        $this->db->where("payment_id",$id);
+        $transaction = $this->db->get("transactions");
+        $trx = $transaction->row();
 
-        if (!empty($row)) {
+        if (!empty($row) && !empty($trx)) {
+            $this->db->where("payment_id",$id);
+            $this->db->delete("transactions");
             $this->db->where('id', $id);
             return $this->db->delete('deposit');
         } else {
@@ -143,17 +148,28 @@ class Earnings_admin_model extends CI_Model
     public function get_payout_requests_count()
     {
         $this->filter_payouts();
-        $this->db->where('payouts.status', 0);
+        // $this->db->where('payouts.status', 0);
         $query = $this->db->get('payouts');
         return $query->num_rows();
+    }
+
+    //get payout requests count
+    public function get_latest_payout_requests($limit)
+    {
+        $this->filter_payouts();
+        $this->db->where('payouts.status', 0);
+        $this->db->limit($limit);
+        $this->db->order_by('payouts.created_at', 'DESC');
+        $query = $this->db->get('payouts');
+        return $query->result();
     }
 
     //get paginated payout requests
     public function get_paginated_payout_requests($per_page, $offset)
     {
         $this->filter_payouts();
-        $this->db->where('payouts.status', 0);
-        $this->db->order_by('payouts.created_at', 'ASC');
+        // $this->db->where('payouts.status', 0);
+        $this->db->order_by('payouts.created_at', 'DESC');
         $this->db->limit($per_page, $offset);
         $query = $this->db->get('payouts');
         return $query->result();
@@ -255,13 +271,26 @@ class Earnings_admin_model extends CI_Model
         return false;
     }
 
+    public function complete_deposit_transaction($payout_id, $user_id, $amount)
+    {
+        $payout_id = clean_number($payout_id);
+        $user_id = clean_number($user_id);
+        $data = array(
+            'payment_status' => 'payment_received'
+        );
+
+        $this->db->where('payment_method', "Deposit");
+        $this->db->where('order_id', $payout_id);
+        return $this->db->update('transactions', $data);
+    }
+
     //check user balance
     public function check_user_balance($user_id, $amount)
     {
         $user_id = clean_number($user_id);
         $user = $this->auth_model->get_user($user_id);
         if (!empty($user)) {
-            if ($user->balance >= $amount) {
+            if ($user->wd_balance >= $amount) {
                 return true;
             }
         }
@@ -289,9 +318,9 @@ class Earnings_admin_model extends CI_Model
         $user_id = clean_number($user_id);
         $user = $this->auth_model->get_user($user_id);
         if (!empty($user)) {
-            $balance = $user->balance - $amount;
+            $balance = $user->wd_balance - $amount;
             $data = array(
-                'balance' => $balance
+                'wd_balance' => $balance
             );
             $this->db->where('id', $user_id);
             return $this->db->update('users', $data);

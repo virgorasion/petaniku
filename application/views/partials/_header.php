@@ -224,7 +224,7 @@ if ($language->id == $site_lang->id):?>
 															<?php echo trans("orders"); ?>
 														</a>
 													</li>
-													<?php if (is_user_vendor()): ?>
+													<?php if (is_user_vendor() && $this->auth_user->seller_status): ?>
 														<li>
 															<a href="<?php echo lang_base_url(); ?>sales">
 																<i class="icon-shopping-bag"></i>
@@ -256,7 +256,7 @@ if ($language->id == $site_lang->id):?>
 													<?php endif; ?>
 												<?php endif; ?>
                                                 <li>
-													<a target="blank" href="<?php echo lang_base_url(); ?>messages">
+													<a target="blank" href="<?php echo lang_base_url(); ?>inbox">
 														<i class="icon-mail"></i>
 														<?php echo trans("messages"); ?>
 														<?php if ($unread_message_count > 0): ?>
@@ -280,7 +280,11 @@ if ($language->id == $site_lang->id):?>
 										</li>
 
 										<?php if (is_multi_vendor_active()): ?>
-											<li class="nav-item"><a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
+											<?php if($this->auth_user->role != "vendor" && @$this->auth_user->role!="admin"): ?>
+												<li class="nav-item"><a href="#" data-toggle="modal" data-target="#warningVerifAccount" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
+											<?php else: ?>
+												<li class="nav-item"><a href="<?php echo lang_base_url(); ?>sell-now" class="btn btn-md btn-custom btn-sell-now"><?php echo trans("sell_now"); ?></a></li>
+											<?php endif ?>
 										<?php endif; ?>
 
 									<?php else: ?>
@@ -378,6 +382,7 @@ if ($language->id == $site_lang->id):?>
 					<h4 class="title"><?php echo trans("login"); ?></h4>
 					<!-- form start -->
 					<form id="form_login" novalidate="novalidate">
+						<input type="hidden" name="role_login" value="user">
 						<div class="social-login-cnt">
 							<?php $this->load->view("partials/_social_login", ["or_text" => trans("login_with_email")]); ?>
 						</div>
@@ -394,9 +399,11 @@ if ($language->id == $site_lang->id):?>
 						<div class="form-group">
 							<input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("password"); ?>" minlength="4" required>
 						</div>
-						<div class="form-group">
-							<?php generate_recaptcha(); ?>
-						</div>
+						<?php /* if ($recaptcha_status): ?>
+							<div class="recaptcha-cnt">
+								<?php generate_recaptcha(); ?>
+							</div>
+						<?php endif;*/ ?>
 						<div class="form-group text-right">
 							<a href="<?php echo lang_base_url(); ?>forgot-password" class="link-forgot-password"><?php echo trans("forgot_password"); ?></a>
 						</div>						
@@ -412,3 +419,26 @@ if ($language->id == $site_lang->id):?>
 		</div>
 	</div>
 <?php endif; ?>
+
+<?php if(@$this->auth_user->role != "vendor" && @$this->auth_user->role != "admin"): ?>
+	<!-- Modal -->
+	<div class="modal fade" id="warningVerifAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLongTitle">Perhatian !!!</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+			<h6>Untuk memulai menjual di Petaniku, identitas profil anda wajib terverifikasi. Lengkapi pofil dengan klik "EDIT" pada profil atau tekan tombol Lengkapi Profil</h6>
+		  </div>
+		  <div class="modal-footer">
+			<a href="<?= lang_base_url().'profile/'.@$this->auth_user->username ?>"><button type="button" data-toggle="modal" data-target="#editProfilModal" class="btn btn-primary">Lengkapi Profil</button></a>
+			<button type="button" class="btn btn-secondary text-light" data-dismiss="modal">Batalkan</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+<?php endif ?>

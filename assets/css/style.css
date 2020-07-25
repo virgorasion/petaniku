@@ -70,6 +70,95 @@ button {
 	outline: none !important;
 }
 
+.install-box {
+    width: 100%;
+    padding: 30px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    display: block;
+    float: left;
+    margin-bottom: 100px;
+}
+
+.steps {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+    padding: 30px 0;
+}
+
+.step {
+    float: left;
+    display: block;
+    padding: 0 5px;
+    position: relative;
+    width: 33%;
+    text-align: center;
+}
+
+.step p {
+    color: #ccc;
+}
+
+.step.active p {
+    color: #239CA1;
+}
+
+.step.active .step-icon {
+    background: #239CA1;
+    font-size: 22px;
+    height: 48px;
+    line-height: 48px;
+    margin-top: 0;
+    width: 48px;
+}
+
+.step.active .step-icon {
+    background: #239CA1;
+    font-size: 22px;
+    height: 48px;
+    line-height: 48px;
+    margin-top: 0;
+    width: 48px;
+}
+
+.step-icon {
+    background: #ddd;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 4px;
+    width: 40px;
+    text-align: center;
+    margin: auto;
+}
+
+.step-progress {
+    background: #ddd;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 54px;
+    width: 100%;
+}
+
+.step-progress-line {
+    background: #239CA1;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
 .btn {
 	font-size: 0.875rem;
 }

@@ -329,25 +329,54 @@ class Profile_controller extends Home_Core_Controller
 		$this->load->view('partials/_footer');
 	}
 
+	public function verify_ktp()
+	{
+        $this->load->model('upload_model');
+		$post = $this->input->post();
+		$data = [
+			'full_name' => $post['full_name'],
+			'is_active_shop_request' => 1,
+		];
+		$temp_ktp = $this->upload_model->upload_temp_image('foto_ktp');
+		$temp_selfi = $this->upload_model->upload_temp_image('foto_selfi');
+		$foto_ktp = $this->upload_model->verify_image_upload($temp_ktp,"ktp");
+		$this->upload_model->delete_temp_image($temp_ktp);
+		$foto_selfi = $this->upload_model->verify_image_upload($temp_selfi,"ktp");
+		$this->upload_model->delete_temp_image($temp_selfi);
+		$data['foto_ktp'] = $foto_ktp;
+		$data['foto_selfi'] = $foto_selfi;
+		$id = ['id' => $post['user_id']];
+		if($this->profile_model->verify_ktp_post($data,$id)){
+			$this->session->set_flashdata('success', "Verifikasi data telah dikirim. Silahkan tunggu persetujuan admin");
+		}
+		
+		redirect($this->agent->referrer());
+	}
+
 	/**
 	 * Update Profile Post
 	 */
 	public function update_profile_post()
 	{
+		// dd($this->input->post());
+		$user_id = user()->id;
 		//check user
 		if (!auth_check()) {
 			redirect(lang_base_url());
 		}
-
-		$user_id = user()->id;
+		$get_user = $this->profile_model->detail_user($user_id);
+		$checkEmail = ($get_user->email == $this->input->post('email'));
+		$checkPhone = ($get_user->phone_number == $this->input->post('shipping_phone_number'));
 		$action = $this->input->post('submit', true);
 
-		if ($action == "resend_activation_email") {
+		if (!$checkEmail) {
 			//send activation email
 			$this->load->model("email_model");
 			$this->email_model->send_email_activation($user_id);
 			$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
-			redirect($this->agent->referrer());
+			$data['email_status'] = 0;
+			$data['is_active_shop_request'] = 1;
+			// redirect($this->agent->referrer());
 		}
 
 		// if(!preg_match('/^[a-z0-9.]+$/i', $this->input->post('username', true))) {
@@ -364,18 +393,33 @@ class Profile_controller extends Home_Core_Controller
 		} else {
 
 			$data = array(
-				'username' => $this->input->post('username', true),
+				// 'username' => $this->input->post('username', true),
 				// 'slug' => str_slug($this->input->post('slug', true)),
 				'getNewsletter' => ($this->input->post("newsletter",true) == 1)? "1" : "0",
-				'email' => $this->input->post('email', true),
 				'shop_name' => $this->input->post('name', true),
 				'about_me' => $this->input->post('about_me', true),
 				// 'firstName' => $this->input->post('name', true),
+				'email' => $this->input->post('email', true),
+				'phone_number' => $this->input->post('shipping_phone_number', true),
 				'shipping_first_name' => $this->input->post('name', true),
 				'shipping_email' => $this->input->post('email', true),
-				'shipping_phone_number' => $this->input->post('shipping_phone_number', true),
 				'send_email_new_message' => $this->input->post('send_email_new_message', true)
 			);
+			
+			// if(!$checkEmail && !$checkPhone){
+			// 	$data['email_status'] = 0;
+			// 	$data['email'] = $this->input->post('email', true);
+			// 	$data['phone_number'] = $this->input->post('shipping_phone_number', true);
+			// 	$data['is_active_shop_request'] = 1;
+			// } elseif (!$checkPhone) {
+			// 	$data['phone_statusr'] = 0;
+			// 	$data['phone_number'] = $this->input->post('shipping_phone_number', true);
+			// 	$data['is_active_shop_request'] = 1;
+			// } elseif(!$checkEmail){
+			// 	$data['email_status'] = 0;
+			// 	$data['email'] = $this->input->post('email', true);
+			// 	$data['is_active_shop_request'] = 1;
+			// }
 
 			//is email unique
 			if (!$this->auth_model->is_unique_email($data["email"], $user_id)) {
@@ -415,7 +459,7 @@ class Profile_controller extends Home_Core_Controller
 			if ($this->profile_model->update_profile($data, $user_id)) {
 				$this->session->set_flashdata('success', trans("msg_updated"));
 				//check email changed
-				if(($_POST['tipe']!='update_profile')) {
+				if(!$checkEmail) {
 					if ($this->profile_model->check_email_updated($user_id)) {
 						$this->session->set_flashdata('success', trans("msg_send_confirmation_email"));
 					}
@@ -678,5 +722,57 @@ class Profile_controller extends Home_Core_Controller
 
 		$this->profile_model->follow_unfollow_user();
 		redirect($this->agent->referrer());
+	}
+
+	/**
+    * Set as Draft Product
+    */
+    public function set_draft()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->profile_model->set_as_draft($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_updated"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+    }
+
+    /**
+     * Set as Draft Product
+     */
+    public function set_publish()
+    {
+        $id = $this->input->post('id', true);
+        if ($this->profile_model->set_as_publish($id)) {
+            $this->session->set_flashdata('success', trans("msg_product_updated"));
+        } else {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        }
+	}
+	
+	public function send_otp()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => "https://auth.sms.to/oauth/token",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 0,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "POST",
+		CURLOPT_POSTFIELDS =>"{\n\t\"client_id\" : \"234\",\n\t\"secret\": \"Kn5TtQMMGx0BYU3ECctXG6m7l2BKmirq9FZ8YLbi\",\n\t\"expires_in\": 60\n}",
+		CURLOPT_HTTPHEADER => array(
+			"Accept: application/json",
+			"Content-Type: application/json"
+		),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		echo $response;
 	}
 }

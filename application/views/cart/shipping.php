@@ -52,6 +52,7 @@
                                             <div class="form-group">
                                             <?php if($product->pengiriman){ ?>
                                                 <?php $this->load->view('mapongkir-google', ['start' => $product->pengiriman]); ?>
+                                                <button class="btn btn-success btn-lg text-white mt-4 mb-3 w-100" type="button" id="getCurrentPosition">Ambil alamat otomatis</button>
                                                 <div class="card">
                                                     <div class="card-body" style="background:#939494;color:#FFF">
                                                         Pilih tujuan pengiriman dari maps. Untuk mencari lokasi dengan pencarian, Anda dapat mengklik zoom out / simbol minus terlebih dahulu.
@@ -96,6 +97,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label><?php echo trans("address"); ?> *</label>
+                                                <input type="hidden" name="variation<?php echo $_SESSION['mds_shopping_cart'][0]->paket_id; ?>[]" value="<?= $_SESSION['mds_shopping_cart'][0]->paket_title ?>">
+                                                <input type="hidden" name="paket_id<?php echo $_SESSION['mds_shopping_cart'][0]->paket_id; ?>[]" value="<?= $_SESSION['mds_shopping_cart'][0]->paket_id ?>">
+                                                <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
                                                 <input id="inp_ongkir" type="hidden" name="ongkir" value="">
                                                 <input id="inp_total_km" type="hidden" name="total_km" value="0">
                                                 <input id="inp_harga_km" type="hidden" name="harga_per_km" value="0">
@@ -300,6 +304,9 @@
     function getLongLat(lokasi) {
         var lok = lokasi.lat + "," + lokasi.lng;
         $('#inp_koordinat').val(lok);
+    }
+    const getCurrentPosition = () => {
+        // 
     }
 
     function convertToRupiah(angka)

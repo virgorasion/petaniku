@@ -25,16 +25,15 @@
                             <th><?php echo trans('date'); ?></th>
                             <!-- <th><?php echo trans('user_id'); ?></th> -->
                             <th><?php echo trans('user'); ?></th>
-                            <th>Detail Bank</th>
+                            <!-- <th>Detail Bank</th> -->
                             <th>Jumlah Deposit</th>
-                            <th>Jumlah Transfer (Deposit + Kode unik)</th>
                             <th><?php echo trans('status'); ?></th>
                             <th class="max-width-120"><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <?php foreach ($payout_requests as $item): ?>
+                        <?php foreach ($deposit_request as $item): ?>
                             <tr>
                                 <td><?php echo $item->created_at; ?></td>
                                 <!-- <td><?php echo $item->id; ?></td> -->
@@ -50,7 +49,7 @@
                                         </div>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td class="hidden">
                                     <p>
                                         Bank : <?= $item->bank_type ?> <br>
                                         Nama Bank : <?= $item->bank_name ?> <br>
@@ -61,7 +60,6 @@
                                     </p>
                                 </td>
                                 <td><?php echo print_price($item->amount, $item->currency); ?></td>
-                                <td><?php echo print_price($item->transfer, $item->currency); ?></td>
                                 <td>
                                     <?php if ($item->status == 1) { ?>
                                         <label class="label label-success"><?php echo trans("completed"); ?></label>
@@ -82,6 +80,10 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu options-dropdown">
+                                            <li>
+                                                <a href="<?=lang_base_url()?>admin/deposit-details/<?=$item->id?>" class="btn-list-button"><i class="fa fa-info option-icon"></i>Lihat Detail</a>
+                                            </li>
+                                            <?php /*
                                             <?php if ($item->status == 0): ?>
                                             <li>
                                                 <button type="submit" name="option" value="completed" class="btn-list-button">
@@ -92,6 +94,7 @@
                                             <li>
                                                 <a href="javascript:void(0)" onclick="delete_item('balance_admin_controller/delete_deposit_post','<?php echo $item->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
                                             </li>
+                                            */?>
                                         </ul>
                                     </div>
                                     <?php echo form_close(); ?>
@@ -103,7 +106,7 @@
                         </tbody>
                     </table>
 
-                    <?php if (empty($payout_requests)): ?>
+                    <?php if (empty($deposit_request)): ?>
                         <p class="text-center">
                             <?php echo trans("no_records_found"); ?>
                         </p>
@@ -122,7 +125,7 @@
     </div><!-- /.box-body -->
 </div>
 
-<?php foreach ($payout_requests as $item):
+<?php foreach ($deposit_request as $item):
     $payout = $this->earnings_model->get_user_payout_account($item->user_id);
     ?>
     <!-- Modal -->

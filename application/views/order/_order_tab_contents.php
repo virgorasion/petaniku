@@ -13,9 +13,9 @@ $active_classes = 'fade active show';
                 <thead>
                     <tr>
                         <th scope="col"><?php echo trans("order"); ?></th>
-                        <th scope="col"><?php echo trans("buyer"); ?></th>
+                        <th scope="col"><?php echo trans("seller"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
-                        <th scope="col"><?php echo trans("payment"); ?></th>
+                        <th scope="col" class="hidden"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
                         <th scope="col"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
@@ -25,22 +25,22 @@ $active_classes = 'fade active show';
                     <?php
                     if (!empty($orders)):
                         foreach ($orders as $order):
-                            $buyer = get_user($order->buyer_id);
+                            $seller = get_user($order->seller_id);
                             ?>
                             <tr>
                                 <td>#<?php echo $order->order_number; ?></td>
                                 <td>
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-auto">
-                                            <img src="<?php echo get_user_avatar($buyer); ?>" alt="buyer" class="rounded-circle img-responsive" style="height: 40px;">
+                                            <img src="<?php echo get_user_avatar($seller); ?>" alt="Seller" class="rounded-circle img-responsive" style="height: 40px;">
                                         </div>
                                         <div class="col pl-3">
-                                            <?php echo html_escape($buyer->username); ?>
+                                            <?php echo html_escape($seller->username); ?>
                                         </div>
                                     </div>
                                 </td>
                                 <td><?php echo print_price($order->price_total, $order->price_currency); ?></td>
-                                <td>
+                                <td class="hidden">
                                     <?php if ($order->payment_status == 'payment_received'):
                                         echo trans("payment_received");
                                     else:
@@ -102,8 +102,8 @@ $active_classes = 'fade active show';
                         <th scope="col"><?php echo trans("order"); ?></th>
                         <th scope="col"><?php echo trans("buyer"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
-                        <th scope="col"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>
+                        <!-- <th scope="col"><?php //echo trans("date"); ?></th> -->
                         <th scope="col"><?php echo trans("status"); ?></th>
                         <th scope="col"><?php echo trans("options"); ?></th>
                     </tr>
@@ -112,23 +112,23 @@ $active_classes = 'fade active show';
                     <?php
                         if (!empty($completed_orders)):
                             foreach ($completed_orders as $order):
-                                $buyer = get_user($order->buyer_id);
+                                $seller = get_user($order->seller_id);
                                 ?>
                                 <tr>
                                     <td>#<?php echo $order->order_number; ?></td>
                                     <td>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <img src="<?php echo get_user_avatar($buyer); ?>" alt="buyer"
+                                                <img src="<?php echo get_user_avatar($seller); ?>" alt="Seller"
                                                     class="rounded-circle img-responsive" style="height: 40px;">
                                             </div>
                                             <div class="col pl-3">
-                                                <?php echo html_escape($buyer->username); ?>
+                                                <?php echo html_escape($seller->username); ?>
                                             </div>
                                         </div>
                                     </td>
                                     <td><?php echo print_price($order->price_total, $order->price_currency); ?></td>
-                                    <td>
+                                    <td class="hidden">
                                         <?php if ($order->payment_status == 'payment_received'):
                                             echo trans("payment_received");
                                         else:
@@ -141,7 +141,7 @@ $active_classes = 'fade active show';
                                         $label_classes = 'badge-status-default';
                                         $label_text = trans($order->payment_status);
 
-                                        if (in_array($order->payment_status, ['payment_received'])) {
+                                        if (in_array($order->payment_status, ['payment_received','completed'])) {
                                             $label_classes = 'badge-status-success';
                                         }
                                         ?>

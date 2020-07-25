@@ -11,6 +11,11 @@ class Product_controller extends Home_Core_Controller
 		$this->product_per_page = 18;
 	}
 
+	public function response($data) {
+		$this->output->set_content_type('application/json');
+		$this->output->setoutput(json_encode($data));
+	}
+
 	/**
 	 * Start Selling
 	 */
@@ -71,7 +76,8 @@ class Product_controller extends Home_Core_Controller
 			'phone_number' => $this->input->post('phone_number', true),
 			'about_me' => $this->input->post('about_me', true),
 			'foto_ktp' => $foto_ktp,
-			'foto_selfi' => $foto_selfi
+			'foto_selfi' => $foto_selfi,
+			'full_name' => $this->input->post("full_name")
 		);
 
 
@@ -164,7 +170,8 @@ class Product_controller extends Home_Core_Controller
 				$this->product_model->update_slug($last_id);
 				//add product images
 				$this->file_model->add_product_images($last_id);
-	
+				$this->session->set_flashdata("step",2);
+				$this->session->set_flashdata("style",2);
 				redirect(lang_base_url() . 'sell-now/product-details/' . $last_id);
 			} else {
 				$this->session->set_flashdata('error', trans("msg_error"));
@@ -428,6 +435,8 @@ class Product_controller extends Home_Core_Controller
 					exit();
 				}
 				if ($this->promoted_products_enabled == 1) {
+					$this->session->set_flashdata("step",3);
+					$this->session->set_flashdata("style",3);
 					redirect(lang_base_url() . "promote-product/pricing/" . $product_id . "?type=new");
 				} else {
 					redirect(lang_base_url() . $product->slug);
@@ -686,6 +695,12 @@ class Product_controller extends Home_Core_Controller
 	//make review
 	public function make_review()
 	{
+		$data = [
+			// 'file' => $this->input->post('file')
+			'file' => 'haha'
+		];
+		echo $data;
+		return $this->response($data);
 		if (!$this->auth_check) {
 			exit();
 		}
@@ -696,6 +711,14 @@ class Product_controller extends Home_Core_Controller
 		$product_id = $this->input->post('product_id', true);
 		$review = $this->review_model->get_review($product_id, user()->id);
 		$data["product"] = $this->product_model->get_product_by_id($product_id);
+		$this->load->model('upload_model');
+
+		// $temp_path = $this->upload_model->upload_temp_image('file');
+		// if (!empty($temp_path)) {
+        //     $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
+		// 	$this->upload_model->delete_temp_image($temp_path);
+        //     $data['foto'] = $bukti;
+        // }
 
 		if (!empty($review)) {
 			echo "voted_error";

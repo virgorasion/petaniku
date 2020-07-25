@@ -68,7 +68,7 @@
                                     endif;
                                     ?>
                                 </td>
-                                <td><strong><?php echo print_price($item->price_total, $item->price_currency); ?></strong>
+                                <td><strong><?php echo print_price(($item->price_subtotal + $item->price_shipping), $item->price_currency); ?></strong>
                                 </td>
                                 <!-- <td><?php //echo $item->price_currency; ?></td> -->
                                 <td>
@@ -97,6 +97,7 @@
                                             <li>
                                                 <a href="<?php echo admin_url(); ?>order-details/<?php echo html_escape($item->id); ?>"><i class="fa fa-info option-icon"></i><?php echo trans('view_details'); ?></a>
                                             </li>
+                                            <?php /*
                                             <li>
                                                 <?php if ($item->payment_status != 'payment_received'): ?>
                                                 <button type="submit" name="option" value="payment_received"
@@ -106,11 +107,12 @@
                                                 </button>
                                                 <?php endif; ?>
                                             </li>
-                                            <!-- <li>
+                                            <li>
                                                 <a href="javascript:void(0)"
                                                     onclick="delete_item('order_admin_controller/delete_order_post','<?php echo $item->id; ?>','<?php echo trans("confirm_delete"); ?>');"><i
                                                         class="fa fa-trash option-icon"></i><?php echo trans('delete'); ?></a>
-                                            </li> -->
+                                            </li>
+                                            */ ?>
                                         </ul>
                                     </div>
                                     <?php echo form_close(); ?>

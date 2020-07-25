@@ -299,9 +299,11 @@ function send_activation_email_register(id, token) {
 
 //make review
 $(document).on('click', '#submit_review', function () {
+	var fromData = new FormData();
 	var user_rating = $.trim($('#user_rating').val());
 	var user_review = $.trim($('#user_review').val());
 	var product_id = $.trim($('#review_product_id').val());
+	var file = $('#file_review')[0].files[0];
 	var limit = parseInt($("#product_review_limit").val());
 	if (!user_rating) {
 		$('.rating-stars').addClass('invalid-rating');
@@ -314,12 +316,14 @@ $(document).on('click', '#submit_review', function () {
 		"rating": user_rating,
 		"product_id": product_id,
 		"limit": limit,
+		"file": file,
 		"lang_folder": lang_folder
 	};
 	data[csfr_token_name] = $.cookie(csfr_cookie_name);
 	$('#submit_review').prop("disabled", true);
 	$.ajax({
 		type: "POST",
+		enctype: "multipart/form-data",
 		url: base_url + "product_controller/make_review",
 		data: data,
 		success: function (response) {
@@ -1694,7 +1698,7 @@ $(document).ready(function () {
 	});
 });
 
-$(document).on("input keyup paste change", ".validate_price .price-input", function () {
+$(document).on("input keyup paste change", ".validate_price .deposit_price .price-input", function () {
 	var val = $(this).val();
 	val = val.replace(',', '.');
 	if ($.isNumeric(val) && val != 0) {
@@ -1716,7 +1720,7 @@ $('input[type=radio][name=product_type]').change(function () {
 });
 
 $(document).ready(function () {
-	$('.validate_price').submit(function (e) {
+	$('.validate_price .deposit_price').submit(function (e) {
 		$('.validate_price .validate-price-input').each(function () {
 			var val = $(this).val();
 			if (val != '') {

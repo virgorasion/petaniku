@@ -33,6 +33,21 @@ class Upload_model extends CI_Model
 		}
 	}
 
+		// Verify Upload
+		public function verify_image_upload($path, $folder)
+		{
+			try {
+				$image = new ImageResize($path);
+				$image->quality_jpg = 85;
+				$new_name = 'img_x500_' . generate_unique_id() . '.jpg';
+				$new_path = 'uploads/' . $folder . '/' . $new_name;
+				$image->save(FCPATH . $new_path, IMAGETYPE_JPEG);
+				return $new_name;
+			} catch (ImageResizeException $e) {
+				return null;
+			}
+		}
+
 	public function deposit_image_upload($path, $folder)
 	{
 		try {

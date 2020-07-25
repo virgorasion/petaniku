@@ -9,9 +9,9 @@ class Earnings_controller extends Home_Core_Controller
         if (!auth_check()) {
             redirect(lang_base_url());
         }
-        if (!is_user_vendor()) {
-            redirect(lang_base_url());
-        }
+        // if (!is_user_vendor()) {
+        //     redirect(lang_base_url());
+        // }
         if (!is_sale_active()) {
             redirect(lang_base_url());
         }
@@ -105,13 +105,15 @@ class Earnings_controller extends Home_Core_Controller
      */
     public function set_iban_payout_account_post()
     {
-        if ($this->earnings_model->set_iban_payout_account($this->user_id)) {
+        $test = $this->earnings_model->set_iban_payout_account($this->user_id);
+        if ($test) {
             $this->session->set_flashdata('msg_payout', "iban");
             $this->session->set_flashdata('success', trans("msg_updated"));
         } else {
             $this->session->set_flashdata('msg_payout', "iban");
             $this->session->set_flashdata('error', trans("msg_error"));
         }
+        // dd($test);
         redirect($this->agent->referrer());
     }
 
@@ -177,6 +179,8 @@ class Earnings_controller extends Home_Core_Controller
         if (!$this->earnings_model->withdraw_money($data)) {
             $this->session->set_flashdata('error', trans("msg_error"));
         }
+
+        $this->user_model->withdraw_balance($this->user_id,$data['amount']);
         redirect($this->agent->referrer());
     }
 }

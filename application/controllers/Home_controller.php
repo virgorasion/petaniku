@@ -8,7 +8,7 @@ class Home_controller extends Home_Core_Controller
 		parent::__construct();
 		$this->comment_limit = 6;
 		$this->blog_paginate_per_page = 12;
-		$this->product_paginate_per_page = 18;
+		$this->product_paginate_per_page = 8;
 		$this->promoted_products_limit = $this->general_settings->index_promoted_products_count;
 
 		// die(json_encode($_SESSION));
@@ -186,6 +186,7 @@ class Home_controller extends Home_Core_Controller
 		//get paginated posts
 		$link = lang_base_url() . 'products';
 		$pagination = $this->paginate($link, $this->product_model->get_paginated_filtered_products_count(null), $this->product_paginate_per_page);
+		// dd($pagination);
 		$data['products'] = $this->product_model->get_paginated_filtered_products(null, $pagination['per_page'], $pagination['offset']);
 		$data["categories"] = $this->category_model->get_parent_categories();
 
@@ -273,7 +274,7 @@ class Home_controller extends Home_Core_Controller
 		$slug = decode_slug($slug);
 		$this->review_limit = 5;
 		$this->comment_limit = 5;
-
+		
 		$data["product"] = $this->product_model->get_product_by_slug($slug);
 		if (empty($data['product'])) {
 			$this->error_404();
@@ -387,6 +388,42 @@ class Home_controller extends Home_Core_Controller
 			$this->load->view('partials/_footer');
 			//increase hit
 			$this->product_model->increase_product_hit($data["product"]);
+		}
+	}
+
+	//make review
+	public function make_review()
+	{
+		if (!$this->auth_check) {
+			exit();
+		}
+		if ($this->general_settings->product_reviews != 1) {
+			exit();
+		}
+		$limit = $this->input->post('limit', true);
+		$product_id = $this->input->post('product_id', true);
+		$review = $this->review_model->get_review($product_id, user()->id);
+		$data["product"] = $this->product_model->get_product_by_id($product_id);
+		
+		// $this->load->model('upload_model');
+		// $temp_path = $this->upload_model->upload_temp_image('file');
+		// if (!empty($temp_path)) {
+		//     $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
+		// 	$this->upload_model->delete_temp_image($temp_path);
+		//     $data['foto'] = $bukti;
+		// }
+
+		if (!empty($review)) {
+			echo "voted_error";
+		} elseif ($data["product"]->user_id == user()->id) {
+			echo "error_own_product";
+		} else {
+			$this->review_model->add_review();
+			$data["reviews"] = $this->review_model->get_limited_reviews($product_id, $limit);
+			$data['review_count'] = $this->review_model->get_review_count($data["product"]->id);
+			$data['review_limit'] = $limit;
+			$data["product"] = $this->product_model->get_product_by_id($product_id);
+			$this->load->view('product/details/_make_review', $data);
 		}
 	}
 

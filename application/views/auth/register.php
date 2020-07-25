@@ -47,11 +47,11 @@
 								<label for="checkbox_terms" class="custom-control-label"><?php echo trans("terms_conditions_exp"); ?>&nbsp;<a href="<?php echo lang_base_url(); ?>terms-conditions" class="link-terms" target="_blank"><strong><?php echo trans("terms_conditions"); ?></strong></a></label>
 							</div>
 						</div>
-						<?php if ($recaptcha_status): ?>
+						<?php /* if ($recaptcha_status): ?>
 							<div class="recaptcha-cnt">
 								<?php generate_recaptcha(); ?>
 							</div>
-						<?php endif; ?>
+						<?php endif;*/ ?>
 						<div class="form-group">
 							<button type="submit" class="btn btn-md btn-custom btn-block"><?php echo trans("register"); ?></button>
 						</div>

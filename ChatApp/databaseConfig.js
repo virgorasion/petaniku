@@ -9,7 +9,7 @@ function connection() {
                         host: '127.0.0.1',
                         user: 'root',
                         password: '',
-                        database: 'im_modesy',
+                        database: 'modesy',
                         timezone: 'utc',
                         connectionLimit: 10,
                         waitForConnections: true,
