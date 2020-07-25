@@ -83,8 +83,12 @@ class Order_model extends CI_Model
 				$this->load->model('bidding_model');
 				$this->bidding_model->set_bidding_quotes_as_completed_after_purchase();
 
-				//clear cart
-				$this->cart_model->clear_cart();
+				//make session cart_item_id & payment_method
+				$data_check = [
+					'cart_id' => $this->cart_model->get_sess_cart_items()[0]->cart_item_id,
+					'payment_option' => $this->cart_model->get_sess_cart_payment_method()->payment_option
+				];
+				$this->session->set_userdata("check_cart_order",$data_check);
 
 				return $order_id;
 			}

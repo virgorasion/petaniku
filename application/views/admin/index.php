@@ -230,7 +230,9 @@
                         </thead>
                         <tbody>
 
-                        <?php foreach ($latest_transactions as $item): ?>
+                        <?php foreach ($latest_transactions as $item):
+                        $order = get_order($item->order_id);
+                        ?>
                             <tr>
                                 <td><?php echo date("Y-m-d / h:i", strtotime($item->created_at)); ?></td>
                                 <td style="white-space: nowrap">#

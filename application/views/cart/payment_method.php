@@ -228,7 +228,7 @@
 											</div>
 											<div class="form-group">
 												<div class="custom-control custom-checkbox custom-control-validate-input">
-													<input type="checkbox" class="custom-control-input" name="terms" id="checkbox_terms" required>
+													<input type="checkbox" class="custom-control-input" name="terms_conditions" id="checkbox_terms" required>
 													<label for="checkbox_terms" class="custom-control-label"><?php echo trans("terms_conditions_exp"); ?>&nbsp;<a href="<?php echo lang_base_url(); ?>terms-conditions" class="link-terms" target="_blank"><strong><?php echo trans("terms_conditions"); ?></strong></a></label>
 												</div>
 											</div>

@@ -207,7 +207,18 @@ class Balance_controller extends Home_Core_Controller
         if (!$id_deposit) {
             $this->session->set_flashdata('error', trans("msg_error"));
         } else {
-            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar { $price }.Tunggu konfirmasi dari admin terlebih dahulu");            
+            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar $price ");            
+        }
+        redirect($this->agent->referrer());
+    }
+
+    public function confirmation_deposit()
+    {
+        $id = $this->input->post('id_deposit');
+        $price = "Rp".number_format($this->input->post('payment_amount'),0,',','.');
+        $query = $this->db->update("transactions",['payment_status'=>'awaiting_verification'],['payment_id'=>$id]);
+        if ($query) {
+            $this->session->set_flashdata('success', "Berhasil konfirmasi pembayaran sebesar $price. Silahkan tunggu konfirmasi dari admin");
         }
         redirect($this->agent->referrer());
     }

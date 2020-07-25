@@ -308,6 +308,9 @@ class Cart_controller extends Home_Core_Controller
 	 */
 	public function payment_method_post()
 	{
+		$this->cart_model->set_sess_cart_payment_method();
+		$mds_payment_type = $this->input->post('mds_payment_type', true);
+
 		if($_POST['payment_option'] == 'saldo') {
 			$cart = $this->cart_model->get_sess_cart_total();
 			$total = $cart->total;
@@ -318,11 +321,77 @@ class Cart_controller extends Home_Core_Controller
 				redirect($this->agent->referrer());
 				return;
 			}
+
+			if (@$_SESSION['check_cart_order']['cart_id'] != $this->cart_model->get_sess_cart_items()[0]->cart_item_id && @$_SESSION['check_cart_order']['payment_option'] != $this->cart_model->get_sess_cart_payment_method()->payment_option) {
+				// add to tabel transaksi
+				$cart_total = $this->cart_model->get_sess_cart_total();		
+				$payment_id = $this->input->post('payment_id', true);
+				$data_transaction = array(
+					'payment_method' => "Saldo",
+					'payment_id' => $payment_id,
+					'currency' => $cart_total->currency,
+					'payment_amount' => $cart_total->total,
+					'payment_status' => "payment_received",
+				);
+				$order_id = $this->order_model->add_order($data_transaction);
+
+				//add order
+				$this->session->set_userdata("order_id",$order_id);
+				$order = $this->order_model->get_order($order_id);
+				if (!empty($order)) {
+					//decrease saldo
+					$this->order_model->decrease_saldo($order);
+
+					//decrease product quantity after sale
+					$this->order_model->decrease_product_quantity_after_sale($order);
+
+					//send email
+					if ($this->general_settings->send_email_buyer_purchase == 1) {
+						$email_data = array(
+							'email_type' => 'new_order',
+							'order_id' => $order_id
+						);
+						$this->session->set_userdata('mds_send_email_data', json_encode($email_data));
+					}
+				}
+			}else{
+				$this->db->update("transactions",['payment_method'=>"Bank Transfer"],['order_id'=>@$_SESSION['order_id']]);
+				$this->db->update("orders",['payment_method'=>"Bank Transfer"],['id'=>@$_SESSION['order_id']]);
+			}
+		}elseif($_POST['payment_option'] == "bank_transfer") {
+			if (@$_SESSION['check_cart_order']['cart_id'] != $this->cart_model->get_sess_cart_items()[0]->cart_item_id && @$_SESSION['check_cart_order']['payment_option'] != $this->cart_model->get_sess_cart_payment_method()->payment_option) {
+				// add to tabel transaksi
+				$cart_total = $this->cart_model->get_sess_cart_total();				
+				$payment_id = $this->input->post('payment_id', true);
+				$data_transaction = array(
+					'payment_method' => "Bank Transfer",
+					'payment_id' => $payment_id,
+					'currency' => $cart_total->currency,
+					'payment_amount' => $cart_total->total,
+					'payment_status' => "awaiting_payment",
+				);
+				$order_id = $this->order_model->add_order($data_transaction);
+				// $order_id = $this->order_model->add_order_offline_payment("Bank Transfer");
+				$this->session->set_userdata("order_id",$order_id);
+				$order = $this->order_model->get_order($order_id);
+				if (!empty($order)) {
+					//decrease product quantity after sale
+					$this->order_model->decrease_product_quantity_after_sale($order);
+					//send email
+					if ($this->general_settings->send_email_buyer_purchase == 1) {
+						$email_data = array(
+							'email_type' => 'new_order',
+							'order_id' => $order_id
+						);
+						$this->session->set_userdata('mds_send_email_data', json_encode($email_data));
+					}
+					$this->session->set_userdata("order_number",$order->order_number);
+				}
+			}else{
+				$this->db->update("transactions",['payment_method'=>"Bank Transfer"],['order_id'=>@$_SESSION['order_id']]);
+				$this->db->update("orders",['payment_method'=>"Bank Transfer"],['id'=>@$_SESSION['order_id']]);
+			}
 		}
-
-		$this->cart_model->set_sess_cart_payment_method();
-
-		$mds_payment_type = $this->input->post('mds_payment_type', true);
 
 		if (!empty($mds_payment_type) && $mds_payment_type == 'promote') {
 			$transaction_number = 'bank-' . generate_transaction_number();
@@ -373,7 +442,9 @@ class Cart_controller extends Home_Core_Controller
 			$data['cart_total'] = null;
 		} else {
 			$data['cart_items'] = $this->cart_model->get_sess_cart_items();
+			// dd($data['cart_items']);
 			if ($data['cart_items'] == null) {
+				// dd($data['cart_items']);
 				redirect(lang_base_url() . "cart");
 			}
 			$data['cart_total'] = $this->cart_model->get_sess_cart_total();
@@ -382,6 +453,7 @@ class Cart_controller extends Home_Core_Controller
 			//total amount
 			$data['total_amount'] = $data['cart_total']->total;
 			$data['currency'] = $this->payment_settings->default_product_currency;
+			$data['order'] = $this->order_model->get_order($_SESSION['order_id']);
 		}
 
 		//check pagseguro
@@ -695,34 +767,14 @@ class Cart_controller extends Home_Core_Controller
 		// 	$this->session->set_flashdata('error', trans("msg_error"));
 		// 	redirect(lang_base_url() . "/cart/payment");
 		// } else {
-			//add order
+			
+			//Clear Cart
+			$this->cart_model->clear_cart();
 
-			// add to tabel transaksi
-			$cart_total = $this->cart_model->get_sess_cart_total();				
-			$payment_id = $this->input->post('payment_id', true);
-			$data_transaction = array(
-				'payment_method' => "Bank Transfer",
-				'payment_id' => $payment_id,
-				'currency' => $cart_total->currency,
-				'payment_amount' => $cart_total->total,
-				'payment_status' => "awaiting_payment",
-			);
-			$order_id = $this->order_model->add_order($data_transaction);
-
+			$order_id = $_SESSION['order_id'];
 			// $order_id = $this->order_model->add_order_offline_payment("Bank Transfer");
 			$order = $this->order_model->get_order($order_id);
 			if (!empty($order)) {
-				//decrease product quantity after sale
-				$this->order_model->decrease_product_quantity_after_sale($order);
-				//send email
-				if ($this->general_settings->send_email_buyer_purchase == 1) {
-					$email_data = array(
-						'email_type' => 'new_order',
-						'order_id' => $order_id
-					);
-					$this->session->set_userdata('mds_send_email_data', json_encode($email_data));
-				}
-
 				if ($order->buyer_id == 0) {
 					$this->session->set_userdata('mds_show_order_completed_page', 1);
 					redirect(lang_base_url() . "order-completed/" . $order->order_number);

@@ -115,7 +115,6 @@
                         <?php endif; ?>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
@@ -230,7 +229,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 
  <!-- Verifikasi Nama Lengkap & Foto KTP -->
  <div class="modal" id="verifikasiFoto" tabindex="-1" role="dialog">
