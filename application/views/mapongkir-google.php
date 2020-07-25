@@ -259,11 +259,20 @@
         }, callback);
     }
 
-    function toKm (m) {
-	// insert comment for commit purpose
-	let res = m / 1000;
-	return Math.ceil(res);
-	// return (Math.round(res * 2) / 2).toFixed(1);
+    function toKm (m, withDoubleParams = null) {
+        // insert comment for commit purpose
+	    let res = m / 1000;
+
+		if (withDoubleParams) {
+		    return Math.ceil(res);
+		}
+	    
+		let round = Math.ceil(res);
+		return {
+	        original: res,
+		    round: round,
+		};
+		// return (Math.round(res * 2) / 2).toFixed(1);
     }
     function callback(response, status) {
         var distance = 0;

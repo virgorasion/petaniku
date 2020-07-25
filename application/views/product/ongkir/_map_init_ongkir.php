@@ -4,6 +4,8 @@ $this->load->view('mapinit-google', ['start' => $product->pengiriman]);
 
 ?>
 
+<button class="w-100 btn btn-success btn-lg rounded text-white mt-4" type="button" onclick="getCurrentLocation()">Ambil alamat otomatis</button>
+
 <div class="card">
     <div class="card-body" style="background:#939494;color:#FFF">
         Pilih lokasi pengiriman dari maps. Untuk mencari lokasi dengan pencarian, Anda dapat mengklik zoom out / simbol minus terlebih dahulu.
@@ -30,7 +32,16 @@ $this->load->view('mapinit-google', ['start' => $product->pengiriman]);
 </div>
 
 <script>
-    function getClicked(latlng) {
+	function getClicked(latlng) {
+		console.log(latlng)
         $('#input_pengiriman').val(latlng);
-    }
+	}
+	function getCurrentLocation() {
+		navigator.geolocation.getCurrentPosition(pos => {
+			let lat = pos.coords.latitude;
+			let lng = pos.coords.longitude;
+			let data = [lat, lng];
+			getClicked(data)
+		});
+	}
 </script>
