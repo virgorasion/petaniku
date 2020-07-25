@@ -765,7 +765,7 @@
                                     <td><?php echo trans('receipt'); ?></td>
                                     <td>
                                         <?php if (!empty($bank_tf->receipt_path)): ?>
-                                            <a class="magnific-image-popup" href="<?php echo base_url() . $bank_tf->receipt_path; ?>">
+                                            <a target="_blank" href="<?php echo base_url() . $bank_tf->receipt_path; ?>">
                                                 <img src="<?php echo base_url() . $bank_tf->receipt_path; ?>" alt="" style="max-width: 60px; max-height: 60px;">
                                             </a>
                                         <?php endif; ?>
