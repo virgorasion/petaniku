@@ -260,7 +260,8 @@
     }
 
     function toKm (m) {
-      return m / 1000;
+        let res = m / 1000;
+	return (Math.round(res * 2) / 2).toFixed(1);
     }
     function callback(response, status) {
         var distance = 0;
