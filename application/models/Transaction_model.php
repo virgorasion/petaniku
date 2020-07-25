@@ -21,6 +21,13 @@ class Transaction_model extends CI_Model
         }
     }
 
+    public function get_transaction_payment_id($id)
+    {
+        $id = clean_number($id);
+        $this->db->where("payment_id",$id);
+        return $this->db->get("transactions")->row();
+    }
+
     public function get_deposit_by_order_id($id)
     {
         $id = clean_number($id);
@@ -54,7 +61,6 @@ class Transaction_model extends CI_Model
         $limit = clean_number($limit);
         $this->db->order_by('transactions.created_at', 'DESC');
         $this->db->where("payment_status","awaiting_verification");
-        $this->db->or_where("payment_status","awaiting_payment");
         $this->db->limit($limit);
         $query = $this->db->get('transactions');
         return $query->result();

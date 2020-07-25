@@ -20,13 +20,11 @@
                     <span class="last-seen <?php echo (is_user_online($user->last_seen)) ? 'last-seen-online' : ''; ?>"> <i class="icon-circle"></i> <?php echo trans("last_seen"); ?>&nbsp;<?php echo time_ago($user->last_seen); ?></span>
                 </p>
             </div>
-            <?php if ($user->role == 'admin' || $user->role == 'vendor'): ?>
                 <div class="row-custom">
                     <p class="description">
                         <?php echo html_escape($user->about_me); ?>
                     </p>
                 </div>
-            <?php endif; ?>
 
             <?php if(user() != null): ?>
                 <?php if (user()->id == $user->id): ?>
@@ -115,7 +113,6 @@
                         <?php endif; ?>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
@@ -230,7 +227,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 
  <!-- Verifikasi Nama Lengkap & Foto KTP -->
  <div class="modal" id="verifikasiFoto" tabindex="-1" role="dialog">

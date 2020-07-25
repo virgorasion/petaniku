@@ -12,7 +12,7 @@
 <div class="box">
 	<div class="box-header with-border">
 		<div class="left">
-			<h3 class="box-title"><?php echo trans('shop_opening_requests'); ?></h3>
+			<h3 class="box-title"><?php echo "Permintaan Verifikasi Akun"; ?></h3>
 		</div>
 	</div><!-- /.box-header -->
 
@@ -31,12 +31,9 @@
 						<thead>
 						<tr role="row">
 							<th><?php echo trans('date'); ?></th>
-							<th><?php echo trans('image'); ?></th>
 							<th><?php echo trans('username'); ?></th>
-							<th><?php echo trans('shop_name'); ?></th>
-							<th><?php echo trans('email'); ?></th>
-							<th><?php echo trans('shop_description'); ?></th>
-							<th>Persyaratan</th>
+							<th><?php echo trans('full_name'); ?></th>
+							<th><?php echo "Persyaratan"; ?></th>
 							<th class="max-width-120"><?php echo trans('options'); ?></th>
 						</tr>
 						</thead>
@@ -46,19 +43,10 @@
 							<tr>
 								<td><?php echo $user->created_at; ?></td>
 								<td>
-									<a class="magnific-image-popup" href="<?php echo get_user_avatar($user); ?>">
-									<img src="<?php echo get_user_avatar($user); ?>" alt="user" class="magnific-image-popup img-responsive" style="height: 50px;">
-									</a>
-								</td>
-								<td>
                                     <?php echo html_escape($user->username); ?>
-                                    <?php if($user->getNewsletter): ?>
-                                        <span class="label label-success"><i class="fa fa-check"></i></span>
-                                    <?php endif ?>
-                                    <br>
-                                    (<?= html_escape($user->full_name)?>)
                                 </td>
-								<td><?php echo html_escape($user->shop_name); ?></td>
+								<td><?php echo html_escape($user->full_name); ?></td>
+								<?php /*
 								<td>
                                     <?php echo html_escape($user->email);
                                     if ($user->email_status == 1): ?>
@@ -73,8 +61,8 @@
                                     <?php else: ?>
                                         <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
                                     <?php endif; ?>
-                                </td>
-								<td><?php echo html_escape($user->about_me); ?></td>
+								</td>
+								*/?>
 								<td>
 									<button class="btn btn-default btn-block" data-toggle="modal" data-target="#ktpModal<?= $user->id ?>">Foto KTP & Selfi</button>
 								</td>

@@ -106,8 +106,32 @@
 	</div>
 </div>
 <!-- Wrapper End-->
+<?php /*
+<div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<br><br>
+				<h4 class=" text-center">
+				Silahkan melakukan transfer sebesar <br> <strong><?php echo print_price($order->price_total, $order->price_currency); ?></strong>					
+				</h4><br><br>
+				<?php echo $payment_settings->bank_transfer_accounts; ?>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>				
+			</div>
+		</div>
+	</div>
+</div>
+*/ ?>
 
-<!-- Modal -->
 <div class="modal fade" id="reportPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">

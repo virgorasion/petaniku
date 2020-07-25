@@ -13,7 +13,7 @@ $active_classes = 'fade active show';
                 <thead>
                     <tr>
                         <th scope="col"><?php echo trans("order"); ?></th>
-                        <th scope="col"><?php echo trans("buyer"); ?></th>
+                        <th scope="col"><?php echo trans("seller"); ?></th>
                         <th scope="col"><?php echo trans("total"); ?></th>
                         <th scope="col" class="hidden"><?php echo trans("payment"); ?></th>
                         <th scope="col"><?php echo trans("date"); ?></th>

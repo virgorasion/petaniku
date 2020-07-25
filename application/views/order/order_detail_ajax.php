@@ -55,10 +55,10 @@
                                     <span class="text-info">(<?php echo trans("pending"); ?>)</span>
                                 <?php elseif ($last_bank_transfer->status == "declined"): ?>
                                     <span class="text-danger">(<?php echo trans("bank_transfer_declined"); ?>)</span>
-                                    <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
+                                    <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#infoPaymentModal"><?php echo trans("transfer_info"); ?></button>
                                 <?php endif; ?>
                             <?php else: ?>
-                                <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
+                                <button type="button" class="btn btn-sm btn-secondary color-white" data-toggle="modal" data-target="#infoPaymentModal"><?php echo trans("transfer_info"); ?></button>
                             <?php endif; ?>
 
                         <?php endif; ?>
@@ -341,7 +341,7 @@
                                                     <?php else: ?>
                                                         <?php if ($item->order_status == "shipped"): ?>
                                                             <button type="submit" class="btn btn-sm btn-custom mb-1" data-toggle="modal" data-target="#shippingNote"><i class=""></i><?php echo trans("shipping_seller_note"); ?></button>
-                                                            <button type="submit" class="btn btn-sm btn-custom" onclick="approve_order_product('<?php echo $item->id; ?>','<?php echo trans("confirm_approve_order"); ?>');"><i class="icon-check"></i><?php echo trans("confirm_order_received"); ?></button>
+                                                            <button type="submit" class="btn btn-sm btn-custom" onclick="approve_order_product('<?php echo $item->id; ?>','<?php echo trans("transfer_info"); ?>');"><i class="icon-check"></i><?php echo trans("confirm_order_received"); ?></button>
                                                             <small class="text-confirm-order-table"><?php echo trans("confirm_order_received_exp"); ?></small>
                                                             <!-- Modal -->
                                                             <div id="shippingNote" class="modal fade" 
@@ -474,7 +474,7 @@
                             <span class=""> <?php echo trans("total"); ?></span>
                         </div>
                         <div class="col-sm-6 small text-left text-sm-right">
-                            <strong class="text-right"><?php echo print_price($order->price_total, $order->price_currency); ?></strong>
+                            <strong class="text-right"><?php echo print_price(($order->price_subtotal + $order->price_shipping), $order->price_currency); ?></strong>
                         </div>
                     </div>
                 </div>
@@ -487,6 +487,30 @@
     </div>
 </div>
 <!-- Wrapper End-->
+
+<div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<br><br>
+				<h4 class=" text-center">
+				Silahkan melakukan transfer sebesar <br> <strong><?php echo print_price($order->price_total, $order->price_currency); ?></strong>					
+				</h4><br><br>
+				<?php echo $payment_settings->bank_transfer_accounts; ?>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("report_bank_transfer"); ?></button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="reportPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">

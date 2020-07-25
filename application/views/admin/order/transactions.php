@@ -290,7 +290,7 @@
                                     if (!empty($user)):?>
                                         <div class="table-orders-user">
                                             <a href="<?php echo base_url(); ?>profile/<?php echo $user->slug; ?>" class="table-link" target="_blank">
-                                                <?php echo html_escape($user->shipping_first_name); ?>
+                                                <?php echo html_escape($user->username); ?>
                                             </a>
                                         </div>
                                     <?php endif;

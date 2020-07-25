@@ -203,6 +203,14 @@ class Order_admin_model extends CI_Model
         return $query->num_rows();
     }
 
+    //get orders limited
+    // public function get_orders_limited($limit)
+    // {
+    //     $this->db->limit($limit);
+    //     $query = $this->db->get('orders');
+    //     return $query->num_rows();
+    // }
+
     //get all orders count
     public function get_all_orders_count()
     {
