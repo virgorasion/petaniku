@@ -260,6 +260,7 @@
     }
 
     function toKm (m) {
+	// insert comment for commit purpose
 	let res = m / 1000;
 	return Math.ceil(res);
 	// return (Math.round(res * 2) / 2).toFixed(1);
