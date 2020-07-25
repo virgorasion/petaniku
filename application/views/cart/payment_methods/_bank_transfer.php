@@ -36,7 +36,9 @@
 			<!-- <button type="button" name="konfirmasi_pembayaran" class="btn btn-lg btn-custom float-right ml-1" data-target="#reportPaymentModal" data-toggle="modal"><?php //echo "Konfirmasi Pembayaran" ?></button> -->
 			<div class="row float-right">
 				<button type="submit" name="submit" value="update" class="btn btn-md btn-custom mr-2"><?php echo trans("order_details") ?></button>
-				<button type="button" class="btn btn-md btn-custom" data-toggle="modal" data-target="#reportPaymentModal"><?php echo trans("confirm_payment") ?></button>
+				<?php if(!@$_SESSION['confirm_bank_transfer'] == "done"): ?>
+				<button type="button" class="btn btn-md btn-custom" data-toggle="modal" data-target="#infoPaymentModal"><?php echo trans("confirm_payment") ?></button>
+				<?php endif ?>
 			</div>
 		</div>
 		<?php echo form_close(); ?>

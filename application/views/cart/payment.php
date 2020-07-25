@@ -106,7 +106,6 @@
 	</div>
 </div>
 <!-- Wrapper End-->
-<?php /*
 <div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">
@@ -130,7 +129,6 @@
 		</div>
 	</div>
 </div>
-*/ ?>
 
 <div class="modal fade" id="reportPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">

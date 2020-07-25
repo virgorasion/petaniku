@@ -25,17 +25,17 @@ $active_classes = 'fade active show';
                     <?php
                     if (!empty($orders)):
                         foreach ($orders as $order):
-                            $buyer = get_user($order->buyer_id);
+                            $seller = get_user($order->seller_id);
                             ?>
                             <tr>
                                 <td>#<?php echo $order->order_number; ?></td>
                                 <td>
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-auto">
-                                            <img src="<?php echo get_user_avatar($buyer); ?>" alt="buyer" class="rounded-circle img-responsive" style="height: 40px;">
+                                            <img src="<?php echo get_user_avatar($seller); ?>" alt="Seller" class="rounded-circle img-responsive" style="height: 40px;">
                                         </div>
                                         <div class="col pl-3">
-                                            <?php echo html_escape($buyer->username); ?>
+                                            <?php echo html_escape($seller->username); ?>
                                         </div>
                                     </div>
                                 </td>
@@ -112,18 +112,18 @@ $active_classes = 'fade active show';
                     <?php
                         if (!empty($completed_orders)):
                             foreach ($completed_orders as $order):
-                                $buyer = get_user($order->buyer_id);
+                                $seller = get_user($order->seller_id);
                                 ?>
                                 <tr>
                                     <td>#<?php echo $order->order_number; ?></td>
                                     <td>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <img src="<?php echo get_user_avatar($buyer); ?>" alt="buyer"
+                                                <img src="<?php echo get_user_avatar($seller); ?>" alt="Seller"
                                                     class="rounded-circle img-responsive" style="height: 40px;">
                                             </div>
                                             <div class="col pl-3">
-                                                <?php echo html_escape($buyer->username); ?>
+                                                <?php echo html_escape($seller->username); ?>
                                             </div>
                                         </div>
                                     </td>
