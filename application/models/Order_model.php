@@ -36,6 +36,7 @@ class Order_model extends CI_Model
 			$data = array(
 				'order_number' => uniqid(),
 				'buyer_id' => 0,
+				'seller_id' => 0,
 				'buyer_type' => "guest",
 				'price_subtotal' => $cart_total->subtotal,
 				'price_shipping' => $cart_total->shipping_cost,
@@ -48,6 +49,10 @@ class Order_model extends CI_Model
 				'updated_at' => date('Y-m-d H:i:s'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
+
+			$cart_items = $this->cart_model->get_sess_cart_items();
+			$product = get_available_product($cart_item->product_id);
+			$data['seller_id'] = $product->user_id;
 
 			//if cart does not have physical product
 			if ($this->cart_model->check_cart_has_physical_product() != true) {

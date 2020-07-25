@@ -215,7 +215,7 @@ class Balance_controller extends Home_Core_Controller
     public function confirmation_deposit()
     {
         $id = $this->input->post('id_deposit');
-        $price = "Rp".number_format($this->input->post('payment_amount'),0,',','.');
+        $price = "Rp".number_format($this->input->post('payment_amount')/100,0,',','.');
         $query = $this->db->update("transactions",['payment_status'=>'awaiting_verification'],['payment_id'=>$id]);
         if ($query) {
             $this->session->set_flashdata('success', "Berhasil konfirmasi pembayaran sebesar $price. Silahkan tunggu konfirmasi dari admin");

@@ -21,6 +21,13 @@ class Transaction_model extends CI_Model
         }
     }
 
+    public function get_transaction_payment_id($id)
+    {
+        $id = clean_number($id);
+        $this->db->where("payment_id",$id);
+        return $this->db->get("transactions")->row();
+    }
+
     public function get_deposit_by_order_id($id)
     {
         $id = clean_number($id);

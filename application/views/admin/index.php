@@ -228,7 +228,7 @@
                             <th><?php echo trans('options'); ?></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="transaksiTableBody">
 
                         <?php foreach ($latest_transactions as $item):
                         $order = get_order($item->order_id);
@@ -239,33 +239,24 @@
                                     <?php
                                         if($item->payment_method == "Deposit") {
                                             $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
-                                            echo 'Deposit (# <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">'. $deposit->id .')</a>';
+                                            echo 'Deposit <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">(#'. $deposit->id .')</a>';
                                         } else {
                                             $order = $this->order_admin_model->get_order($item->order_id);
-                                            echo 'Pesanan (# <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">'. $order->order_number .')</a>';
+                                            echo 'Pesanan <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">(#'. $order->order_number .')</a>';
                                         }
                                     ?>
                                 </td>
-                                <?php if(isset($order)): ?>
-                                    <?php
-                                        $bank_tf = $this->order_admin_model->get_bank_transfer_by_order_number($order->order_number);
-                                        if(isset($bank_tf)):
-                                    ?>
-                                    <td>
-                                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#accountDetailsModel_<?php echo $item->id; ?>"><?php echo trans("see_details"); ?></button>                                    
-                                    </td>
+                                    <?php if($item->payment_method == "Bank Transfer"): ?>
+                                        <td>
+                                            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#accountDetailsModel_<?php echo $item->id; ?>"><?php echo trans("see_details"); ?></button>                                    
+                                        </td>
+                                    <?php elseif($item->payment_method == "Deposit"): ?>
+                                        <td>
+                                            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#accountDetailsDepositModel_<?php echo $deposit->id; ?>"><?php echo trans("see_details"); ?></button>                                    
+                                        </td>                                
                                     <?php else: ?>
-                                    <td>-
-                                    </td>
-                                    <?php endif; ?>
-                                <?php elseif($deposit): ?>
-                                    <td>
-                                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#accountDetailsDepositModel_<?php echo $deposit->id; ?>"><?php echo trans("see_details"); ?></button>                                    
-                                    </td>                                
-                                <?php else: ?>
-                                    <td>
-                                    </td>                                
-                                <?php endif; ?>
+                                        <td><?= $item->payment_method ?></td>
+                                    <?php endif ?>
                                 <td>
                                     <?php
                                         echo print_price($item->payment_amount, $item->currency); 
@@ -827,7 +818,7 @@
                                     if (!empty($user)):?>
                                         <div class="table-orders-user">
                                             <a href="<?php echo base_url(); ?>profile/<?php echo $user->slug; ?>" class="table-link" target="_blank">
-                                                <?php echo html_escape($user->shipping_first_name); ?>
+                                                <?php echo html_escape($user->username); ?>
                                             </a>
                                         </div>
                                     <?php endif;

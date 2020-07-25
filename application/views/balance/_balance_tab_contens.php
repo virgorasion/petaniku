@@ -83,7 +83,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                                 <span class="input-group-text input-group-text-currency" id="basic-addon1"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
                                                 <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
                                             </div>
-                                            <input type="text" onchange="changeSaldo(this)" name="amount" id="product_price_input_deposit" aria-describedby="basic-addon1" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
+                                            <input required type="text" onchange="changeSaldo(this)" name="amount" id="product_price_input_deposit" aria-describedby="basic-addon1" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" >
                                         </div>
                                     </div>
                                     <div class="col-md-4 hidden">
@@ -323,7 +323,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 </div>
 
 <?php foreach($deposit as $row): 
-$transactions = $this->transaction_model->get_transaction($row->id);    
+$transactions = $this->transaction_model->get_transaction_payment_id($row->id);    
 ?>
 <div class="modal fade" id="infoPaymentModal<?=$row->id?>" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -345,7 +345,7 @@ $transactions = $this->transaction_model->get_transaction($row->id);
 				<span class="text-success">Telah melakukan transfer sebesar</span> <br> <strong><?= "Rp".number_format($row->transfer/100,0,",",".") ?></strong><br><span style="font-size:15px">(Menunggu Konfirmasi Admin)</span>
                 <?php endif ?>
 				</h4><br><br>
-				<?php echo $payment_settings->bank_transfer_accounts; ?>				
+				<?php echo $payment_settings->bank_transfer_accounts; ?>
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>-->
@@ -444,6 +444,10 @@ $transactions = $this->transaction_model->get_transaction($row->id);
     
     //approve order product
     function approve_deposit(message) {
+        if ($("#product_price_input_deposit").val() == "" || parseInt($("#product_price_input_deposit").val()) < 1000) {
+            $("#product_price_input_deposit").focus();
+            return false;
+        }
         var kode_unik = <?= $uniq ?>;
         var total = parseInt($("#product_price_input_deposit").val());
         swal({
