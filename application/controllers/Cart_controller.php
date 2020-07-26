@@ -796,35 +796,36 @@ class Cart_controller extends Home_Core_Controller
 		$mds_payment_type = $this->input->post('mds_payment_type', true);
 
 		// add to tabel transaksi
-		$cart_total = $this->cart_model->get_sess_cart_total();		
-		$payment_id = $this->input->post('payment_id', true);
-		$data_transaction = array(
-			'payment_method' => "Saldo",
-			'payment_id' => $payment_id,
-			'currency' => $cart_total->currency,
-			'payment_amount' => $cart_total->total,
-			'payment_status' => "payment_received",
-		);
-		$order_id = $this->order_model->add_order($data_transaction);
+		// $cart_total = $this->cart_model->get_sess_cart_total();		
+		// $payment_id = $this->input->post('payment_id', true);
+		// $data_transaction = array(
+		// 	'payment_method' => "Saldo",
+		// 	'payment_id' => $payment_id,
+		// 	'currency' => $cart_total->currency,
+		// 	'payment_amount' => $cart_total->total,
+		// 	'payment_status' => "payment_received",
+		// );
+		// $order_id = $this->order_model->add_order($data_transaction);
 
 		//add order
 		// $order_id = $this->order_model->add_order_offline_payment("Saldo");
+		$order_id = $_SESSION['order_id'];
 		$order = $this->order_model->get_order($order_id);
 		if (!empty($order)) {
 			//decrease saldo
-			$this->order_model->decrease_saldo($order);
+			// $this->order_model->decrease_saldo($order);
 
 			//decrease product quantity after sale
-			$this->order_model->decrease_product_quantity_after_sale($order);
+			// $this->order_model->decrease_product_quantity_after_sale($order);
 
 			//send email
-			if ($this->general_settings->send_email_buyer_purchase == 1) {
-				$email_data = array(
-					'email_type' => 'new_order',
-					'order_id' => $order_id
-				);
-				$this->session->set_userdata('mds_send_email_data', json_encode($email_data));
-			}
+			// if ($this->general_settings->send_email_buyer_purchase == 1) {
+			// 	$email_data = array(
+			// 		'email_type' => 'new_order',
+			// 		'order_id' => $order_id
+			// 	);
+			// 	$this->session->set_userdata('mds_send_email_data', json_encode($email_data));
+			// }
 
 			if ($order->buyer_id == 0) {
 				$this->session->set_userdata('mds_show_order_completed_page', 1);

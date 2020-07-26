@@ -456,7 +456,7 @@
 											<?php echo trans("total"); ?>
 										</div>
 										<div class="col-6 col-right">
-											<strong class="font-600"><?php echo print_price($order->price_total, $order->price_currency); ?></strong>
+											<strong class="font-600"><?php echo print_price($item->product_total_price, $order->price_currency); ?></strong>
 										</div>
 									</div>
 								</div>

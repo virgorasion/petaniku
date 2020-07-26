@@ -401,21 +401,10 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 			<div class="modal-body">
             <?php echo form_open('earnings_controller/set_iban_payout_account_post'); ?>
                 <div class="form-group">
-                    <label><?php echo trans("full_name"); ?>*</label>
-                    <input type="text" name="iban_full_name" class="form-control form-input" value="<?php echo html_escape($user_payout->iban_full_name); ?>" required>
-                </div>
-                <div class="form-group">
                     <div class="row">
                         <div class="col-12 col-md-6 m-b-sm-15">
-                            <label><?php echo trans("country"); ?>*</label>
-                            <div class="selectdiv">
-                                <select name="iban_country_id" class="form-control" required>
-                                    <option value="" selected><?php echo trans("select_country"); ?></option>
-                                    <?php foreach ($countries as $item): ?>
-                                        <option value="<?php echo $item->id; ?>" <?php echo ($user_payout->iban_country_id == $item->id) ? 'selected' : ''; ?>><?php echo html_escape($item->name); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                            <label><?php echo trans("full_name"); ?>*</label>
+                            <input type="text" name="iban_full_name" class="form-control form-input" value="<?php echo html_escape($user_payout->iban_full_name); ?>" required>
                         </div>
                         <div class="col-12 col-md-6">
                             <label><?php echo trans("bank_name"); ?>*</label>

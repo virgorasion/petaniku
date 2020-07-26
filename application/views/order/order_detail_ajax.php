@@ -65,10 +65,10 @@
                         <?php if($order->payment_status == "payment_received" && $order_products[0]->order_status != "completed" && $order_products[0]->order_status != "shipped"):?>
                             <?php if($order->request_cancel == 0 && $order->status_cancel == 0): ?>
                             <button class="btn btn-sm btn-danger m-l-14" data-toggle="modal" data-target="#reportCancelOrder">Ajukan Pembatalan</button>
-                            <?php elseif($order->request_cancel == 1 && $order_products[0]->order_status != "order_processing"): ?>
-                            <span class="text-danger">(Pengajuan Pembatalan Ditolak)</span>
-                            <?php elseif($order->request_cancel == 1): ?>
+                            <?php elseif($order->request_cancel == 1 && $order->status_cancel != 1 && $order_products[0]->order_status == "order_processing"): ?>
                             <span class="text-danger">(Sedang Mengajukan Pembatalan)</span>
+                            <?php elseif($order->request_cancel == 1 && $order->status_cancel == 1 && $order_products[0]->order_status == "order_processing"): ?>
+                            <span class="text-danger">(Pengajuan Pembatalan Ditolak)</span>
                             <?php endif ?>
                         <?php endif ?>
 
@@ -183,18 +183,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 mb-3">
-                                    <p class="text-gray small mb-1"><?php echo trans("address"); ?> 1</p>
+                                    <p class="text-gray small mb-1"><?php echo trans("address"); ?></p>
                                     <h6 class="m-0"><?php echo $shipping->billing_address_1; ?></h6>
                                 </div>
                             </div>
-                            <?php if (!empty($shipping->billing_address_2)): ?>
                             <div class="row">
                                 <div class="col-sm-12 mb-3">
-                                    <p class="text-gray small mb-1"><?php echo trans("address"); ?> 2</p>
-                                    <h6 class="m-0"><?php echo $shipping->billing_address_2; ?></h6>
+                                    <p class="text-gray small mb-1"><?php echo trans("coordinat"); ?></p>
+                                    <h6 class="m-0"><?php echo $shipping->koordinat; ?></h6>
                                 </div>
                             </div>
-                            <?php endif; ?>
                             <div class="row no-gutters">
                                 <div class="col-auto pr-3 mb-3">
                                     <p class="text-gray small mb-1"><?php echo trans("country"); ?></p>
