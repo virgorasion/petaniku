@@ -39,7 +39,7 @@ $active_classes = 'fade active show';
                                         </div>
                                     </div>
                                 </td>
-                                <td><?php echo print_price($order->price_total, $order->price_currency); ?></td>
+                                <td><?php echo print_price($order->price_subtotal+$order->price_shipping, $order->price_currency); ?></td>
                                 <td class="hidden">
                                     <?php if ($order->payment_status == 'payment_received'):
                                         echo trans("payment_received");

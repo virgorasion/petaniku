@@ -16,7 +16,7 @@ class Order_model extends CI_Model
 			}
 			if ($payment_method == 'Saldo') {
 				$payment_status = "payment_received";			
-				$order_status = "payment_received";
+				$order_status = "order_processing";
 			}
 		} else {
 			$payment_status = "payment_received";
@@ -854,6 +854,7 @@ class Order_model extends CI_Model
 	{
 		$this->db->where("id",$order_id);
 		$this->db->set(['status_cancel'=>1,'request_cancel'=>1]);
+		$this->db->set(['payment_status'=>'cancelled']);
 		$this->db->update("orders");
 		$this->db->where("order_id",$order_id);
 		$this->db->set(['order_status'=>'cancelled']);

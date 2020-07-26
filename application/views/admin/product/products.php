@@ -42,13 +42,25 @@
 										<label class="label label-success"><?php echo trans("promoted"); ?></label>
 									<?php endif; ?>
 									<div class="img-table" style="height: 100px;">
+									<?php if($item->visibility && $item->is_draft || !$item->status): ?>
 										<a href="<?php echo generate_product_url($item); ?>" target="_blank">
 											<img src="<?php echo get_product_image($item->id, 'image_small'); ?>" data-src="" alt="" class="lazyload img-responsive post-image"/>
 										</a>
+									<?php else: ?>
+										<a href="<?= base_url() ?>sell-now/edit-product/<?php echo html_escape($item->id); ?>" target="_blank">
+											<img src="<?php echo get_product_image($item->id, 'image_small'); ?>" data-src="" alt="" class="lazyload img-responsive post-image"/>
+										</a>
+									<?php endif ?>
 									</div>
+									<?php if($item->visibility && $item->is_draft || !$item->status): ?>
+									<a href="<?= base_url() ?>sell-now/edit-product/<?php echo html_escape($item->id); ?>" target="_blank" class="table-product-title">
+										<?php echo html_escape($item->title); ?>
+									</a>
+									<?php else: ?>
 									<a href="<?php echo generate_product_url($item); ?>" target="_blank" class="table-product-title">
 										<?php echo html_escape($item->title); ?>
 									</a>
+									<?php endif ?>
 								</td>
 								<td>
 									<?php if ($item->status != 1): ?>

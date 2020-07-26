@@ -316,7 +316,9 @@ class Order_controller extends Home_Core_Controller
 
 	public function cancel_order()
 	{
-		$this->order_model->cancel_order($this->input->post("order_id"));
+		$type = $this->input->post("submit");
+		$order_id = $this->input->post("order_id");
+		$this->order_model->cancel_order($order_id);
 		redirect($this->agent->referrer());
 	}
 
