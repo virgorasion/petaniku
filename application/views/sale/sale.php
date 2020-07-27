@@ -342,11 +342,11 @@
 															<input type="hidden" name="status" value="shipped">
 															<button type="button" id="changeOrderPesanan" data-toggle="modal" data-target="#confirmOrder" class="btn btn-sm text-light btn-success btn-sale-options"><?php echo trans('confirm_order'); ?></button>
 														<?php elseif($item->order_status == "shipped"): ?>
-															<?php if ($item->product_type == 'physical'): ?>
+															<?php /* if ($item->product_type == 'physical'): ?>
 																<p>
 																	<button type="button" class="btn btn-sm text-light btn-info btn-sale-options" data-toggle="modal" data-target="#addTrackingNumberModal_<?php echo $item->id; ?>"><?php echo trans('add_tracking_number'); ?></button>
 																</p>
-															<?php endif; ?>
+															<?php endif; */?>
 														<?php endif; ?>
 														<?= form_close() ?>
 													</td>
@@ -464,7 +464,6 @@
 				</div>
 			</div>
 		</div>
-*/?>
 		<div class="modal fade" id="addTrackingNumberModal_<?php echo $item->id; ?>" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-custom">
@@ -500,6 +499,8 @@
 			</div>
 		</div>
 	<?php endif; endforeach; ?>
+*/?>
+
 <!-- Modal -->
 <div class="modal fade" id="confirmOrder" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">

@@ -47,7 +47,9 @@
                                         <span class="label label-success"><i class="fa fa-check"></i></span>
                                     <?php endif ?>
                                     <br>
-                                    (<?= html_escape($user->full_name)?>)
+                                    <?php if(!empty($user->full_name)): ?>
+                                        (<?= html_escape($user->full_name)?>)
+                                    <?php endif ?>
                                 </td>
                                 <td><?= print_price($user->balance, 'IDR') ?></td>
                                 <td><?php echo character_limiter($user->about_me); ?></td>
@@ -63,7 +65,7 @@
                                     if ($user->phone_status == 1): ?>
                                         <small class="text-success">(<?php echo trans("confirmed"); ?>)</small>
                                     <?php else: ?>
-                                        <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
+                                        Nomor Telp <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -71,6 +73,8 @@
                                         <label class="label label-danger"><?php echo trans('banned'); ?></label>
                                     <?php elseif($user->role == "member"): ?>
                                         <label class="label label-warning">Belum Terverifikasi</label>
+                                    <?php elseif($user->role == "vendor"): ?>
+                                        <label class="label label-success">Terverifikasi</label>
                                     <?php endif; ?>
                                     <?php if($user->seller_status): ?>
                                         <label class="label label-success">Seller</label>
