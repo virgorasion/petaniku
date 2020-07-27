@@ -187,6 +187,8 @@ class Cart_controller extends Home_Core_Controller
 
 		$data['cart_total'] = $this->cart_model->get_sess_cart_total();
 		$this->session->unset_userdata("check_cart_order");
+		$this->session->unset_userdata("order_id");
+
 
 		$this->load->view('partials/_header', $data);
 		$this->load->view('cart/shipping', $data);
@@ -354,8 +356,13 @@ class Cart_controller extends Home_Core_Controller
 					}
 				}
 			}else{
-				$this->db->update("transactions",['payment_method'=>"Bank Transfer"],['order_id'=>@$_SESSION['order_id']]);
-				$this->db->update("orders",['payment_method'=>"Bank Transfer"],['id'=>@$_SESSION['order_id']]);
+				$order = $this->order_model->get_order($_SESSION['order_id']);
+				//decrease saldo
+				$this->order_model->decrease_saldo($order);
+				$_SESSION['check_cart_order']['payment_option'] = "saldo";
+				$this->db->update("transactions",['payment_method'=>"Saldo",'payment_status'=>"payment_received"],['order_id'=>$order->id]);
+				$this->db->update("orders",['payment_method'=>"Saldo",'payment_status'=>"payment_received"],['id'=>$order->id]);
+				$this->db->update("order_products",['order_status'=>"order_processing"],['order_id'=>$order->id]);
 			}
 		}elseif($_POST['payment_option'] == "bank_transfer") {
 			if (@$_SESSION['check_cart_order']['cart_id'] != $this->cart_model->get_sess_cart_items()[0]->cart_item_id && @$_SESSION['check_cart_order']['payment_option'] != $this->cart_model->get_sess_cart_payment_method()->payment_option) {				

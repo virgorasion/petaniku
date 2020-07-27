@@ -237,7 +237,7 @@
 												<?php if ($mds_payment_type != 'promote'): ?>
 													<a href="<?php echo lang_base_url(); ?>cart" class="link-underlined link-return-cart"><&nbsp;<?php echo trans("return_to_cart"); ?></a>
 												<?php endif; ?>
-												<button type="submit" name="submit" value="update" class="btn btn-lg btn-custom btn-continue-payment float-right"><?php echo trans("continue_to_payment") ?></button>
+												<button type="button" onclick="payment_method()" class="btn btn-lg btn-custom btn-continue-payment float-right"><?php echo trans("continue_to_payment") ?></button>
 											</div>
 										</div>
 									</div>
@@ -270,11 +270,12 @@
 </div>
 <!-- Wrapper End-->
 
-<!-- <script>
+<script>
+	var radio = "";
 	$('.custom-radio').find('input').change(function(){
 		if($(this).is(':checked')) {
 			var val = $(this).val();
-			changePayment(val);
+			radio = val;
 		}
 	});
 
@@ -289,4 +290,20 @@
 
 		$('#form_validate').attr('action', url);
 	}
-</script> -->
+
+	function payment_method() {
+		if (radio == "saldo") {
+			swal({
+				text: 'Setelah klik "Lanjutkan ke Pembayaran" anda tidak akan bisa mengubah metode pembayaran anda, tetapi anda tetap bisa membatalkannya. Apa anda yakin ?',
+				icon: "warning",
+				buttons: true,
+				buttons: [sweetalert_cancel, sweetalert_ok],
+				dangerMode: true,
+			}).then(function (approve) {
+				if (approve) {
+					$("#form_validate").submit();
+				}
+			});
+		}
+    };
+</script>

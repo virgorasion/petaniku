@@ -27,10 +27,16 @@
 									</div>
 								<?php endif; ?>
 								<?php if (!empty($cart_has_physical_product)  && $this->form_settings->shipping == 1 && $mds_payment_type != 'promote'): ?>
+									<?php if(!empty($_SESSION['check_cart_order']['payment_option'] == "saldo")): ?>
+									<div class="tab-checkout tab-checkout-closed">
+										<a><h2 class=" title">1.&nbsp;&nbsp;<?php echo trans("shipping_information"); ?></h2></a>
+									</div>
+									<?php else: ?>
 									<div class="tab-checkout tab-checkout-closed">
 										<a href="<?php echo lang_base_url(); ?>cart/shipping"><h2 class=" title">1.&nbsp;&nbsp;<?php echo trans("shipping_information"); ?></h2></a>
 										<a href="<?php echo lang_base_url(); ?>cart/shipping" class="link-underlined"><?php echo trans("edit"); ?></a>
 									</div>
+									<?php endif ?>
 								<?php endif; ?>
 
 								<div class="tab-checkout tab-checkout-closed">
@@ -44,6 +50,15 @@
 												&nbsp;<?php echo trans("payment_method"); ?></h2></a>
 										<a href="<?php echo lang_base_url(); ?>cart/payment-method?payment_type=promote" class="link-underlined"><?php echo trans("edit"); ?></a>
 									<?php else: ?>
+										<?php if(!empty($_SESSION['check_cart_order']['payment_option'] == "saldo")): ?>
+										<a><h2 class=" title">
+												<?php if (!empty($cart_has_physical_product)  && $this->form_settings->shipping == 1 && $mds_payment_type != 'promote') {
+													echo '2.';
+												} else {
+													echo '1.';
+												} ?>
+												&nbsp;<?php echo trans("payment_method"); ?></h2></a>
+										<?php else: ?>
 										<a href="<?php echo lang_base_url(); ?>cart/payment-method"><h2 class=" title">
 												<?php if (!empty($cart_has_physical_product)  && $this->form_settings->shipping == 1 && $mds_payment_type != 'promote') {
 													echo '2.';
@@ -52,6 +67,7 @@
 												} ?>
 												&nbsp;<?php echo trans("payment_method"); ?></h2></a>
 										<a href="<?php echo lang_base_url(); ?>cart/payment-method" class="link-underlined"><?php echo trans("edit"); ?></a>
+										<?php endif ?>
 									<?php endif; ?>
 								</div>
 

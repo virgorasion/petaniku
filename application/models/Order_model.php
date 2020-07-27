@@ -819,14 +819,14 @@ class Order_model extends CI_Model
 							$data['is_sold'] = 1;
 						}
 						$this->db->where('id', $product->id);
-						$this->db->update('products', $data);
+						return $this->db->update('products', $data);
 					} elseif ($product->quantity == 1) {
 						$data = array(
 							'quantity' => 0,
 							'is_sold' => 1
 						);
 						$this->db->where('id', $product->id);
-						$this->db->update('products', $data);
+						return $this->db->update('products', $data);
 					}
 				}
 			}
@@ -852,6 +852,19 @@ class Order_model extends CI_Model
 
 	public function cancel_order($order_id)
 	{
+		$order = $this->get_order($order_id);
+		// Increase saldo product cancelled
+		if($order->payment_method == "Saldo"){
+			$user = get_user($order->buyer_id);
+			$user_balance = $user->balance + $order->price_total;
+			$this->db->update("users",['balance'=>$user_balance],['id'=>$user->id]);
+		}
+		// increase product quantity cancelled
+		$order_products = $this->get_order_products($order->id);
+		$product = get_product($order_product->product_id);
+		$quantity = $product->quantity + $order_product->product_quantity;
+		$this->db->update("products",['quantity'=> $quantity,'is_sold'=>0],['id'=>$product->id]);
+		// product cancelled
 		$this->db->where("id",$order_id);
 		$this->db->set(['status_cancel'=>1,'request_cancel'=>1]);
 		$this->db->set(['payment_status'=>'cancelled']);
