@@ -281,7 +281,8 @@
 
 	function getClicked(distance) {
 		let jarakawal = distance.original;
-		distance = distance.round;
+        console.log(distance);
+		distance = distance.custom;
 		total_jarak = distance;
 
 		$('.totaljarak').html(`(${distance} km)`);

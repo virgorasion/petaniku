@@ -261,24 +261,41 @@
 
     function toKm (m, withDoubleParams = null) {
         // insert comment for commit purpose
-	    let res = m / 1000;
+	    let res = m / 1000;       
+      let n = 1.0 / 0.1;
+      let custom = (Math.round(res * n).toFixed() / n);
+      if (custom < 0.5) {
+        custom = 0.5;
+      }else if(custom < 1){
+        custom = 1;
+      }else{
+        let km = Math.floor(custom);
+        let total = custom - km;
+        if (total < 0.5){
+          total = 0.5;
+          custom = km + total;
+        }else{
+          custom = km + 1;
+        }
+      }
+      // console.log(custom);
 
-		if (withDoubleParams) {
-		    return Math.ceil(res);
-		}
-	    
-		let round = Math.ceil(res);
-		return {
-	        original: res,
-		    round: round,
-		};
-		// return (Math.round(res * 2) / 2).toFixed(1);
+      if (withDoubleParams) {
+          return Math.ceil(res);
+      }
+        
+      let round = Math.ceil(res);
+      return {
+          original: res,
+          round: round,
+          custom: custom,
+      };
+      // return (Math.round(res * 2) / 2).toFixed(1);
     }
     function callback(response, status) {
         var distance = 0;
         var asal = 0;
         var tujuan = 0;
-        console.log(response)
         if(response.rows[0].elements[0].distance == undefined) {
             tujuan = response.destinationAddresses[0].split(',')
             asal = response.originAddresses[0].split(',')
