@@ -64,7 +64,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                     <div class="col-12 col-md-7">
                         <div class="withdraw-money-container">
                             <h2 class="title">Isi Saldo</h2>
-                            <?php echo form_open_multipart('balance_controller/deposit_post', ['id' => 'form_validate_payout_1', 'class' => 'deposit_price',]); ?>
+                            <?php echo form_open_multipart('balance_controller/deposit_post'); ?>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-8">
@@ -122,7 +122,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <input type="file" name="bukti">
                             </div>
                             <div class="form-group mt-3">
-                                <button data-toggle="modal" onclick="approve_deposit('Anda yakin akan mengisi saldo sebesar ')" type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                                <button onclick="approve_deposit('Anda yakin akan mengisi saldo sebesar ')" type="button" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
                                 <!-- <button type="submit" class="btn btn-md btn-custom"><?php //echo trans("submit"); ?></button> -->
                             </div>
                             <?php echo form_close(); ?>
@@ -245,12 +245,16 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                             </div>
                             <div class="form-group">
                                 <?php if($user_payout->iban_full_name != "" && $user_payout->iban_bank_name != "" && $user_payout->iban_number != ""): ?>
-                                <button type="button" onclick="submit_withdraw()" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                                <p><span>Withdraw Account</span>:<br>
+                                <span>Nama Lengkap</span>: <?= ($user_payout->iban_full_name == "")? "Kosong": html_escape($user_payout->iban_full_name) ?><br>
+                                <span>Nama Bank</span>: <?= ($user_payout->iban_bank_name == "")? "Kosong": html_escape($user_payout->iban_bank_name)  ?><br>
+                                <span>Nomor Lengkap</span>: <?= ($user_payout->iban_number == "")? "Kosong": html_escape($user_payout->iban_number)  ?><br>
+                                <a href="#" data-toggle="modal" data-target="#akunPayout"><strong>Edit</strong></a></p>
+
                                 <?php else: ?>
-                                <a href="#" class="btn btn-md btn-custom" data-toggle="modal" data-target="#akunPayout">
-                                    <i class="icon-plus"></i> Tambah akun Pencairan Uang
-                                </a>
+                                    <p><span>Belum ada akun withdrawal. </span><a href="#" data-toggle="modal" data-target="#akunPayout"><strong>Tambahkan akun</strong></a></p>
                                 <?php endif ?>
+                                <button type="button" onclick="submit_withdraw()" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
                             </div>
                             <?php echo form_close(); ?>
                         </div>
@@ -276,7 +280,6 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <p><?php echo trans("your_balance"); ?>:<strong><?php echo print_price(user()->balance, $payment_settings->default_product_currency) ?></strong></p>
                             <?php endif; ?>
                         </div>
-                        */?>
                         <div class="col-12 col-md-5">   
                             <div class="minimum-payout-container">
                                 <div class="row">
@@ -287,6 +290,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <p><span>Nomor Lengkap</span>:<strong><?= ($user_payout->iban_number == "")? "Kosong": html_escape($user_payout->iban_number)  ?></strong></p>
                             </div>
                         </div>
+                        */?>
                     </div>
                 </div>
 
@@ -376,6 +380,51 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 </div>
 <?php endforeach ?>
 
+<div class="modal fade" id="konfirmasiDeposit" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:9999 !important">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+            <?php echo form_open_multipart('balance_controller/deposit_post', ['id' => 'form_validate_payout_1', 'class' => 'deposit_price',]); ?>
+			<div class="modal-header">
+				<h5 class="modal-title"><?php echo trans("report_bank_transfer"); ?></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<div class="modal-body">
+                <div class="form-group">
+					<label><?php echo trans("payment_note"); ?></label>
+					<textarea name="note" class="form-control form-textarea" maxlength="499"></textarea>
+				</div>
+				<div class="form-group">
+					<label><?php echo trans("receipt"); ?>
+						<small>(.png, .jpg, .jpeg)</small>
+					</label>
+					<p>
+						<a class='btn btn-md btn-secondary btn-file-upload'>
+							<?php echo trans('select_image'); ?>
+							<input type="file" name="file" size="40" accept=".png, .jpg, .jpeg" onchange="$('#upload-file-info').html($(this).val());">
+						</a><br>
+						<span class='badge badge-info' id="upload-file-info"></span>
+					</p>
+				</div>
+                <input type="hidden" id="amount_post" name="amount" value="">		
+                <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
+                <input type="hidden" name="kodeunik" value="<?= $uniq?>">		
+                <input type="hidden" name="bank_name" value="">		
+                <input type="hidden" name="bank_type" value="">		
+                <input type="hidden" name="bank_number" value="">		
+                <input type="hidden" name="payout_method" value="bank_transfer">		
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
+				<button type="button" onclick="deposit_post()" class="btn btn-md btn-custom"><?php echo trans("report_bank_transfer"); ?></button>
+			</div>
+			<?php echo form_close(); ?><!-- form end -->
+		</div>
+	</div>
+</div>
+
 <div class="modal fade" id="infoPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">
@@ -395,7 +444,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>				 -->
-				<button type="button" id="submit_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
+				<button type="button" data-toggle="modal" data-target="#konfirmasiDeposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
 			</div>
 		</div>
 	</div>
@@ -460,24 +509,37 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
             dangerMode: true,
         }).then(function (approve) {
             if (approve) {
-                $("#form_validate_payout_1").submit();
+                $("#infoPaymentModal").modal('show');
             }
         });
     };
 
+    function deposit_post(){
+        let amount = $("#amount_post").val($("#product_price_input_deposit").val());
+        $("#form_validate_payout_1").submit();
+    }
+
     //Submit Withdraw
     function submit_withdraw() {
-        swal({
-            text: "Anda akan melakukan penarikan saldo akun. Apa anda yakin ?",
-            icon: "warning",
-            buttons: true,
-            buttons: [sweetalert_cancel, sweetalert_ok],
-            dangerMode: true,
-        }).then(function (approve) {
-            if (approve) {
-                $("#form_withdraw").submit();
-            }
-        });
+        let iban_full_name = "<?= $user_payout->iban_full_name ?>";
+        let iban_bank_name = "<?= $user_payout->iban_bank_name ?>";
+        let iban_number = "<?= $user_payout->iban_number ?>";
+        if (iban_full_name == "" && iban_bank_name == "" && iban_number == "") {
+            alert("Belum memiliki akun withdrawal");
+            $("#akunPayout").modal("show");
+        }else{
+            swal({
+                text: "Anda akan melakukan penarikan saldo akun. Apa anda yakin ?",
+                icon: "warning",
+                buttons: true,
+                buttons: [sweetalert_cancel, sweetalert_ok],
+                dangerMode: true,
+            }).then(function (approve) {
+                if (approve) {
+                    $("#form_withdraw").submit();
+                }
+            });
+        }
     };
 
     function changeSaldo(that)

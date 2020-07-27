@@ -338,7 +338,7 @@
                                                         <strong class="font-600"><i class="icon-check"></i>&nbsp;<?php echo trans("confirmed"); ?></strong>
                                                     <?php else: ?>
                                                         <?php if ($item->order_status == "shipped"): ?>
-                                                            <button type="submit" class="btn btn-sm btn-custom mb-1" data-toggle="modal" data-target="#shippingNote"><i class=""></i><?php echo trans("shipping_seller_note"); ?></button>
+                                                            <!-- <button type="submit" class="btn btn-sm btn-custom mb-1" data-toggle="modal" data-target="#shippingNote"><i class=""></i><?php //echo trans("shipping_seller_note"); ?></button> -->
                                                             <button type="submit" class="btn btn-sm btn-custom" onclick="approve_order_product('<?php echo $item->id; ?>','<?php echo trans("transfer_info"); ?>');"><i class="icon-check"></i><?php echo trans("confirm_order_received"); ?></button>
                                                             <small class="text-confirm-order-table"><?php echo trans("confirm_order_received_exp"); ?></small>
                                                             <!-- Modal -->
@@ -387,16 +387,19 @@
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
-                                        <?php if (!empty($item->shipping_tracking_number)): ?>
+                                        <?php if (!empty($order->shipping_note)): ?>
                                             <tr class="tr-shipping">
                                                 <td colspan="4">
                                                     <div class="order-shipping-tracking-number">
                                                         <p><strong><?php echo trans("shipping") ?></strong></p>
-                                                        <p><?php echo trans("tracking_number") ?>:&nbsp;<?php echo html_escape($item->shipping_tracking_number); ?>
+                                                        <p><?php echo "Catatan Penjual" ?>:&nbsp;<?php echo html_escape($order->shipping_note); ?></p>
+                                                        <?php if (!empty($order->receipt_path)): ?>
+                                                        <p>
+                                                            <a class="magnific-image-popup" href="<?php echo base_url() . $order->receipt_path; ?>" target="_blank">
+                                                                <img src="<?php echo base_url() . $order->receipt_path; ?>" alt="" style="max-width: 60px; max-height: 60px;">
+                                                            </a>
                                                         </p>
-                                                        <p><?php echo trans("url") ?>: <a href="<?php echo html_escape($item->shipping_tracking_url); ?>"
-                                                                target="_blank" class="link-underlined"><?php echo html_escape($item->shipping_tracking_url); ?></a>
-                                                        </p>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </td>
                                             </tr>

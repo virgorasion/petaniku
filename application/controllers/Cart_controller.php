@@ -186,6 +186,7 @@ class Cart_controller extends Home_Core_Controller
 		}
 
 		$data['cart_total'] = $this->cart_model->get_sess_cart_total();
+		// dd($data['cart_total']);
 		$this->session->unset_userdata("check_cart_order");
 		$this->session->unset_userdata("order_id");
 

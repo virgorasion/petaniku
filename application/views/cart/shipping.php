@@ -305,7 +305,7 @@
         var total = 0
         var subtotal = $('.subtotal_pd').text();
         subtotal = convertToAngka(subtotal)
-        total = parseInt(subtotal) + parseInt(ongkir) + kode_unik
+        total = parseInt(subtotal) + parseInt(ongkir)
         $('.total_pd').text(convertToRupiah(total));
     }
 

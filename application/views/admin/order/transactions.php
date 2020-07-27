@@ -51,10 +51,10 @@
                                     <?php
                                         if($item->payment_method == "Deposit") {
                                             $deposit = $this->earnings_model->get_deposit_by_id($item->order_id);
-                                            echo 'Deposit (# <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">'. $deposit->id .')</a>';
+                                            echo 'Deposit <a href="'. admin_url() .'deposit-details/'. html_escape($deposit->id) .'">(#'. $deposit->id .')</a>';
                                         } else {
                                             $order = $this->order_admin_model->get_order($item->order_id);
-                                            echo 'Pesanan (# <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">'. $order->order_number .')</a>';
+                                            echo 'Pesanan <a href="'. admin_url() .'order-details/'. html_escape($item->order_id) .'">(#'. $order->order_number .')</a>';
                                         }
                                     ?>
                                 </td>

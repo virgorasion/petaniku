@@ -170,6 +170,7 @@ class Balance_controller extends Home_Core_Controller
 
     public function deposit_post()
     {
+        // dd($this->input->post());
         $this->load->model('upload_model');
         $this->session->set_flashdata("active_tab","deposit");
         $amount = $this->input->post('amount', true);
@@ -188,7 +189,13 @@ class Balance_controller extends Home_Core_Controller
             'created_at' => date('Y-m-d H:i:s')
         );
         $data["amount"] = price_database_format($data["amount"]);
-
+        $data['note'] = $this->input->post("note",true);
+        $temp_path = $this->upload_model->upload_temp_image('file');
+		if (!empty($temp_path)) {
+            $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
+			$this->upload_model->delete_temp_image($temp_path);
+            $data['bukti'] = $bukti;
+        }
 
         $id_deposit = $this->earnings_model->deposit_money($data);
 
@@ -198,7 +205,7 @@ class Balance_controller extends Home_Core_Controller
             'payment_id' => $id_deposit,
             'currency' => $this->input->post('currency', true),
             'payment_amount' => price_database_format($tf),
-            'payment_status' => "awaiting_payment",
+            'payment_status' => "awaiting_verification",
         );
 
         $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
