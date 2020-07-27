@@ -204,7 +204,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                     <div class="col-12 col-md-7">
                         <div class="withdraw-money-container">
                             <h2 class="title"><?php echo trans("withdraw_money"); ?></h2>
-                            <?php echo form_open('earnings_controller/withdraw_money_post',['class'=>'validate_price']); ?>
+                            <?php echo form_open('earnings_controller/withdraw_money_post',['id'=>'form_withdraw','class'=>'validate_price']); ?>
                             <div class="form-group">
                                 <label><?php echo trans("withdraw_amount"); ?></label>
                                 <?php
@@ -244,16 +244,18 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 </div>
                             </div>
                             <div class="form-group">
-                                <?php if($user_payout->iban_full_name != "" && $user_payout->iban_country_id != "" && $user_payout->iban_bank_name != "" && $user_payout->iban_number != ""): ?>
-                                <button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
-                                <?php endif ?>
+                                <?php if($user_payout->iban_full_name != "" && $user_payout->iban_bank_name != "" && $user_payout->iban_number != ""): ?>
+                                <button type="button" onclick="submit_withdraw()" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                                <?php else: ?>
                                 <a href="#" class="btn btn-md btn-custom" data-toggle="modal" data-target="#akunPayout">
                                     <i class="icon-plus"></i> Tambah akun Pencairan Uang
                                 </a>
+                                <?php endif ?>
                             </div>
                             <?php echo form_close(); ?>
                         </div>
                     </div>
+                    <?php /*
                     <div class="col-12 col-md-5">
                         <div class="minimum-payout-container hidden">
                             <h2 class="title"><?php echo trans("min_poyout_amounts"); ?></h2>
@@ -273,6 +275,17 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                             <?php if (auth_check()): ?>
                                 <p><?php echo trans("your_balance"); ?>:<strong><?php echo print_price(user()->balance, $payment_settings->default_product_currency) ?></strong></p>
                             <?php endif; ?>
+                        </div>
+                        */?>
+                        <div class="col-12 col-md-5">   
+                            <div class="minimum-payout-container">
+                                <div class="row">
+                                    <h2 class="title">Akun Bank Saya: &nbsp;</h2><?= ($user_payout->iban_full_name == "")? "(Tambahkan Akun Bank Anda)": '<button class="btn btn-sm btn-custom" data-toggle="modal" data-target="#akunPayout"> Edit</button>' ?>
+                                </div>
+                                <p><span>Nama Lengkap</span>:<strong><?= ($user_payout->iban_full_name == "")? "Kosong": html_escape($user_payout->iban_full_name) ?></strong></p>
+                                <p><span>Nama Bank</span>:<strong><?= ($user_payout->iban_bank_name == "")? "Kosong": html_escape($user_payout->iban_bank_name)  ?></strong></p>
+                                <p><span>Nomor Lengkap</span>:<strong><?= ($user_payout->iban_number == "")? "Kosong": html_escape($user_payout->iban_number)  ?></strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -393,7 +406,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 		<div class="modal-content modal-custom">
 			<!-- form start -->
 			<div class="modal-header">
-				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
+				<h5 class="modal-title">Akun Bank Penarikan Uang</h5>
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true"><i class="icon-close"></i> </span>
 				</button>
@@ -451,6 +464,22 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
             }
         });
     };
+
+    //Submit Withdraw
+    function submit_withdraw() {
+        swal({
+            text: "Anda akan melakukan penarikan saldo akun. Apa anda yakin ?",
+            icon: "warning",
+            buttons: true,
+            buttons: [sweetalert_cancel, sweetalert_ok],
+            dangerMode: true,
+        }).then(function (approve) {
+            if (approve) {
+                $("#form_withdraw").submit();
+            }
+        });
+    };
+
     function changeSaldo(that)
     {
         var kode_unik = <?= $uniq ?>;

@@ -178,7 +178,7 @@ class Earnings_model extends CI_Model
         $user_id = clean_number($user_id);
         $data = array(
             'iban_full_name' => $this->input->post('iban_full_name', true),
-            'iban_country_id' => $this->input->post('iban_country_id', true),
+            'iban_country_id' => 102,
             'iban_bank_name' => $this->input->post('iban_bank_name', true),
             'iban_number' => $this->input->post('iban_number', true),
         );
