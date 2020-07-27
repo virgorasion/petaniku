@@ -216,6 +216,7 @@ class Order_controller extends Home_Core_Controller
 		$pagination = $this->paginate(lang_base_url() . 'sales', $this->order_model->get_sales_count($this->user_id), $per_page);
 		$data['orders'] = $this->order_model->get_paginated_sales($this->user_id, $pagination['per_page'], $pagination['offset']);
 
+		// dd($data['orders']);
 		$completed_pagination = $this->paginate(lang_base_url() . 'sales', $this->order_model->get_completed_sales_count($this->user_id), $per_page);
 		$data['completed_orders'] = $this->order_model->get_paginated_completed_sales($this->user_id, $completed_pagination['per_page'], $completed_pagination['offset']);
 

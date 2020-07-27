@@ -120,7 +120,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 mb-3">
-                                    <p class="text-gray small mb-1"><?php echo trans("address"); ?> 1</p>
+                                    <p class="text-gray small mb-1"><?php echo trans("address"); ?></p>
                                     <h6 class="m-0"><?php echo $shipping->shipping_address_1; ?></h6>
                                 </div>
                             </div>

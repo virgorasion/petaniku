@@ -24,40 +24,27 @@ $active_classes = 'fade active show';
                     <?php
                     if (!empty($orders)):
                         foreach ($orders as $order):
-                            $sale = get_order($order->id);
                             $total = $this->order_model->get_seller_total_price($order->id);
-                            if (!empty($sale)):?>
+                            if (!empty($order)):?>
                                 <tr>
-                                    <td>#<?php echo $sale->order_number; ?></td>
-                                    <td><?php echo print_price($total, $sale->price_currency); ?></td>
-                                    <td class="hidden">
-                                        <?php if ($sale->payment_status == 'payment_received'):
-                                            echo trans("payment_received");
-                                        else:
-                                            echo trans("awaiting_payment");
-                                        endif; ?>
-                                    </td>
+                                    <td>#<?php echo $order->order_number; ?></td>
+                                    <td><?php echo print_price($total, $order->price_currency); ?></td>
                                     <td>
-                                        <strong class="font-600">
-                                            <?php
-                                            if ($sale->payment_status == 'awaiting_payment'):
-                                                if ($sale->payment_method == 'Bank Transfer') {
-                                                    echo trans("order_processing");
-                                                } else {
-                                                    echo trans("awaiting_payment");
-                                                }
-                                            else:
-                                                if ($active_tab == "active_sales"):
-                                                    echo trans("order_processing");
-                                                else:
-                                                    echo trans("completed");
-                                                endif;
-                                            endif; ?>
-                                        </strong>
+                                        <?php
+                                        $label_classes = 'badge-status-default';
+                                        $label_text = trans($order->payment_status);
+
+                                        if (in_array($order->payment_status, ['payment_received','completed','shipped'])) {
+                                            $label_classes = 'badge-status-success';
+                                        }
+                                        ?>
+                                        <div class="badge-status <?php echo $label_classes; ?>">
+                                            <strong><?php echo $label_text; ?></strong>
+                                        </div>
                                     </td>
-                                    <td><?php echo date("Y-m-d / h:i", strtotime($sale->created_at)); ?></td>
+                                    <td><?php echo date("Y-m-d / h:i", strtotime($order->created_at)); ?></td>
                                     <td>
-                                        <a href="<?php echo lang_base_url(); ?>sale/<?php echo $sale->order_number; ?>"
+                                        <a href="<?php echo lang_base_url(); ?>sale/<?php echo $order->order_number; ?>"
                                             class="btn btn-sm btn-table-info"><?php echo trans("details"); ?></a>
                                         <?php /*
                                         <a href="<?php echo lang_base_url(); ?>sale/<?php echo html_escape($sale->order_number); ?>"
@@ -126,23 +113,17 @@ $active_classes = 'fade active show';
                                             endif; ?>
                                         </td>
                                         <td>
-                                            <strong class="font-600">
-                                            <?= trans("completed") ?>
-                                                <?php /*
-                                                if ($sale->payment_status == 'awaiting_payment'):
-                                                    if ($sale->payment_method == 'Cash On Delivery') {
-                                                        echo trans("order_processing");
-                                                    } else {
-                                                        echo trans("awaiting_payment");
-                                                    }
-                                                else:
-                                                    if ($active_tab == "active_sales"):
-                                                        echo trans("order_processing");
-                                                    else:
-                                                        echo trans("completed");
-                                                    endif;
-                                                endif; */ ?>
-                                            </strong>
+                                            <?php
+                                            $label_classes = 'badge-status-default';
+                                            $label_text = trans($sale->payment_status);
+
+                                            if (in_array($sale->payment_status, ['payment_received','completed'])) {
+                                                $label_classes = 'badge-status-success';
+                                            }
+                                            ?>
+                                            <div class="badge-status <?php echo $label_classes; ?>">
+                                                <strong><?php echo $label_text; ?></strong>
+                                            </div>
                                         </td>
                                         <td><?php echo date("Y-m-d / h:i", strtotime($sale->created_at)); ?></td>
                                         <td>

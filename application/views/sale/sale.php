@@ -136,13 +136,13 @@
 									</div>
 									<div class="row shipping-row-item">
 										<div class="col-5">
-											<?php echo trans("address"); ?>&nbsp;1
+											<?php echo trans("address"); ?>
 										</div>
 										<div class="col-7">
 											<?php echo $shipping->shipping_address_1; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("address"); ?>&nbsp;2
 										</div>
@@ -150,7 +150,7 @@
 											<?php echo $shipping->shipping_address_2; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("country"); ?>
 										</div>
@@ -158,7 +158,7 @@
 											<?php echo $shipping->shipping_country; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("state"); ?>
 										</div>
@@ -166,7 +166,7 @@
 											<?php echo $shipping->shipping_state; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("city"); ?>
 										</div>
@@ -174,7 +174,7 @@
 											<?php echo $shipping->shipping_city; ?>
 										</div>
 									</div>
-									<div class="row shipping-row-item">
+									<div class="row shipping-row-item hidden">
 										<div class="col-5">
 											<?php echo trans("zip_code"); ?>
 										</div>
@@ -356,8 +356,14 @@
 													<td colspan="4">
 														<div class="order-shipping-tracking-number">
 															<p><strong><?php echo trans("shipping") ?></strong></p>
-															<p><?php echo trans("tracking_number") ?>:&nbsp;<?php echo html_escape($item->shipping_tracking_number); ?></p>
-															<p><?php echo trans("url") ?>: <a href="<?php echo html_escape($item->shipping_tracking_url); ?>" target="_blank" class="link-underlined"><?php echo html_escape($item->shipping_tracking_url); ?></a></p>
+															<p><?php echo "Catatan Penjual" ?>:&nbsp;<?php echo html_escape($order->shipping_note); ?></p>
+															<?php if (!empty($order->receipt_path)): ?>
+															<p>
+																<a class="magnific-image-popup" href="<?php echo base_url() . $order->receipt_path; ?>" target="_blank">
+																	<img src="<?php echo base_url() . $order->receipt_path; ?>" alt="" style="max-width: 60px; max-height: 60px;">
+																</a>
+															</p>
+															<?php endif; ?>
 														</div>
 													</td>
 												</tr>
@@ -498,9 +504,8 @@
 				</div>
 			</div>
 		</div>
+		*/?>
 	<?php endif; endforeach; ?>
-*/?>
-
 <!-- Modal -->
 <div class="modal fade" id="confirmOrder" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
