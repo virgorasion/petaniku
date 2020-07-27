@@ -668,13 +668,19 @@ class Order_model extends CI_Model
 	//get sales count
 	public function get_sales_count($user_id)
 	{
+		// $user_id = clean_number($user_id);
+		// $this->db->join('order_products', 'order_products.order_id = orders.id');
+		// $this->db->select('orders.id');
+		// $this->db->group_by('orders.id');
+		// $this->db->where('order_products.seller_id', $user_id);
+		// $this->db->where('order_products.is_approved', '0');
+		// $this->db->where('orders.payment_status', 'payment_received');
+		// $query = $this->db->get('orders');
+		// return $query->num_rows();
 		$user_id = clean_number($user_id);
-		$this->db->join('order_products', 'order_products.order_id = orders.id');
-		$this->db->select('orders.id');
-		$this->db->group_by('orders.id');
-		$this->db->where('order_products.seller_id', $user_id);
-		$this->db->where('order_products.is_approved', '0');
-		$this->db->where('orders.payment_status', 'payment_received');
+		$this->db->where('seller_id', $user_id);
+		$this->db->where('payment_status !=', "awaiting_payment");
+		$this->db->where('status', 0);
 		$query = $this->db->get('orders');
 		return $query->num_rows();
 	}
@@ -682,13 +688,21 @@ class Order_model extends CI_Model
 	//get paginated sales
 	public function get_paginated_sales($user_id, $per_page, $offset)
 	{
+		// $user_id = clean_number($user_id);
+		// $this->db->join('order_products', 'order_products.order_id = orders.id');
+		// $this->db->select('*');
+		// $this->db->group_by('orders.id');
+		// $this->db->where('order_products.seller_id', $user_id);
+		// $this->db->where('order_products.is_approved', '0');
+		// $this->db->where('orders.payment_status !=', 'awaiting_payment');
+		// $this->db->order_by('orders.created_at', 'DESC');
+		// $this->db->limit($per_page, $offset);
+		// $query = $this->db->get('orders');
+		// return $query->result();
 		$user_id = clean_number($user_id);
-		$this->db->join('order_products', 'order_products.order_id = orders.id');
-		$this->db->select('*');
-		$this->db->group_by('orders.id');
-		$this->db->where('order_products.seller_id', $user_id);
-		$this->db->where('order_products.is_approved', '0');
-		$this->db->where('orders.payment_status !=', 'awaiting_payment');
+		$this->db->where('seller_id', $user_id);
+		$this->db->where('status', 0);
+		$this->db->where('payment_status !=', "awaiting_payment");
 		$this->db->order_by('orders.created_at', 'DESC');
 		$this->db->limit($per_page, $offset);
 		$query = $this->db->get('orders');

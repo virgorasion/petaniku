@@ -43,10 +43,18 @@
 										<?php echo trans("status"); ?>
 									</div>
 									<div class="col-9">
-										<?php if ($order_products[0]->is_approved == 1): ?>
-											<strong><?php echo trans("completed"); ?></strong>
-										<?php else: ?>
-											<strong><?php echo trans("order_processing"); ?></strong>
+										<?php if ($order_products[0]->order_status == "completed"): ?>
+										<strong style="color: green"><?php echo trans("completed"); ?></strong>
+										<?php elseif($order_products[0]->order_status == "shipped"): ?>
+										<strong style="color: green"><?php echo trans("shipped"); ?></strong>
+										<?php elseif($order_products[0]->order_status == "order_processing"): ?>
+										<strong style="color: orange"><?php echo trans("order_processing"); ?></strong>
+										<?php elseif($order_products[0]->order_status == "awaiting_payment"): ?>
+										<strong style="color: grey"><?php echo trans("awaiting_get_payment"); ?></strong>
+										<?php elseif($order_products[0]->order_status == "cancelled"): ?>
+										<strong style="color: red"><?php echo trans("cancelled"); ?></strong>
+										<?php elseif($order_products[0]->order_status == "payment_received"): ?>
+										<strong style="color: orange"><?php echo trans("awaiting_get_payment"); ?></strong>
 										<?php endif; ?>
 									</div>
 								</div>
@@ -55,7 +63,15 @@
 										<?php echo trans("payment_status"); ?>
 									</div>
 									<div class="col-5">
-										<?php echo trans($order->payment_status); ?>
+										<?php if($order->payment_status == "awaiting_payment"):?>
+										<?php echo trans("awaiting_payment"); ?>
+										<?php elseif($order->payment_status == "awaiting_verification"):?>
+										<?php echo trans("awaiting_verification"); ?>
+										<?php elseif($order->payment_status == "cancelled"): ?>
+										<?php echo trans("cancelled"); ?>
+										<?php else: ?>
+										<?php echo trans("payment_received"); ?>
+										<?php endif ?>
 									</div>
 									<?php if($order->request_cancel == 1 && $order_products[0]->order_status == "order_processing"): ?>
 									<div class="col-4">
