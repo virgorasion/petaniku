@@ -304,6 +304,8 @@
 					$("#form_validate").submit();
 				}
 			});
+		}{
+			$("#form_validate").submit();
 		}
     };
 </script>

@@ -281,7 +281,7 @@
 
 	function getClicked(distance) {
 		let jarakawal = distance.original;
-        console.log(distance);
+        // console.log(distance);
 		distance = distance.custom;
 		total_jarak = distance;
 
