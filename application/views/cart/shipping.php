@@ -66,25 +66,28 @@
                                                                 Batas pengiriman
                                                                 <strong class="float-right"><?= ($product->km_max) ? $product->km_max : 0 ?> km</strong>                            
                                                             </h6>
-                                                        </div>
+														</div>
                                                         <div class="col-12 col-md-12">
                                                             <h6>
-                                                                Total Jarak
-                                                                <strong class="float-right totaljarak">0 km</strong>                            
+                                                                Jarak
+                                                                <strong class="float-right jarakawal">0 km</strong>                            
                                                             </h6>
                                                         </div>
                                                         <div class="col-12 col-md-12">
                                                             <h6>
                                                                 Harga / km
                                                                 <strong class="float-right"><?= print_price($product->km_price, $this->payment_settings->default_product_currency) ?></strong>
-                                                            </h6>
-                                                        </div>
+															</h6>
+														</div>
 
                                                         <div class="col-md-12">
                                                             <br>
                                                             <h6>
                                                                 <?php echo trans("shipping"); ?><strong class="float-right ongkirtotal_pd"><?php echo print_price(0, $this->payment_settings->default_product_currency); ?></strong>                            
-                                                            </h6>
+															</h6>
+															<h6>
+																<strong class="float-right totaljarak text-danger">(0 km)</strong>
+															</h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,9 +279,13 @@
     var km_price = <?= ($product->km_price) ? price_format_input($product->km_price) : 0 ?>;
     var total_jarak = 0
 
-    function getClicked(distance) {
-        total_jarak = distance
-        $('.totaljarak').text(distance + " km");
+	function getClicked(distance) {
+		let jarakawal = distance.original;
+		distance = distance.round;
+		total_jarak = distance;
+
+		$('.totaljarak').html(`(${distance} km)`);
+		$(".jarakawal").text(`${jarakawal} km`);
 
         if(distance > km_max) {
             $('.totaljarak').addClass('text-danger');
