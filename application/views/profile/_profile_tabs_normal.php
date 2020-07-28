@@ -20,7 +20,7 @@ $use_tabs = empty($tabs) ? false : $tabs;
 						<?php endif; ?>
 					>
 						<span><?php echo trans("products"); ?></span>
-						<span class="count">(<?php var_dump(get_user_products_count($user->slug)); ?>)</span>
+						<span class="count">(<?php echo get_user_products_count($user->slug); ?>)</span>
 					</a>
 				</li>
 			<?php endif; ?>
