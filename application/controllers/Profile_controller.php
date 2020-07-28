@@ -738,7 +738,7 @@ class Profile_controller extends Home_Core_Controller
     }
 
     /**
-     * Set as Draft Product
+     * Set as publish Product
      */
     public function set_publish()
     {

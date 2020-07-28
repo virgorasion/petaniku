@@ -803,10 +803,21 @@ class Product_model extends Core_Model
 	//get paginated user products
 	public function get_paginated_user_products($user_slug, $per_page, $offset)
 	{
+		$is_auth_check = auth_check();
+		$user = $this->auth_model->get_user_by_slug($user_slug);
+		if($is_auth_check) {
+			$is_user_owner = user()->id == $user->id;   
+		} else {
+			$is_user_owner = '';
+		}
 		$this->build_query_unlocated([
 			'products.status' => [ 0, 1 ],
 			'products.is_draft' => [ 0, 1 ],
 		]);
+		if(!$is_auth_check || !$is_user_owner){
+			$this->db->where("products.status",1);
+			$this->db->where("products.is_draft",0);
+		}
 		$this->db->where('users.slug', $user_slug);
 		$this->db->limit($per_page, $offset);
 		$this->db->order_by('products.created_at', 'DESC');
@@ -821,7 +832,21 @@ class Product_model extends Core_Model
 		if (empty($user)) {
 			return 0;
 		}
-		$this->build_query_unlocated();
+		$is_auth_check = auth_check();
+		$user = $this->auth_model->get_user_by_slug($user_slug);
+		if($is_auth_check) {
+			$is_user_owner = user()->id == $user->id;   
+		} else {
+			$is_user_owner = '';
+		}
+		$this->build_query_unlocated([
+			'products.status' => [ 0, 1 ],
+			'products.is_draft' => [ 0, 1 ],
+		]);
+		if(!$is_auth_check || !$is_user_owner){
+			$this->db->where("products.status",1);
+			$this->db->where("products.is_draft",0);
+		}
 		$this->db->where('users.slug', $user_slug);
 		$this->db->order_by('products.created_at', 'DESC');
 		$query = $this->db->get('products');

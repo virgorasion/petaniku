@@ -38,7 +38,9 @@ $active_classes = 'fade active show';
                     if ($is_auth_check && $is_user_owner):
                         $this->load->view('product/_product_item_editable', ['product' => $product, 'promoted_badge' => true]);
                     else:
-                        $this->load->view('product/_product_item', ['product' => $product, 'promoted_badge' => true]);
+                        // if($product->status == 0 && $product->is_draft == 1){
+                            $this->load->view('product/_product_item', ['product' => $product, 'promoted_badge' => true]);
+                        // }
                     endif; ?>
                 </div>
             <?php endforeach; ?>
