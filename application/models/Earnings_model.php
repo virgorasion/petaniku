@@ -292,6 +292,7 @@ class Earnings_model extends CI_Model
     {
         $user_id = clean_number($user_id);
         $this->db->where('user_id', $user_id);
+        // $this->db->where('status', 0);
         $this->db->order_by('deposit.created_at', 'DESC');
         $this->db->limit($per_page, $offset);
         $query = $this->db->get('deposit');

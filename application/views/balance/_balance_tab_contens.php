@@ -51,7 +51,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text input-group-text-currency" id="basic-addon1"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
-                                                <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
+                                                <input type="hidden" id="currency" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
                                             </div>
                                             <input required type="text" onchange="changeSaldo(this)" name="amount" id="product_price_input_deposit" aria-describedby="basic-addon1" class="form-control form-input price-input validate-price-input " placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" >
                                         </div>
@@ -66,23 +66,23 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="">Nama Bank Sistem</label>
-                                        <input type="text" name="bank_name" class="form-control">
-                                        <input type="hidden" name="kodeunik" value="<?= $uniq ?>" class="form-control">
+                                        <input type="text" name="bank_name" id="bank_name" class="form-control">
+                                        <input type="hidden" name="kodeunik" id="kodeunik" value="<?= $uniq ?>" class="form-control">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="">Jenis Bank</label>
-                                        <input type="text" name="bank_type" class="form-control">
+                                        <input type="text" name="bank_type" id="bank_type" class="form-control">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="">Nomor</label>
-                                        <input type="text" name="bank_number" class="form-control">
+                                        <input type="text" name="bank_number" id="bank_number" class="form-control">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Metode Pengisian</label>
                                 <div class="selectdiv">
-                                    <select name="payout_method" class="form-control" onchange="update_payout_input(this.value);" required>
+                                    <select name="payout_method" id="payout_method" class="form-control" onchange="update_payout_input(this.value);" required>
                                         <option value="bank_transfer">Transfer Bank</option>
                                     </select>
                                 </div>
@@ -227,52 +227,11 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
     </div>
 </div>
 
-<?php foreach($deposit as $row): 
-$transactions = $this->transaction_model->get_transaction_payment_id($row->id);    
-?>
-<div class="modal fade" id="infoPaymentModal<?=$row->id?>" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content modal-custom">
-			<!-- form start -->
-			<div class="modal-header">
-				<h5 class="modal-title"><?php echo trans("transfer_info"); ?></h5>
-				<button type="button" class="close" data-dismiss="modal">
-					<span aria-hidden="true"><i class="icon-close"></i> </span>
-				</button>
-			</div>
-			<div class="modal-body">
-            <?= form_open("balance_controller/confirmation_deposit"); ?>
-				<br><br>
-				<h4 class=" text-center">
-                <?php if($transactions->payment_status == "awaiting_payment"): ?>
-				Silahkan melakukan transfer sebesar <br> <strong><?= "Rp".number_format($row->transfer/100,0,",",".") ?></strong>
-                <?php else: ?>
-				<span class="text-success">Telah melakukan transfer sebesar</span> <br> <strong><?= "Rp".number_format($row->transfer/100,0,",",".") ?></strong><br><span style="font-size:15px">(Menunggu Konfirmasi Admin)</span>
-                <?php endif ?>
-				</h4><br><br>
-				<?php echo $payment_settings->bank_transfer_accounts; ?>
-			</div>
-			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>-->
-                <?php if($transactions->payment_status == "awaiting_payment"): ?>
-                <input type="hidden" name="id_deposit" value="<?= $row->id?>">
-                <input type="hidden" name="payment_amount" value="<?= $row->transfer?>">
-				<button type="submit" id="konfirmasi_transfer_deposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>
-                <?php else: ?>				
-				<button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-dismiss="modal"><?php echo trans("close"); ?></button>
-                <?php endif ?>
-            <?= form_close() ?>
-			</div>
-		</div>
-	</div>
-</div>
-<?php endforeach ?>
-
 <div class="modal fade" id="konfirmasiDeposit" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:9999 !important">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">
 			<!-- form start -->
-            <?php echo form_open_multipart('balance_controller/deposit_post', ['id' => 'form_validate_payout_1', 'class' => 'deposit_price',]); ?>
+            <?php echo form_open_multipart('balance_controller/upload_bukti_deposit', ['id' => 'form_validate_payout_1', 'class' => 'deposit_price',]); ?>
 			<div class="modal-header">
 				<h5 class="modal-title"><?php echo trans("report_bank_transfer"); ?></h5>
 				<button type="button" class="close" data-dismiss="modal">
@@ -296,17 +255,11 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 						<span class='badge badge-info' id="upload-file-info"></span>
 					</p>
 				</div>
-                <input type="hidden" id="amount_post" name="amount" value="">		
-                <input type="hidden" id="currency" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
-                <input type="hidden" id="kodeunik" name="kodeunik" value="<?= $uniq?>">		
-                <input type="hidden" id="bank_name" name="bank_name" value="">		
-                <input type="hidden" id="bank_type" name="bank_type" value="">		
-                <input type="hidden" id="bank_number" name="bank_number" value="">		
-                <input type="hidden" id="payout_method" name="payout_method" value="bank_transfer">		
 			</div>
 			<div class="modal-footer">
+                <input type="hidden" id="id_deposit" name="id_deposit" value="">		
 				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
-				<button type="button" onclick="deposit_post()" class="btn btn-md btn-custom"><?php echo trans("report_bank_transfer"); ?></button>
+				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("report_bank_transfer"); ?></button>
 			</div>
 			<?php echo form_close(); ?><!-- form end -->
 		</div>
@@ -379,6 +332,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 <script>
     $(document).ready(function(){
         $('#jumlah_transfer').html(convertToRupiah(0));
+        table_deposit();
 
         $(document).on('click','#history a',function(e){
             let url = $(this).attr("href");
@@ -435,14 +389,16 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
         }
     });
 
-    $.ajax({
-        method: 'get',
-        url: '<?php echo lang_base_url(); ?>page_deposit',
-        success: function(data) {
-            // var result = JSON.parse(data);
-            $("#table_deposit").html(data);
-        }
-    });
+    function table_deposit(){
+        $.ajax({
+            method: 'get',
+            url: '<?php echo lang_base_url(); ?>page_deposit',
+            success: function(data) {
+                $("#table_payout").empty();
+                $("#table_deposit").html(data);
+            }
+        });
+    }
     
     $.ajax({
         method: 'get',
@@ -476,21 +432,35 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
                 let bank_type = $("#bank_type").val()
                 let bank_number = $("#bank_number").val()
                 let payout_method = $("#payout_method").val()
-                let path = `<?= base_url(); ?>balance_controller/deposit_post?amount=${amount}&currency=${currency}&kodeunik=${kodeunik}&bank_name=${bank_name}&bank_type=${bank_type}&bank_number=${bank_number}&payout_method=${payout_method}`
-
-                let req = fetch(path)
-                .then(res => res.json())
-                .then(res => {
-                    window.location.reload()
+                let data = {
+                    amount: amount,
+                    currency: currency,
+                    bank_name: bank_name,
+                    bank_type: bank_type,
+                    bank_number: bank_number,
+                    kodeunik: kodeunik,
+                    payout_method: payout_method
+                };
+                $.ajax({
+                    url: '<?php echo lang_base_url(); ?>deposit_post',
+                    method: 'get',
+                    data: data,
+                    success:function(result){
+                        $("#id_deposit").val(result.id_deposit);
+                        table_deposit();
+                        $("#product_price_input_deposit").val("");
+                        $("#infoPaymentModal").modal("show");
+                    }
                 })
                 // $("#infoPaymentModal").modal('show');
             }
         });
     };
 
-    function deposit_post(){
-        let amount = $("#amount_post").val($("#product_price_input_deposit").val());
-        $("#form_validate_payout_1").submit();
+    function info_transfer(id_deposit)
+    {
+        $("#id_deposit").val(id_deposit);
+        $("#konfirmasiDeposit").modal("show");
     }
 
     //Submit Withdraw
