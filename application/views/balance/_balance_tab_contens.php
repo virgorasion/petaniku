@@ -393,7 +393,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
                     $("#history").html(data);
                 }
             });
-        })
+        });
 
         $(document).on('click','#table_deposit a',function(e){
             let url = $(this).attr("href");
@@ -408,7 +408,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
                     $("#table_deposit").html(data);
                 }
             });
-        })
+        });
 
         $(document).on('click','#table_payout a',function(e){
             let url = $(this).attr("href");
@@ -476,7 +476,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
                 let bank_type = $("#bank_type").val()
                 let bank_number = $("#bank_number").val()
                 let payout_method = $("#payout_method").val()
-                let path = `<?= base_url(); ?>deposit_post?amount=${amount}&currency=${currency}&kodeunik=${kodeunik}&bank_name=${bank_name}&bank_type=${bank_type}&bank_number=${bank_number}&payout_method=${payout_method}`
+                let path = `<?= base_url(); ?>balance_controller/deposit_post?amount=${amount}&currency=${currency}&kodeunik=${kodeunik}&bank_name=${bank_name}&bank_type=${bank_type}&bank_number=${bank_number}&payout_method=${payout_method}`
 
                 let req = fetch(path)
                 .then(res => res.json())

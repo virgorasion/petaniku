@@ -419,7 +419,6 @@ if ($product->is_draft == 1) {
 													<div class="row">
 														<div id="response_product_ongkir" class="col-12">
 															<?php //$this->load->view("product/ongkir/_list_ongkir", ["ongkirs" => $product_ongkirs]); ?>
-oteote
 															<?php $this->load->view("product/ongkir/_map_init_ongkir"); ?>
 														</div>
 														<div class="col-12 hidden">
