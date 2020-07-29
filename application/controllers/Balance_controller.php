@@ -228,8 +228,6 @@ class Balance_controller extends Home_Core_Controller
         }
         
         echo json_encode([
-            'status' => 200,
-            'message' => "Berhasil deposit",
             'id_deposit' => $id_deposit
         ]);
     }
@@ -256,12 +254,9 @@ class Balance_controller extends Home_Core_Controller
 			$this->upload_model->delete_temp_image($temp_path);
             $data['bukti'] = $bukti;
         }
-        if($temp_path != null){
-            $this->earnings_model->update_data("transactions",['payment_status'=>'awaiting_verification'],['payment_id'=>$id['id']]);
-            $this->session->set_flashdata('success', "Bukti pembayaran berhasil dikirim. Tunggu konfirmasi dari admin terlebih dahulu");
-        }else{
-            $this->session->set_flashdata('error', "Silahkan Kirim Bukti Pembayaran");
-        }
+        // dd($this->input->post());
+        $test = $this->earnings_model->update_data("transactions",['payment_status'=>'awaiting_verification'],['payment_id'=>$id['id']]);
+        $this->session->set_flashdata('success', "Berhasil konfirmasi transfer. Silahkan tunggu konfirmasi dari admin");
         // Upload Bukti Transfer
         $this->earnings_model->update_data('deposit',$data,$id);
         redirect($this->agent->referrer());

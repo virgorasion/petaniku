@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <?php if($this->auth_user->id != $product->user_id): ?>
+            <?php if($this->auth_user->id != $product->user_id  && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
             <div class="row-custom m-t-15">
                 <input type="hidden" name="variation<?php echo $paket->id; ?>[]" value="<?= $paket->label ?>">
                 <input type="hidden" name="paket_id<?php echo $paket->id; ?>[]" value="<?= $paket->id ?>">

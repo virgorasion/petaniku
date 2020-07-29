@@ -160,7 +160,7 @@ class Product_model extends Core_Model
 				$data["status"] = 1;
 			}
 		}
-
+		// dd($data);
 		$this->db->where('id', $id);
 		return $this->db->update('products', $data);
 	}

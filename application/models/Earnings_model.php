@@ -35,12 +35,21 @@ class Earnings_model extends CI_Model
         return $query->result();
     }
 
+    public function get_deposits_count_history($user_id)
+    {
+        $user_id = clean_number($user_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->order_by('created_at', "DESC");
+        $query = $this->db->get('deposit');
+        return $query->num_rows();
+    }
+
     public function get_history_count($user_id)
     {
         $earnings = $this->get_earnings_count($user_id);
         $orders = $this->get_orders_count($user_id);
         $payouts = $this->get_payouts_count($user_id);
-        $deposits = $this->get_deposits_count($user_id);
+        $deposits = $this->get_deposits_count_history($user_id);
         $data = "";
         if ($earnings >= $orders && $earnings >= $payouts && $earnings >= $deposits) {
             $data = $earnings;
@@ -58,8 +67,20 @@ class Earnings_model extends CI_Model
         $data['earnings'] = $this->get_paginated_earnings($user_id, $per_page, $offset);
         $data['orders'] = $this->get_paginated_orders($user_id, $per_page, $offset);
         $data['payouts'] = $this->get_paginated_payouts($user_id, $per_page, $offset);
-        $data['deposit'] = $this->get_paginated_deposits($user_id, $per_page, $offset);
+        $data['deposit'] = $this->get_paginated_deposit_history($user_id, $per_page, $offset);
         return $data;
+    }
+
+    //get paginated deposit history
+    public function get_paginated_deposit_history($user_id, $per_page, $offset)
+    {
+        $user_id = clean_number($user_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->where('status', 1);
+        $this->db->order_by('deposit.created_at', 'DESC');
+        $this->db->limit($per_page, $offset);
+        $query = $this->db->get('deposit');
+        return $query->result();
     }
 
 	public function get_all_deposit($user_id)

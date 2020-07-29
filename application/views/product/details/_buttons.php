@@ -9,7 +9,7 @@
 	<?php //$this->load->view('product/details/_product_variations', ['input_id_suffix' => $input_id_suffix]); ?>
 	<?php if ($product->is_sold == 0): ?>
 		<?php if($this->auth_user->id != $product->user_id): ?>		
-			<?php if ($product->quantity > 1 && $product->product_type == 'physical' && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
+			<?php if ($product->quantity > 1 && $product->product_type == 'physical'): ?>
 				<div class="row-custom">
 					<label class="lbl-quantity"><?php echo trans("quantity"); ?></label>
 				</div>
@@ -30,7 +30,7 @@
 				</div>
 			<?php endif; ?>
 		<?php else: ?>
-			<?php if ($product->is_free_product != 1): ?>
+			<?php if ($product->is_free_product != 1  && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
 				<div class="row-custom m-t-15">
 					<input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
 					<input type="hidden" name="product_quantity" value="1">

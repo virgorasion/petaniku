@@ -408,11 +408,11 @@ class Product_controller extends Home_Core_Controller
 			redirect($this->agent->referrer());
 			exit();
 		}
-
+		
 		if ($this->product_model->edit_product_details($product_id)) {
 			//edit custom fields
 			$this->product_model->update_product_custom_fields($product_id);
-
+			
 			//reset cache
 			reset_cache_data_on_change();
 			reset_user_cache_data(user()->id);
