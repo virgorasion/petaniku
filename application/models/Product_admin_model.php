@@ -64,8 +64,6 @@ class Product_admin_model extends CI_Model
 	public function get_pending_products_count()
 	{
 		$this->db->where('status !=', 1);
-		$this->db->where('products.is_draft', 0);
-		$this->db->where('products.is_deleted', 0);
 		$this->db->order_by('products.updated_at', 'DESC');
 		$query = $this->db->get('products');
 		return $query->num_rows();
@@ -312,6 +310,7 @@ class Product_admin_model extends CI_Model
 		if (!empty($product)) {
 			$data = array(
 				'status' => 1,
+				'is_draft' => 0,
 			);
 			$this->db->where('id', $id);
 			return $this->db->update('products', $data);

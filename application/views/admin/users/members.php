@@ -61,11 +61,11 @@
                                         <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
                                     <?php endif; ?>
                                     <br>
-                                    <?php echo html_escape($user->phone_number);
+                                    <?php echo ($user->phone_number == "")? "Nomor Telp": html_escape($user->phone_number);
                                     if ($user->phone_status == 1): ?>
                                         <small class="text-success">(<?php echo trans("confirmed"); ?>)</small>
                                     <?php else: ?>
-                                        Nomor Telp <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
+                                        <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
                                     <?php endif; ?>
                                 </td>
                                 <td>
