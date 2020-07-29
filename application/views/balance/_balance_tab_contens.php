@@ -297,12 +297,12 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 					</p>
 				</div>
                 <input type="hidden" id="amount_post" name="amount" value="">		
-                <input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
-                <input type="hidden" name="kodeunik" value="<?= $uniq?>">		
-                <input type="hidden" name="bank_name" value="">		
-                <input type="hidden" name="bank_type" value="">		
-                <input type="hidden" name="bank_number" value="">		
-                <input type="hidden" name="payout_method" value="bank_transfer">		
+                <input type="hidden" id="currency" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
+                <input type="hidden" id="kodeunik" name="kodeunik" value="<?= $uniq?>">		
+                <input type="hidden" id="bank_name" name="bank_name" value="">		
+                <input type="hidden" id="bank_type" name="bank_type" value="">		
+                <input type="hidden" id="bank_number" name="bank_number" value="">		
+                <input type="hidden" id="payout_method" name="payout_method" value="bank_transfer">		
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
@@ -332,7 +332,7 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-sm btn-secondary color-white m-l-15" data-toggle="modal" data-target="#insertPaymentModal"><?php //echo trans("report_bank_transfer"); ?></button>				 -->
-				<button type="button" data-toggle="modal" data-target="#konfirmasiDeposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>				
+				<button type="button" data-toggle="modal" data-target="#konfirmasiDeposit" class="btn btn-sm btn-secondary color-white m-l-15"><?php echo trans("report_bank_transfer"); ?></button>
 			</div>
 		</div>
 	</div>
@@ -469,7 +469,21 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
             dangerMode: true,
         }).then(function (approve) {
             if (approve) {
-                $("#infoPaymentModal").modal('show');
+                let amount = $("#product_price_input_deposit").val()
+                let currency = $("#currency").val()
+                let kodeunik = $("#kodeunik").val()
+                let bank_name = $("#bank_name").val()
+                let bank_type = $("#bank_type").val()
+                let bank_number = $("#bank_number").val()
+                let payout_method = $("#payout_method").val()
+                let path = `<?= base_url(); ?>deposit_post?amount=${amount}&currency=${currency}&kodeunik=${kodeunik}&bank_name=${bank_name}&bank_type=${bank_type}&bank_number=${bank_number}&payout_method=${payout_method}`
+
+                let req = fetch(path)
+                .then(res => res.json())
+                .then(res => {
+                    window.location.reload()
+                })
+                // $("#infoPaymentModal").modal('show');
             }
         });
     };
