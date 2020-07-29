@@ -75,7 +75,11 @@
 									</div>
 									<?php if($order->request_cancel == 1 && $order_products[0]->order_status == "order_processing"): ?>
 									<div class="col-4">
-										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrder">Pembatalan Order</button>
+										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrderBuyer">Pengajuan Pembatalan Order</button>
+									</div>
+									<?php else: ?>
+									<div class="col-4">
+										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrderSeller">Pembatalan Order</button>
 									</div>
 									<?php endif ?>
 								</div>
@@ -564,7 +568,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="cancelOrder" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="cancelOrderBuyer" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-custom">
 			<!-- form start -->
@@ -583,7 +587,37 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-md btn-danger"><?php echo trans("cancel_order"); ?></button>
+				<button type="submit" value="buyer" name="submit" class="btn btn-md btn-danger"><?php echo trans("cancel_order"); ?></button>
+			</div>
+			<?= form_close() ?>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="cancelOrderSeller" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-custom">
+			<!-- form start -->
+			<div class="modal-header">
+				<h5 class="modal-title text-center">Keterangan Pembatalan</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true"><i class="icon-close"></i> </span>
+				</button>
+			</div>
+			<?= form_open("order_controller/cancel_order") ?>
+			<input type="hidden" name="order_id" value="<?=$order->id?>">
+			<div class="modal-body">
+				<div class="form-group text-center">
+					<label>Catatan Pembatalan</label>
+					<textarea <?= ($order->status_cancel == 2)? "disabled":"" ?> name="note_cancel" class="form-control form-textarea" maxlength="499"><?= $order->note_cancel ?></textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<?php if(!$order->status_cancel == 2): ?>
+				<button type="submit" value="seller" name="submit" class="btn btn-md btn-danger"><?php echo trans("cancel_order"); ?></button>
+				<?php else: ?>
+				<p class="text-danger">Pesanan Telah Anda Batalkan</p>
+				<?php endif ?>
 			</div>
 			<?= form_close() ?>
 		</div>

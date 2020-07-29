@@ -638,9 +638,11 @@ class Order_model extends CI_Model
 		$this->db->insert('bank_transfers', $data);
 		$get_order_id = $this->db->select("orders.id")->from("orders")->join("bank_transfers","bank_transfers.order_number = orders.order_number")->where("bank_transfers.order_number", $this->input->post('order_number', true))->get()->result();
 		$this->db->set("payment_status", "awaiting_verification");
+		$this->db->set("updated_at", date('Y-m-d H:i:s'));
 		$this->db->where("id", $get_order_id[0]->id);
 		$this->db->update("orders");
 		$this->db->set("payment_status","awaiting_verification");
+		$this->db->set("updated_at", date('Y-m-d H:i:s'));
 		$this->db->where("order_id", $get_order_id[0]->id);
 		return $this->db->update("transactions");
 	}
@@ -866,6 +868,7 @@ class Order_model extends CI_Model
 
 	public function cancel_order($order_id)
 	{
+		// dd($this->input->post());
 		$order = $this->get_order($order_id);
 		// Increase saldo product cancelled
 		$user = get_user($order->buyer_id);
@@ -878,11 +881,17 @@ class Order_model extends CI_Model
 		$this->db->update("products",['quantity'=> $quantity,'is_sold'=>0],['id'=>$product->id]);
 		// product cancelled
 		$this->db->where("id",$order_id);
+		if ($this->input->post('submit') == "seller") {
+			$this->db->set(['status_cancel'=>2,'request_cancel'=>0]);
+			$this->db->set(['note_cancel'=> $this->input->post('note_cancel', true)]);
+		}
 		$this->db->set(['status_cancel'=>1,'request_cancel'=>1]);
 		$this->db->set(['payment_status'=>'cancelled']);
+		$this->db->set("updated_at", date('Y-m-d H:i:s'));
 		$this->db->update("orders");
 		$this->db->where("order_id",$order_id);
 		$this->db->set(['order_status'=>'cancelled']);
+		$this->db->set("updated_at", date('Y-m-d H:i:s'));
 		return $this->db->update("order_products");
 	}
 }

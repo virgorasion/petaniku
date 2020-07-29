@@ -71,6 +71,11 @@
                             <span class="text-danger">(Pengajuan Pembatalan Ditolak)</span>
                             <?php endif ?>
                         <?php endif ?>
+                        <?php if($order->request_cancel == 0 && $order->status_cancel == 2 && $order_products[0]->order_status == "cancelled"): ?>
+                            <button class="btn btn-sm btn-danger m-l-14" data-toggle="modal" data-target="#reportCancelOrder">Catatan Pembatalan</button><br>
+                            <span class="text-danger">(Pesanan Telah Dibatalkan Oleh Penjual)</span>
+                        <?php endif ?>
+
 
                     </div>
                 </div>
@@ -560,7 +565,11 @@
 			<!-- form start -->
 			<?php echo form_open('order_controller/report_cancel_order'); ?>
 			<div class="modal-header">
+                <?php if($order->status_cancel == 2): ?>
+				<h5 class="modal-title">Keterangan Pembatalan</h5>
+                <?php else: ?>
 				<h5 class="modal-title">Pengajuan Pembatalan</h5>
+                <?php endif ?>
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true"><i class="icon-close"></i> </span>
 				</button>
@@ -569,12 +578,15 @@
 				<input type="hidden" name="order_number" class="form-control form-input" value="<?php echo $order->order_number; ?>">
 				<div class="form-group">
 					<label>Catatan Pembatalan</label>
-					<textarea name="note_cancel" class="form-control form-textarea" maxlength="499"></textarea>
+					<textarea <?= ($order->status_cancel == 2)? "disabled": "" ?> name="note_cancel" class="form-control form-textarea" maxlength="499"><?= $order->note_cancel ?></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
+                <?php if(!$order->status_cancel == 2): ?>
 				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("submit"); ?></button>
+                <?php else: ?>
+                <p class="text-danger">Pesanan Telah Dibatalkan Oleh Penjual</p>
+                <?php endif ?>
 			</div>
 			<?php echo form_close(); ?><!-- form end -->
 		</div>
