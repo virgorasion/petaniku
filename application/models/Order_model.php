@@ -642,7 +642,6 @@ class Order_model extends CI_Model
 		$this->db->where("id", $get_order_id[0]->id);
 		$this->db->update("orders");
 		$this->db->set("payment_status","awaiting_verification");
-		$this->db->set("updated_at", date('Y-m-d H:i:s'));
 		$this->db->where("order_id", $get_order_id[0]->id);
 		return $this->db->update("transactions");
 	}
