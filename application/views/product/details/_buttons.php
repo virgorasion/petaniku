@@ -7,9 +7,9 @@
 <?php if ($product->listing_type == 'sell_on_site'): ?>
 	<?php echo form_open(lang_base_url() . 'add-to-cart', ['id' => 'form_add_cart' . $input_form_suffix]); ?>
 	<?php //$this->load->view('product/details/_product_variations', ['input_id_suffix' => $input_id_suffix]); ?>
-	<?php if ($product->is_sold == 0 && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
+	<?php if ($product->is_sold == 0): ?>
 		<?php if($this->auth_user->id != $product->user_id): ?>		
-			<?php if ($product->quantity > 1 && $product->product_type == 'physical'): ?>
+			<?php if ($product->quantity > 1 && $product->product_type == 'physical' && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
 				<div class="row-custom">
 					<label class="lbl-quantity"><?php echo trans("quantity"); ?></label>
 				</div>
