@@ -30,14 +30,14 @@
                     </div>
                 </div>
             </div>
-            <?php if($this->auth_user->id != $product->user_id  && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
+            <?php if($this->auth_user->id != $product->user_id): ?>
             <div class="row-custom m-t-15">
                 <input type="hidden" name="variation<?php echo $paket->id; ?>[]" value="<?= $paket->label ?>">
                 <input type="hidden" name="paket_id<?php echo $paket->id; ?>[]" value="<?= $paket->id ?>">
                 <input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
                 <input type="hidden" onchange="checkQty(this, '<?= $paket->minimal ?>', '<?= $paket->unlimited ?>')" name="product_quantity" class="form-control" min="<?= $paket->minimal ?>" value="<?= $paket->minimal ?>">
 
-                <button class="btn btn-md btn-favorite">Pilih Paket</button>
+                <button class="btn btn-md btn-favorite" <?= (date("Y-m-d H:i:s") > $product->estimasi_panen)?"disabled":"" ?> >Pilih Paket</button>
             </div>
             <br> <br>
             <br> <br>

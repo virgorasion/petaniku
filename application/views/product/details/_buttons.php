@@ -30,7 +30,7 @@
 				</div>
 			<?php endif; ?>
 		<?php else: ?>
-			<?php if ($product->is_free_product != 1  && date("Y-m-d H:i:s") < $product->estimasi_panen): ?>
+			<?php if ($product->is_free_product != 1): ?>
 				<div class="row-custom m-t-15">
 					<input type="hidden" name="product_id" value="<?php echo $product->id; ?>">
 					<input type="hidden" name="product_quantity" value="1">
@@ -44,7 +44,7 @@
 					*/ ?>
 
 					<?php if ($this->auth_check): ?>
-					<button class="btn btn-md btn-block"><?php echo trans("add_to_cart") ?></button>
+					<button class="btn btn-md btn-block" <?= (date("Y-m-d H:i:s") > $product->estimasi_panen)?"disabled":"" ?>><?php echo trans("add_to_cart") ?></button>
 					<?php else: ?>
 					<button class="btn btn-md btn-block" data-toggle="modal" data-target="#loginModal" type="button"><?php echo trans("add_to_cart") ?></button>					
 					<?php endif; ?>
