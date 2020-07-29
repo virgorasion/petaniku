@@ -871,7 +871,7 @@ class Order_model extends CI_Model
 		$order = $this->get_order($order_id);
 		// Increase saldo product cancelled
 		$user = get_user($order->buyer_id);
-		$user_balance = $user->balance + $order->price_total;
+		$user_balance = $user->balance + $order->price_subtotal + $order->price_shipping;
 		$this->db->update("users",['balance'=>$user_balance],['id'=>$user->id]);
 		// increase product quantity cancelled
 		$order_products = $this->get_order_products($order->id);

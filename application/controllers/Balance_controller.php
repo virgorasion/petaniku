@@ -114,13 +114,13 @@ class Balance_controller extends Home_Core_Controller
                 'type' => 'order',
                 'sign' => ($order->payment_method == "Bank Transfer") ? 'default' : "min",
                 'title' => "{$prod->product_quantity} Slot \"{$prod_det->title}\" - " . 
-                            return_format_price($order->price_total, $order->price_currency) . " - " .
+                            return_format_price($order->price_subtotal + $order->price_shipping, $order->price_currency) . " - " .
                             $arrUser[$prod_det->user_id]->firstName
                             ,
                 'order_number' => $order->order_number,
                 'status' => $order->payment_status,
                 'user_id' => $order->buyer_id,
-                'amount' => $order->price_total,
+                'amount' => $order->price_subtotal + $order->price_shipping,
                 'currency' => $order->price_currency,
                 'created_at' => $order->created_at,
                 'timestamp' => strtotime($order->created_at)
