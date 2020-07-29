@@ -161,9 +161,11 @@ if ($product->is_draft == 1) {
 													<div class="form-group">
 														<div class="row">
 															<div class="col-12 col-sm-4">
-																<label class="control-label">Estimasi Panen</label>
+																<label class="control-label">Estimasi Panen (hari)</label>
 																<!-- Tolong Diubah bang -->
-																<input type="date" name="estimasi_panen" class="form-control form-input" value="<?php echo ($product->estimasi_panen) ? \Carbon\Carbon::parse($product->estimasi_panen)->format('yy-m-d') : ''; ?>" placeholder="Estimasi Panen">
+																<input type="hidden" name="estimasi_panen" id="estimasiPanen">
+																<input type="number" class="form-control form-input" name="estimasi_panen_input" onchange="calculatePanen(this.value)" />
+																<!-- <input type="date" name="estimasi_panen" class="form-control form-input" onchange="alert(this.value)" value="<?php echo ($product->estimasi_panen) ? \Carbon\Carbon::parse($product->estimasi_panen)->format('yy-m-d') : ''; ?>" placeholder="Estimasi Panen"> -->
 																<?php /*
 																<input type="hidden" name="estimasi_panen" id="estimasi_panen" value="">
 																<select name="estimasi" id="estimasi" class="form-control">
@@ -670,5 +672,15 @@ oteote
     $('.datepicker').datepicker({
         format: "dd",
     });
+
+	const calculatePanen = days => {
+		let dateNow = new Date();
+		dateNow.setDate(dateNow.getDate() + parseInt(days));
+		let year = dateNow.getFullYear();
+		let month = dateNow.getMonth();
+		let date = dateNow.getDate();
+		$("#estimasiPanen").val(`${year}-${month}-${date}`);
+		return days;
+	}
 
 </script>
