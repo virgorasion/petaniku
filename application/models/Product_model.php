@@ -93,7 +93,6 @@ class Product_model extends Core_Model
 			'shipping_cost_type' => $this->input->post('shipping_cost_type', true),
 			'is_free_product' => $this->input->post('is_free_product', true),
 			'luas_lahan' => $this->input->post('luas_lahan', true) . ' ' . $this->input->post('ket_luas', true),
-			'estimasi_panen' => $this->input->post('estimasi_panen', true),
 			'per_slot' => $this->input->post('per_slot', true),
 			'show_maps' => $this->input->post('show_maps', true),
 			'pengiriman' => $this->input->post('pengiriman', true),
@@ -103,6 +102,10 @@ class Product_model extends Core_Model
 			'updated_at' => date('Y-m-d H:i:s'),
 			'status' => 0
 		);
+
+		if(!empty($this->input->post("estimasi_panen"))){
+			$data['estimasi_panen'] = $this->input->post('estimasi_panen', true);
+		}
 
 		$data["price"] = price_database_format($data["price"]);
 		if (empty($data["price"])) {

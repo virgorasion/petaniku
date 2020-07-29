@@ -7,7 +7,7 @@ class Page_model extends CI_Model
 	public function input_values()
 	{
 		$data = array(
-			'lang_id' => $this->input->post('lang_id', true),
+			'lang_id' => 2,
 			'title' => $this->input->post('title', true),
 			'slug' => $this->input->post('slug', true),
 			'description' => $this->input->post('description', true),

@@ -15,7 +15,7 @@ class Balance_controller extends Home_Core_Controller
         // if (!is_sale_active()) {
         //     redirect(lang_base_url());
         // }
-        $this->earnings_per_page = 15;
+        $this->earnings_per_page = 5;
         $this->user_id = user()->id;
     }
 
@@ -31,18 +31,22 @@ class Balance_controller extends Home_Core_Controller
         $this->session->set_flashdata("active_tab","earnings");
         $data['user'] = user();
         
-        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_earnings_count($this->user_id), $this->earnings_per_page);
-        $data['earnings'] = $this->earnings_model->get_paginated_earnings($this->user_id, $pagination['per_page'], $pagination['offset']);
-        
-        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
+        // $pagination = $this->paginate(lang_base_url() . 'balances', $this->earnings_model->get_earnings_count($this->user_id), $this->earnings_per_page);
+        // $data['earnings'] = $this->earnings_model->get_paginated_earnings($this->user_id, $pagination['per_page'], $pagination['offset']);
+        $pagination = $this->paginate(lang_base_url() . 'page_deposit', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
         $data['deposit'] = $this->earnings_model->get_paginated_deposits($this->user_id, $pagination['per_page'], $pagination['offset']);
-
-        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_payouts_count($this->user_id), $this->earnings_per_page);
-        $data['payouts'] = $this->earnings_model->get_paginated_payouts($this->user_id, $pagination['per_page'], $pagination['offset']);
-
+    
         $data['user_payout'] = $this->earnings_model->get_user_payout_account($data['user']->id);
 
-        $hist = $this->earnings_model->get_history($this->user_id);
+        $this->load->view('partials/_header', $data);
+        $this->load->view('balance/balances', $data);
+        $this->load->view('partials/_footer');
+    }
+
+    public function page_history()
+    {
+        $pagination = $this->paginate(lang_base_url() . 'page_history', $this->earnings_model->get_history_count($this->user_id), $this->earnings_per_page);
+        $hist = $this->earnings_model->get_paginated_history($this->user_id, $pagination['per_page'], $pagination['offset']);
         $all = [];
 
         // products
@@ -147,9 +151,23 @@ class Balance_controller extends Home_Core_Controller
         // dd($hist);
         $data['hist'] = $all;
 
-        $this->load->view('partials/_header', $data);
-        $this->load->view('balance/balances', $data);
-        $this->load->view('partials/_footer');
+        $this->load->view("balance/_list_history",$data);
+    }
+
+    public function page_deposit()
+    {
+        $pagination = $this->paginate(lang_base_url() . 'page_deposit', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
+        $data['deposit'] = $this->earnings_model->get_paginated_deposits($this->user_id, $pagination['per_page'], $pagination['offset']);
+        
+        $this->load->view('balance/_list_deposit',$data);
+    }
+
+    public function page_payout()
+    {
+        $pagination = $this->paginate(lang_base_url() . 'page_payout', $this->earnings_model->get_payouts_count($this->user_id), $this->earnings_per_page);
+        $data['payouts'] = $this->earnings_model->get_paginated_payouts($this->user_id, $pagination['per_page'], $pagination['offset']);
+
+        $this->load->view("balance/_list_payout",$data);
     }
 
     public function deposit()
@@ -171,6 +189,52 @@ class Balance_controller extends Home_Core_Controller
 
     public function deposit_post()
     {
+        $amount = $this->input->get('amount', true);
+        $kode = $this->input->get('kodeunik', true);
+        $tf = (int) ($amount) + (int) $kode;
+
+        $data = array(
+            'user_id' => $this->user_id,
+            'amount' => $this->input->get('amount', true),
+            'currency' => $this->input->get('currency', true),
+            'bank_name' => $this->input->get('bank_name', true) || "DEFAULT",
+            'bank_type' => $this->input->get('bank_type', true) || "DEFAULT",
+            'bank_number' => $this->input->get('bank_number', true) || "0000",
+            'kodeunik' => $this->input->get('kodeunik', true),
+            'transfer' => price_database_format($tf),
+            'status' => 0,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+        $data["amount"] = price_database_format($data["amount"]);
+        $data['note'] = $this->input->get("note",true) || "DEFAULT";
+
+        $id_deposit = $this->earnings_model->deposit_money($data);
+
+        // add to transaction
+        $data_transaction = array(
+            'payment_method' => "Deposit",
+            'payment_id' => $id_deposit,
+            'currency' => $this->input->get('currency', true),
+            'payment_amount' => price_database_format($tf),
+            'payment_status' => "awaiting_verification",
+        );
+
+        $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
+        $price = "Rp".number_format($tf,0,',','.');
+
+        if (!$id_deposit) {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        } else {
+            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar $price ");            
+        }
+        
+        echo json_encode([
+            'status' => 200,
+            'message' => "Berhasil deposit"
+        ]);
+    }
+    public function deposit_posts()
+    {
         // dd($this->input->post());
         $this->load->model('upload_model');
         $this->session->set_flashdata("active_tab","deposit");
@@ -191,6 +255,7 @@ class Balance_controller extends Home_Core_Controller
         );
         $data["amount"] = price_database_format($data["amount"]);
         $data['note'] = $this->input->post("note",true);
+
         $temp_path = $this->upload_model->upload_temp_image('file');
 		if (!empty($temp_path)) {
             $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
