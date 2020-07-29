@@ -15,7 +15,7 @@ class Balance_controller extends Home_Core_Controller
         // if (!is_sale_active()) {
         //     redirect(lang_base_url());
         // }
-        $this->earnings_per_page = 15;
+        $this->earnings_per_page = 3;
         $this->user_id = user()->id;
     }
 
@@ -31,13 +31,14 @@ class Balance_controller extends Home_Core_Controller
         $this->session->set_flashdata("active_tab","earnings");
         $data['user'] = user();
         
-        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_earnings_count($this->user_id), $this->earnings_per_page);
-        $data['earnings'] = $this->earnings_model->get_paginated_earnings($this->user_id, $pagination['per_page'], $pagination['offset']);
-        
-        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
+        // $pagination = $this->paginate(lang_base_url() . 'balances', $this->earnings_model->get_earnings_count($this->user_id), $this->earnings_per_page);
+        // $data['earnings'] = $this->earnings_model->get_paginated_earnings($this->user_id, $pagination['per_page'], $pagination['offset']);
+
+        $pagination = $this->paginate(lang_base_url() . 'page_deposit', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
         $data['deposit'] = $this->earnings_model->get_paginated_deposits($this->user_id, $pagination['per_page'], $pagination['offset']);
 
-        $pagination = $this->paginate(lang_base_url() . 'earnings', $this->earnings_model->get_payouts_count($this->user_id), $this->earnings_per_page);
+        
+        $pagination = $this->paginate(lang_base_url() . 'balances?type=payout', $this->earnings_model->get_payouts_count($this->user_id), $this->earnings_per_page);
         $data['payouts'] = $this->earnings_model->get_paginated_payouts($this->user_id, $pagination['per_page'], $pagination['offset']);
 
         $data['user_payout'] = $this->earnings_model->get_user_payout_account($data['user']->id);
@@ -150,6 +151,14 @@ class Balance_controller extends Home_Core_Controller
         $this->load->view('partials/_header', $data);
         $this->load->view('balance/balances', $data);
         $this->load->view('partials/_footer');
+    }
+
+    public function page_deposit()
+    {
+        $pagination = $this->paginate(lang_base_url() . 'page_deposit', $this->earnings_model->get_deposits_count($this->user_id), $this->earnings_per_page);
+        $data['deposit'] = $this->earnings_model->get_paginated_deposits($this->user_id, $pagination['per_page'], $pagination['offset']);
+        
+        $this->load->view('balance/_list_deposit',$data);
     }
 
     public function deposit()

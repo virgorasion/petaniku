@@ -151,6 +151,7 @@ $route['set-payout-account'] = 'earnings_controller/set_payout_account';
 $route['payouts'] = 'earnings_controller/payouts';
 /*balances*/
 $route['balances'] = 'balance_controller/balances';
+$route['page_deposit'] = 'balance_controller/page_deposit';
 $route['balances/payouts'] = 'balance_controller/payouts';
 $route['balances/set-payout-account'] = 'balance_controller/set_payout_account';
 $route['balances/deposit'] = 'balance_controller/deposit';
@@ -190,8 +191,6 @@ $route[$r_admin . '/email-settings'] = 'admin_controller/email_settings';
 $route[$r_admin . '/social-login'] = 'admin_controller/social_login_settings';
 $route[$r_admin . '/add-page'] = 'page_controller/add_page';
 $route[$r_admin . '/update-page'] = 'page_controller/update_page';
-$route[$r_admin . '/pages'] = 'page_controller/pages';
-$route[$r_admin . '/pages'] = 'page_controller/pages';
 /*order routes*/
 $route[$r_admin . '/orders'] = 'order_admin_controller/orders';
 $route[$r_admin . '/order-details/(:num)'] = 'order_admin_controller/order_details/$1';
