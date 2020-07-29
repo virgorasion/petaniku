@@ -152,6 +152,8 @@ $route['payouts'] = 'earnings_controller/payouts';
 /*balances*/
 $route['balances'] = 'balance_controller/balances';
 $route['page_deposit'] = 'balance_controller/page_deposit';
+$route['page_payout'] = 'balance_controller/page_payout';
+$route['page_history'] = 'balance_controller/page_history';
 $route['balances/payouts'] = 'balance_controller/payouts';
 $route['balances/set-payout-account'] = 'balance_controller/set_payout_account';
 $route['balances/deposit'] = 'balance_controller/deposit';

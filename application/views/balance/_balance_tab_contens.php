@@ -12,48 +12,9 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
             <?php $this->load->view('product/_messages'); ?>
         </div>
         <strong class="text-muted">Histori Anda</strong>
-
-        <?php foreach ($hist as $row): ?>
-        <div class="card card-history">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <?php if($row['type'] == "order" || $row['type'] == "terjual"): ?>
-                        <a target="_blank" href="<?= base_url('order/'.$row['order_number']) ?>">
-                            <span class="text-muted"><?= ucfirst($row['type']) ?> #<?= $row['order_number'] ?> <?= (@$row['status'] == "cancelled")? "Dibatalkan": ""?></span>                        
-                        </a>
-                        <?php else: ?>
-                        <span class="text-muted"><?= ucfirst($row['type']) ?></span>                                                
-                        <?php endif;?>
-
-                        <h5 style="margin-top:10px"><?= $row['title'] ?></h5>
-                    </div>
-                    <div class="col-md-4 text-right">
-                        <div class="text-muted">
-                            <?php echo \Carbon\Carbon::parse($row['created_at'])->diffForHumans() ?>
-                        </div>
-                        <div style="margin-top:10px">
-                            <?php if($row['sign'] == "min"): ?>
-                                <?php if($row['status'] == "cancelled"):?>
-                                    <h5 class="text-success">+ <?= print_price($row['amount'], $row['currency']) ?></h5>
-                                <?php else: ?>
-                                    <h5 class="text-danger">- <?= print_price($row['amount'], $row['currency']) ?></h5>
-                                <?php endif ?>
-                            <?php elseif($row['sign'] == "plus"): ?>
-                                <h5 class="text-success">+ <?= print_price($row['amount'], $row['currency']) ?></h5>
-                            <?php else: ?>
-                                <h5><?= print_price($row['amount'], $row['currency']) ?></h5>                            
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?> 
-        <div class="row-custom m-t-15">
-            <div class="float-right">
-                <?php echo $this->pagination->create_links(); ?>
-            </div>
+        
+        <div id="history">
+            
         </div>
     </div>
 </div>
@@ -258,45 +219,8 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                     </div>
                 </div>
 
-                <div class="row-custom table-earnings-container">
-                    <div class="table-responsive">
-                        <table class="table table-orders table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col"><?php echo trans("withdraw_method"); ?></th>
-                                <th scope="col"><?php echo trans("withdraw_amount"); ?></th>
-                                <th scope="col"><?php echo trans("status"); ?></th>
-                                <th scope="col"><?php echo trans("date"); ?></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($payouts as $payout): ?>
-                                <tr>
-                                    <td>Bank Transfer</td>
-                                    <td><?php echo print_price($payout->amount, $payout->currency); ?></td>
-                                    <td>
-                                        <?php if ($payout->status == 1) {
-                                            echo trans("completed");
-                                        } else {
-                                            echo trans("pending");
-                                        } ?>
-                                    </td>
-                                    <td><?php echo date("Y-m-d / h:i", strtotime($payout->created_at)); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <?php if (empty($payouts)): ?>
-                        <p class="text-center">
-                            <?php echo trans("no_records_found"); ?>
-                        </p>
-                    <?php endif; ?>
-                </div>
-                <div class="row-custom m-t-15">
-                    <div class="float-right">
-                        <?php echo $this->pagination->create_links(); ?>
-                    </div>
+                <div class="row-custom table-earnings-container" id="table_payout">
+
                 </div>
             </div>
         </div>
@@ -455,6 +379,60 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
 <script>
     $(document).ready(function(){
         $('#jumlah_transfer').html(convertToRupiah(0));
+
+        $(document).on('click','#history a',function(e){
+            let url = $(this).attr("href");
+            e.preventDefault();
+            e.stopPropagation();
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function(data) {
+                    // var result = JSON.parse(data);
+                    $("#history").empty();
+                    $("#history").html(data);
+                }
+            });
+        })
+
+        $(document).on('click','#table_deposit a',function(e){
+            let url = $(this).attr("href");
+            e.preventDefault();
+            e.stopPropagation();
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function(data) {
+                    // var result = JSON.parse(data);
+                    $("#table_deposit").empty();
+                    $("#table_deposit").html(data);
+                }
+            });
+        })
+
+        $(document).on('click','#table_payout a',function(e){
+            let url = $(this).attr("href");
+            e.preventDefault();
+            e.stopPropagation();
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function(data) {
+                    // var result = JSON.parse(data);
+                    $("#table_payout").empty();
+                    $("#table_payout").html(data);
+                }
+            });
+        })
+    });
+
+    $.ajax({
+        method: 'get',
+        url: '<?php echo lang_base_url(); ?>page_history',
+        success: function(data) {
+            // var result = JSON.parse(data);
+            $("#history").html(data);
+        }
     });
 
     $.ajax({
@@ -465,11 +443,15 @@ $transactions = $this->transaction_model->get_transaction_payment_id($row->id);
             $("#table_deposit").html(data);
         }
     });
-
-    $("#table_deposit").find('.row-custom .float-right .pagination').click(function(){
-        alert("asdasd");
-
-    })
+    
+    $.ajax({
+        method: 'get',
+        url: '<?php echo lang_base_url(); ?>page_payout',
+        success: function(data) {
+            // var result = JSON.parse(data);
+            $("#table_payout").html(data);
+        }
+    });
     
     //approve order product
     function approve_deposit(message) {
