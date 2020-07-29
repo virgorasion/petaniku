@@ -171,6 +171,52 @@ class Balance_controller extends Home_Core_Controller
 
     public function deposit_post()
     {
+        $amount = $this->input->get('amount', true);
+        $kode = $this->input->get('kodeunik', true);
+        $tf = (int) ($amount) + (int) $kode;
+
+        $data = array(
+            'user_id' => $this->user_id,
+            'amount' => $this->input->get('amount', true),
+            'currency' => $this->input->get('currency', true),
+            'bank_name' => $this->input->get('bank_name', true) || "DEFAULT",
+            'bank_type' => $this->input->get('bank_type', true) || "DEFAULT",
+            'bank_number' => $this->input->get('bank_number', true) || "0000",
+            'kodeunik' => $this->input->get('kodeunik', true),
+            'transfer' => price_database_format($tf),
+            'status' => 0,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+        $data["amount"] = price_database_format($data["amount"]);
+        $data['note'] = $this->input->get("note",true) || "DEFAULT";
+
+        $id_deposit = $this->earnings_model->deposit_money($data);
+
+        // add to transaction
+        $data_transaction = array(
+            'payment_method' => "Deposit",
+            'payment_id' => $id_deposit,
+            'currency' => $this->input->get('currency', true),
+            'payment_amount' => price_database_format($tf),
+            'payment_status' => "awaiting_verification",
+        );
+
+        $order_id = $this->order_model->add_payment_transaction($data_transaction, $id_deposit);
+        $price = "Rp".number_format($tf,0,',','.');
+
+        if (!$id_deposit) {
+            $this->session->set_flashdata('error', trans("msg_error"));
+        } else {
+            $this->session->set_flashdata('success', "Berhasil deposit. Silahkan transfer tepat sebesar $price ");            
+        }
+        
+        echo json_encode([
+            'status' => 200,
+            'message' => "Berhasil deposit"
+        ]);
+    }
+    public function deposit_posts()
+    {
         // dd($this->input->post());
         $this->load->model('upload_model');
         $this->session->set_flashdata("active_tab","deposit");
@@ -191,6 +237,7 @@ class Balance_controller extends Home_Core_Controller
         );
         $data["amount"] = price_database_format($data["amount"]);
         $data['note'] = $this->input->post("note",true);
+
         $temp_path = $this->upload_model->upload_temp_image('file');
 		if (!empty($temp_path)) {
             $bukti = $this->upload_model->deposit_image_upload($temp_path, 'deposit');
