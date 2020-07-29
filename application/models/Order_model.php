@@ -868,11 +868,9 @@ class Order_model extends CI_Model
 	{
 		$order = $this->get_order($order_id);
 		// Increase saldo product cancelled
-		if($order->payment_method == "Saldo"){
-			$user = get_user($order->buyer_id);
-			$user_balance = $user->balance + $order->price_total;
-			$this->db->update("users",['balance'=>$user_balance],['id'=>$user->id]);
-		}
+		$user = get_user($order->buyer_id);
+		$user_balance = $user->balance + $order->price_total;
+		$this->db->update("users",['balance'=>$user_balance],['id'=>$user->id]);
 		// increase product quantity cancelled
 		$order_products = $this->get_order_products($order->id);
 		$product = get_product($order_product->product_id);
