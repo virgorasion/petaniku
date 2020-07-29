@@ -150,7 +150,6 @@ class Home_controller extends Home_Core_Controller
 		
 		$data['page'] = $this->page_model->get_page($slug);
 		
-		dd($data);
 		//if exists
 		if (!empty($data['page'])) {
 			if ($data['page']->visibility == 0) {
