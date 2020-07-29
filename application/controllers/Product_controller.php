@@ -352,15 +352,16 @@ class Product_controller extends Home_Core_Controller
 		}
 
 
-		if ($this->general_settings->default_product_location == 0) {
-			if ($data["product"]->country_id == 0) {
-				$data["states"] = $this->locationid_model->get_states_by_country($this->auth_user->country_id);
-			} else {
-				$data["states"] = $this->locationid_model->get_states_by_country($data["product"]->country_id);
-			}
-		} else {
-			$data["states"] = $this->locationid_model->get_states_by_country($this->general_settings->default_product_location);
-		}
+		// if ($this->general_settings->default_product_location == 0) {
+		// 	if ($data["product"]->country_id == 0) {
+		// 		$data["states"] = $this->locationid_model->get_states_by_country($this->auth_user->country_id);
+		// 	} else {
+		// 		$data["states"] = $this->locationid_model->get_states_by_country($data["product"]->country_id);
+		// 	}
+		// } else {
+		// 	$data["states"] = $this->locationid_model->get_states_by_country($this->general_settings->default_product_location);
+		// }
+		$data["states"] = $this->locationid_model->get_states_by_country(102);
 		if ($data["product"]->country_id == 0) {
 			$data["cities"] = $this->locationid_model->get_cities_by_state($this->auth_user->state_id);
 		} else {

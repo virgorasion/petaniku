@@ -304,7 +304,7 @@
 					$("#form_validate").submit();
 				}
 			});
-		}{
+		}else{
 			$("#form_validate").submit();
 		}
     };

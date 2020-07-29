@@ -160,14 +160,25 @@ if ($product->is_draft == 1) {
 													</div>
 													<div class="form-group">
 														<div class="row">
-																<div class="col-12 col-sm-6">
-																	<label class="control-label">Estimasi Panen</label>
-																	<input type="date" name="estimasi_panen" class="form-control form-input" value="<?php echo ($product->estimasi_panen) ? \Carbon\Carbon::parse($product->estimasi_panen)->format('yy-m-d') : ''; ?>" placeholder="Estimasi Panen">
+															<div class="col-12 col-sm-4">
+																<label class="control-label">Estimasi Panen</label>
+																<!-- Tolong Diubah bang -->
+																<input type="date" name="estimasi_panen" class="form-control form-input" value="<?php echo ($product->estimasi_panen) ? \Carbon\Carbon::parse($product->estimasi_panen)->format('yy-m-d') : ''; ?>" placeholder="Estimasi Panen">
+															</div>
+															<div class="col-12 col-sm-4">																
+																<label class="control-label">Keterangan per slot</label>
+																<input type="text" name="per_slot" class="form-control form-input" value="<?php echo ($product->per_slot) ? html_escape($product->per_slot) : ''; ?>" placeholder="Per Slot (contoh: 12 buah, 5kg buah, 7 ekor)">
+															</div>
+															<div class="col-12 col-sm-4">
+																<label class="control-label">Harga Per Slot</label>
+																<div class="input-group">
+																	<div class="input-group-prepend">
+																		<span class="input-group-text input-group-text-currency" id="basic-addon1"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
+																		<input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
+																	</div>
+																	<input type="text" name="price" id="product_price_input" aria-describedby="basic-addon1" class="form-control form-input price-input validate-price-input" value="<?php echo ($product->price != 0) ? price_format_input($product->price) : ''; ?>" placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
 																</div>
-																<div class="col-12 col-sm-6">																
-																	<label class="control-label">Keterangan per slot</label>
-																	<input type="text" name="per_slot" class="form-control form-input" value="<?php echo ($product->per_slot) ? html_escape($product->per_slot) : ''; ?>" placeholder="Per Slot (contoh: 12 buah, 5kg buah, 7 ekor)">
-																</div>
+															</div>
 														</div>
 													</div>
 												<?php endif; ?>
@@ -182,6 +193,7 @@ if ($product->is_draft == 1) {
 										</div>
 									<?php endif; ?>
 
+									<?php /*
 									<?php if ($product->listing_type == 'sell_on_site'): ?>
 										<div class="form-box">
 											<div class="form-box-head">
@@ -191,13 +203,7 @@ if ($product->is_draft == 1) {
 												<div id="price_input_container" class="form-group">
 													<div class="row">
 														<div class="col-12 col-sm-6 m-b-sm-15">
-															<div class="input-group">
-																<div class="input-group-prepend">
-																	<span class="input-group-text input-group-text-currency" id="basic-addon1"><?php echo get_currency($payment_settings->default_product_currency); ?></span>
-																	<input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
-																</div>
-																<input type="text" name="price" id="product_price_input" aria-describedby="basic-addon1" class="form-control form-input price-input validate-price-input" value="<?php echo ($product->price != 0) ? price_format_input($product->price) : ''; ?>" placeholder="<?php echo $this->input_initial_price; ?>" onpaste="return false;" maxlength="32" required>
-															</div>
+															
 														</div>
 														<div class="col-12 col-sm-6">
 															<p class="calculated-price">
@@ -239,7 +245,6 @@ if ($product->is_draft == 1) {
 												<?php endif; ?>
 											</div>
 										</div>
-
 									<?php elseif ($product->listing_type == 'ordinary_listing'):
 										if ($form_settings->price == 1): ?>
 											<div class="form-box">
@@ -288,7 +293,7 @@ if ($product->is_draft == 1) {
 									<?php elseif ($product->listing_type == 'bidding'): ?>
 										<input type="hidden" name="currency" value="<?php echo $payment_settings->default_product_currency; ?>">
 									<?php endif; ?>
-
+									*/ ?>
 									<?php if (($product->product_type == 'physical' && $form_settings->physical_demo_url == 1) || ($product->product_type == 'digital' && $form_settings->digital_demo_url == 1)): ?>
 										<!-- <div class="form-box">
 											<div class="form-box-head">
@@ -306,7 +311,7 @@ if ($product->is_draft == 1) {
 									<div class="row-custom">
 										<div class="row">
 											<?php if (($product->product_type == 'physical' && $form_settings->physical_video_preview == 1) || ($product->product_type == 'digital' && $form_settings->digital_video_preview == 1)): ?>
-												<div class="col-12 col-sm-6 m-b-30">
+												<div class="col-12 col-sm-12 m-b-30">
 													<label class="control-label font-600"><?php echo trans("video_preview"); ?></label>
 													<small>(<?php echo trans("video_preview_exp"); ?>)</small>
 													<?php $this->load->view("product/_video_upload_box"); ?>
@@ -485,6 +490,7 @@ oteote
 											<div class="form-box-body">
 												<div class="form-group">
 													<div class="row">
+														<?php /*
 														<div class="col-12 col-sm-4 m-b-15 hidden">
 															<?php if ($general_settings->default_product_location == 0): ?>
 																<div class="selectdiv">
@@ -507,7 +513,9 @@ oteote
 																</div>
 															<?php endif; ?>
 														</div>
-														<div class="col-12 col-sm-4 m-b-15">
+														*/ ?>
+														<input type="hidden" name="country_id" value="102">
+														<div class="col-12 col-sm-6 m-b-15">
 															<div class="selectdiv">
 																<select id="states" name="state_id" class="form-control" onchange="get_cities(this.value);" <?php echo ($form_settings->product_location_required == 1) ? 'required' : ''; ?>>
 																	<option value=""><?php echo trans('state'); ?></option>
@@ -520,7 +528,7 @@ oteote
 																</select>
 															</div>
 														</div>
-														<div class="col-12 col-sm-4 m-b-15">
+														<div class="col-12 col-sm-6 m-b-15">
 															<div class="selectdiv">
 																<select id="cities" name="city_id" class="form-control" onchange="get_kecamatan(this.value)">
 																	<option value=""><?php echo trans('city'); ?></option>
@@ -532,18 +540,6 @@ oteote
 																	endif; ?>
 																</select>
 															</div>
-														</div>
-														<div class="col-12 col-sm-4 m-b-15">
-															<select id="kecamatan" name="address" class="form-control" onchange="update_product_map();">
-																<option value="">Kecamatan</option>
-																<?php
-																if (!empty($kecamatan)):
-																	foreach ($kecamatan as $item): ?>
-																		<option value="<?php echo $item->id; ?>" <?php echo ($item->id == $kecamatan_id) ? 'selected' : ''; ?>><?php echo html_escape($item->name); ?></option>
-																	<?php endforeach;
-																endif; ?>
-															</select>
-															<!-- <input type="text" name="address" id="address_input" class="form-control form-input" value="<?php echo html_escape($address); ?>" placeholder="Kecamatan"> -->
 														</div>
 														<div class="col-12 hidden">
 															<div class="custom-control custom-checkbox custom-control-validate-input">
@@ -655,38 +651,8 @@ oteote
 <?php endif; ?>
 
 <script>
-    $.fn.datepicker.dates['en'] = {
-        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        daysMin: ['<?php echo substr(trans("monday"), 0, 3); ?>',
-            '<?php echo substr(trans("tuesday"), 0, 3); ?>',
-            '<?php echo substr(trans("wednesday"), 0, 3); ?>',
-            '<?php echo substr(trans("thursday"), 0, 3); ?>',
-            '<?php echo substr(trans("friday"), 0, 3); ?>',
-            '<?php echo substr(trans("saturday"), 0, 3); ?>',
-            '<?php echo substr(trans("sunday"), 0, 3); ?>'],
-        months: ['<?php echo trans("january"); ?>',
-            '<?php echo trans("february"); ?>',
-            '<?php echo trans("march"); ?>',
-            '<?php echo trans("april"); ?>',
-            '<?php echo trans("may"); ?>',
-            '<?php echo trans("june"); ?>',
-            '<?php echo trans("july"); ?>',
-            '<?php echo trans("august"); ?>',
-            '<?php echo trans("september"); ?>',
-            '<?php echo trans("october"); ?>',
-            '<?php echo trans("november"); ?>',
-            '<?php echo trans("december"); ?>'],
-        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        today: "Today",
-        clear: "Clear",
-        format: "mm/dd/yyyy",
-        titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-        weekStart: 0
-    };
-
     $('.datepicker').datepicker({
-        language: 'en'
+        format: "dd",
     });
 
 </script>

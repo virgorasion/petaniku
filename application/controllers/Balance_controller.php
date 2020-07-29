@@ -113,6 +113,7 @@ class Balance_controller extends Home_Core_Controller
                             $arrUser[$prod_det->user_id]->firstName
                             ,
                 'order_number' => $order->order_number,
+                'status' => $order->payment_status,
                 'user_id' => $order->buyer_id,
                 'amount' => $order->price_total,
                 'currency' => $order->price_currency,

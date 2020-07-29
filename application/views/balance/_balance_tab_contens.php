@@ -20,7 +20,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                     <div class="col-md-8">
                         <?php if($row['type'] == "order" || $row['type'] == "terjual"): ?>
                         <a target="_blank" href="<?= base_url('order/'.$row['order_number']) ?>">
-                            <span class="text-muted"><?= ucfirst($row['type']) ?> #<?= $row['order_number'] ?></span>                        
+                            <span class="text-muted"><?= ucfirst($row['type']) ?> #<?= $row['order_number'] ?> <?= (@$row['status'] == "cancelled")? "Dibatalkan": ""?></span>                        
                         </a>
                         <?php else: ?>
                         <span class="text-muted"><?= ucfirst($row['type']) ?></span>                                                
@@ -34,7 +34,11 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
                         </div>
                         <div style="margin-top:10px">
                             <?php if($row['sign'] == "min"): ?>
-                                <h5 class="text-danger">- <?= print_price($row['amount'], $row['currency']) ?></h5>
+                                <?php if($row['status'] == "cancelled"):?>
+                                    <h5 class="text-success">+ <?= print_price($row['amount'], $row['currency']) ?></h5>
+                                <?php else: ?>
+                                    <h5 class="text-danger">- <?= print_price($row['amount'], $row['currency']) ?></h5>
+                                <?php endif ?>
                             <?php elseif($row['sign'] == "plus"): ?>
                                 <h5 class="text-success">+ <?= print_price($row['amount'], $row['currency']) ?></h5>
                             <?php else: ?>

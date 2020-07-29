@@ -316,10 +316,10 @@
 					<div class="col-md-3 col-sm-12">
 						<label class="control-label"><?php echo trans('video_preview'); ?></label>
 					</div>
-					<div class="col-md-9 col-sm-12 right">
+					<div class="col-md-9 col-sm-12">
 						<?php $video = $this->file_model->get_product_video($product->id);
 						if (!empty($video)):?>
-							<div style="width: 500px; max-width: 100%;">
+							<div style="width: 100%; max-width: 100%;">
 								<video controls style="width: 100%;">
 									<source src="<?php echo get_product_video_url($video); ?>" type="video/mp4">
 								</video>

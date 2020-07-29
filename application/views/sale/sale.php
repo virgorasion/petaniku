@@ -579,7 +579,7 @@
 			<div class="modal-body">
 				<div class="form-group text-center">
 					<label>Catatan Pembatalan</label>
-					<textarea name="note_cancel" class="form-control form-textarea" maxlength="499"><?= $order->note_cancel ?></textarea>
+					<textarea disabled name="note_cancel" class="form-control form-textarea" maxlength="499"><?= $order->note_cancel ?></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">
