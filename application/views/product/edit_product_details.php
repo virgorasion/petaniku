@@ -164,6 +164,15 @@ if ($product->is_draft == 1) {
 																<label class="control-label">Estimasi Panen</label>
 																<!-- Tolong Diubah bang -->
 																<input type="date" name="estimasi_panen" class="form-control form-input" value="<?php echo ($product->estimasi_panen) ? \Carbon\Carbon::parse($product->estimasi_panen)->format('yy-m-d') : ''; ?>" placeholder="Estimasi Panen">
+																<?php /*
+																<input type="hidden" name="estimasi_panen" id="estimasi_panen" value="">
+																<select name="estimasi" id="estimasi" class="form-control">
+																	<?php for ($i=1; $i < 361; $i++): ?>
+																		<option value="<?=$i?>">-<?=$i?> Hari</option>
+																	<?php endfor ?>
+																</select>
+																*/ ?>
+																<small id="" class="text-muted">*Estimasi panen dihitung dari tanggal saat ini</small>
 															</div>
 															<div class="col-12 col-sm-4">																
 																<label class="control-label">Keterangan per slot</label>
@@ -651,6 +660,13 @@ oteote
 <?php endif; ?>
 
 <script>
+	$("#estimasi").change(function(){
+		let d = new Date();
+		let get_day = $(this).val();
+		d.setDate(d.getDate() + get_day);
+		$("#estimasi_panen").val(d);
+		console.log(d);
+	})
     $('.datepicker').datepicker({
         format: "dd",
     });
