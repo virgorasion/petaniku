@@ -107,6 +107,7 @@ class Balance_controller extends Home_Core_Controller
             $od = $this->order_model->get_order_by_order_number($order->order_number);
             $prod = $this->order_model->get_order_products($od->id)[0];
             $prod_det = $arrProduct[$prod->product_id];
+            // dd($prod_det);
             
             $all[] = [
                 'id' => $order->id,

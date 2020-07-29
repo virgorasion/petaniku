@@ -52,8 +52,6 @@ class Product_admin_model extends CI_Model
 	{
 		$limit = clean_number($limit);
 		$this->db->where('status !=', 1);
-		$this->db->where('products.is_draft', 0);
-		$this->db->where('products.is_deleted', 0);
 		$this->db->order_by('products.updated_at', 'DESC');
 		$this->db->limit($limit);
 		$query = $this->db->get('products');
