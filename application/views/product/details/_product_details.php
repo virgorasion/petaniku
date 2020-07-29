@@ -1,10 +1,14 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); 
+$estimasi_panen = date_create($product->estimasi_panen);
+?>
 
 <h1 class="product-title"><?php echo html_escape($product->title); ?></h1>
 <?php if ($product->status == 0): ?>
 	<label class="badge badge-warning badge-product-status"><?php echo trans("pending"); ?></label>
 <?php elseif ($product->visibility == 0): ?>
 	<label class="badge badge-danger badge-product-status"><?php echo trans("hidden"); ?></label>
+<?php elseif (date("Y-m-d H:i:s") > $product->estimasi_panen): ?>
+	<label class="badge badge-danger badge-product-status"><?php echo "Melebihi Masa Panen"; ?></label>
 <?php endif; ?>
 <!-- <div class="row-custom meta">
 	<?php echo trans("by"); ?>&nbsp;<a href="<?php echo lang_base_url() . 'profile' . '/' . $product->user_slug; ?>"><?php echo character_limiter(get_shop_name_product($product), 30, '..'); ?></a>
@@ -85,7 +89,7 @@
 		$CI =& get_instance();
 		$CI->load->model('locationid_model');
 
-		$kecamatan = $CI->locationid_model->get_kecamatan($product->address);
+		// $kecamatan = $CI->locationid_model->get_kecamatan($product->address);
 		$state = $CI->locationid_model->get_state($product->state_id);
 		$city = $CI->locationid_model->get_city($product->city_id);
 						
