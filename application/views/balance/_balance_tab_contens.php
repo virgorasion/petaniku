@@ -333,6 +333,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
     $(document).ready(function(){
         $('#jumlah_transfer').html(convertToRupiah(0));
         table_deposit();
+        table_payout();
 
         $(document).on('click','#history a',function(e){
             let url = $(this).attr("href");
@@ -399,15 +400,17 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
             }
         });
     }
-    
-    $.ajax({
-        method: 'get',
-        url: '<?php echo lang_base_url(); ?>page_payout',
-        success: function(data) {
-            // var result = JSON.parse(data);
-            $("#table_payout").html(data);
-        }
-    });
+    function table_payout(){
+        $.ajax({
+            method: 'get',
+            url: '<?php echo lang_base_url(); ?>page_payout',
+            success: function(data) {
+                // var result = JSON.parse(data);
+                $("#table_payout").empty();
+                $("#table_payout").html(data);
+            }
+        });
+    }
     
     //approve order product
     function approve_deposit(message) {
