@@ -29,7 +29,7 @@ class Earnings_model extends CI_Model
         $user_id = clean_number($user_id);
         $this->db->where('buyer_id', $user_id);
 		// $this->db->where('status', 1);
-		$this->db->order_by('orders.updated_at', 'DESC');
+		$this->db->order_by('updated_at', 'DESC');
         $this->db->limit($per_page, $offset);
 		$query = $this->db->get('orders');
         return $query->result();

@@ -103,6 +103,7 @@ class Balance_controller extends Home_Core_Controller
 
         foreach((array) $hist['orders'] as $order) {
             if($order->payment_status == 'awaiting_payment') continue;
+            if($order->payment_status != 'cancelled' && $order->payment_method == "Bank Transfer") continue;
 
             $od = $this->order_model->get_order_by_order_number($order->order_number);
             $prod = $this->order_model->get_order_products($od->id)[0];
@@ -122,8 +123,8 @@ class Balance_controller extends Home_Core_Controller
                 'user_id' => $order->buyer_id,
                 'amount' => $order->price_subtotal + $order->price_shipping,
                 'currency' => $order->price_currency,
-                'created_at' => $order->created_at,
-                'timestamp' => strtotime($order->created_at)
+                'created_at' => $order->updated_at,
+                'timestamp' => strtotime($order->updated_at)
             ];
         }
 

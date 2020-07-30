@@ -53,7 +53,7 @@ $active_classes = 'fade active show';
                                     $label_classes = 'badge-status-default';
                                     $label_text = trans($order->payment_status);
 
-                                    if (in_array($order->payment_status, ['payment_received'])) {
+                                    if (in_array($order->payment_status, ['payment_received','shipped'])) {
                                         $label_classes = 'badge-status-success';
                                     }
                                     ?>

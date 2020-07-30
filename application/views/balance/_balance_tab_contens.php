@@ -257,7 +257,7 @@ $uniq = rand(pow(10, $digits-1), pow(10, $digits)-1);
 				</div>
 			</div>
 			<div class="modal-footer">
-                <input type="hidden" id="id_deposit_tf" name="id_deposit" value="">		
+                <input type="hidden" id="id_deposit" name="id_deposit" value="">		
 				<button type="button" class="btn btn-md btn-red" data-dismiss="modal"><?php echo trans("close"); ?></button>
 				<button type="submit" class="btn btn-md btn-custom"><?php echo trans("report_bank_transfer"); ?></button>
 			</div>

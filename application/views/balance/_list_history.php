@@ -27,7 +27,11 @@
                     <?php elseif($row['sign'] == "plus"): ?>
                         <h5 class="text-success">+ <?= print_price($row['amount'], $row['currency']) ?></h5>
                     <?php else: ?>
-                        <h5><?= print_price($row['amount'], $row['currency']) ?></h5>                            
+                        <?php if(@$row['status'] == "cancelled"):?>
+                            <h5 class="text-success">+ <?= print_price($row['amount'], $row['currency']) ?></h5>
+                        <?php else: ?>
+                            <h5 class="text-danger">- <?= print_price($row['amount'], $row['currency']) ?></h5>
+                        <?php endif ?>                          
                     <?php endif; ?>
                 </div>
             </div>
