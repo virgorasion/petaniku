@@ -77,7 +77,8 @@
 									<div class="col-4">
 										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrderBuyer">Pengajuan Pembatalan Order</button>
 									</div>
-									<?php else: ?>
+									<?php endif ?>
+									<?php if($order_products[0]->order_status == "order_processing" && $order->request_cancel == 0): ?>
 									<div class="col-4">
 										<button type="button" class="btn btn-sm btn-danger color-white" data-toggle="modal" data-target="#cancelOrderSeller">Pembatalan Order</button>
 									</div>
