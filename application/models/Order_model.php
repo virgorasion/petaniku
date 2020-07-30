@@ -681,6 +681,7 @@ class Order_model extends CI_Model
 		$user_id = clean_number($user_id);
 		$this->db->where('seller_id', $user_id);
 		$this->db->where('payment_status !=', "awaiting_payment");
+		$this->db->where('payment_status !=', "awaiting_verification");
 		$this->db->where('status', 0);
 		$query = $this->db->get('orders');
 		return $query->num_rows();
@@ -704,6 +705,7 @@ class Order_model extends CI_Model
 		$this->db->where('seller_id', $user_id);
 		$this->db->where('status', 0);
 		$this->db->where('payment_status !=', "awaiting_payment");
+		$this->db->where('payment_status !=', "awaiting_verification");
 		$this->db->order_by('orders.created_at', 'DESC');
 		$this->db->limit($per_page, $offset);
 		$query = $this->db->get('orders');
